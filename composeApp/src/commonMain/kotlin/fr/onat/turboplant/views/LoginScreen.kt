@@ -106,7 +106,7 @@ fun LoginField(
 
 @Composable
 fun LoginFooter(
-    sendLoginRequest: () -> Unit
+    sendLoginRequest: ((Boolean) -> Unit) -> Unit
 ) {
     val navigate = LocalNavigate.current
     Row(
@@ -118,8 +118,10 @@ fun LoginFooter(
             modifier = Modifier
                 .background(Colors.VerdiGreen)
                 .clickable {
-                    sendLoginRequest()
-                    navigate(NavigationRoute.PLANT_LIST)
+                    sendLoginRequest { response ->
+                        if (!response) return@sendLoginRequest
+                        navigate(NavigationRoute.PLANT_LIST)
+                    }
                 }
         ) {
             Text(

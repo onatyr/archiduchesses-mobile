@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fr.onat.turboplant.api.ArchiApi
 import fr.onat.turboplant.models.Credentials
+import fr.onat.turboplant.repositories.AuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val archiApi: ArchiApi
+    private val authRepository: AuthRepository
 ) : ViewModel() {
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
@@ -24,13 +25,14 @@ class LoginViewModel(
 
     fun updatePassword(password: String) = _password.update { password }
 
-    fun sendLoginRequest() =
+    fun sendLoginRequest(onResponse: (Boolean) -> Unit) =
         viewModelScope.launch(Dispatchers.IO) {
-            archiApi.loginRequest(
+            authRepository.loginRequest(
                 Credentials(
                     email = email.value,
                     password = password.value
-                )
+                ),
+                onResponse = { onResponse(it) }
             )
         }
 }

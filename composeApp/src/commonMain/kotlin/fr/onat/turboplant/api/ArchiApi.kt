@@ -2,8 +2,8 @@ package fr.onat.turboplant.api
 
 import fr.onat.turboplant.logger.logger
 import fr.onat.turboplant.models.Credentials
-import fr.onat.turboplant.models.Plant
-import fr.onat.turboplant.modules.httpClient
+import fr.onat.turboplant.models.TokenResponse
+import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.post
@@ -13,44 +13,47 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import io.ktor.http.headers
 
-class ArchiApi {
-    private val client = httpClient
-    private var token = ""
+class ArchiApi(private val client: HttpClient) {
+    private var token: String? = null
 
     private val baseUrl = "http://90.40.139.106:3000"
 //    private val baseUrl = "http://127.0.0.1:3000"
 
-    private suspend fun get(
+    suspend fun get(
         routeUrl: String,
     ): HttpResponse {
         val url = "$baseUrl$routeUrl"
         return client.get {
             url(url)
-            headers {
-                append("Authorization", "Bearer $token")
-            }
+            headers.append("Authorization", "Bearer $token")
         }
     }
 
-    suspend fun fetchPlants(): List<Plant> {
-        return get("/plant/all").body()
-    }
-
-    suspend fun loginRequest(credentials: Credentials) {
+    suspend fun post(
+        routeUrl: String,
+        body: Any,
+        onError: () -> Unit
+    ): HttpResponse? {
         try {
-            val fullUrl = "$baseUrl/auth/login"
-            val loginResponse = client.post {
-                url(fullUrl)
+            val url = "$baseUrl$routeUrl"
+            return client.post {
+                url(url)
                 contentType(ContentType.Application.Json)
-                setBody(credentials)
+                setBody(body)
             }
-            if (loginResponse.status != HttpStatusCode.OK) return
-            token = loginResponse.body()
-            logger(token)
         } catch (e: Exception) {
+            onError()
             logger(e.message)
+            return null
         }
+    }
+
+    fun setToken(token: String) {
+        this.token = token
+    }
+
+    fun clearToken() {
+        this.token = null
     }
 }

@@ -1,14 +1,19 @@
 package fr.onat.turboplant.modules
 
 import fr.onat.turboplant.api.ArchiApi
+import fr.onat.turboplant.repositories.AuthRepository
 import fr.onat.turboplant.repositories.PlantRepository
 import fr.onat.turboplant.viewModels.LoginViewModel
 import fr.onat.turboplant.viewModels.PlantListViewModel
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 import org.koin.compose.viewmodel.dsl.viewModelOf
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.KoinAppDeclaration
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun initKoin(config: KoinAppDeclaration? = null) =
@@ -17,7 +22,8 @@ fun initKoin(config: KoinAppDeclaration? = null) =
         modules(
             provideRepositoryModule,
             provideApiModule,
-            provideViewModelModule
+            provideViewModelModule,
+            provideHttpClient
         )
     }
 
@@ -25,7 +31,26 @@ val provideDataSourceModule = module {
 //    singleOf(::NoteLocalDataSourceImpl).bind(NoteLocalDataSource::class)
 }
 
+val provideHttpClient = module {
+    single {
+        HttpClient {
+            install(ContentNegotiation)
+            {
+                json(Json {
+                    prettyPrint = true
+                    isLenient = true
+                    ignoreUnknownKeys = true
+                })
+            }
+            install(HttpTimeout) {
+                requestTimeoutMillis = 15_000
+            }
+        }
+    }
+}
+
 val provideRepositoryModule = module {
+    singleOf(::AuthRepository)
     singleOf(::PlantRepository)
 }
 
