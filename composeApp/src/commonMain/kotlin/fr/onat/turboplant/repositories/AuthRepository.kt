@@ -9,7 +9,7 @@ import io.ktor.http.HttpStatusCode
 class AuthRepository(private val archiApi: ArchiApi) {
     suspend fun loginRequest(credentials: Credentials, onResponse: (Boolean) -> Unit) {
         val loginResponse = archiApi.post(
-            routeUrl = "/auth/logjn",
+            routeUrl = "/auth/login",
             body = credentials,
             onError = { onResponse(false) }
         )

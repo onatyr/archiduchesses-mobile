@@ -2,7 +2,6 @@ package fr.onat.turboplant.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import fr.onat.turboplant.api.ArchiApi
 import fr.onat.turboplant.models.Credentials
 import fr.onat.turboplant.repositories.AuthRepository
 import kotlinx.coroutines.Dispatchers
