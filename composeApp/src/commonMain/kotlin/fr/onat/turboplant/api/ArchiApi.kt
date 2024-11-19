@@ -8,6 +8,7 @@ import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
+import io.ktor.http.Parameters
 import io.ktor.http.contentType
 
 class ArchiApi(private val client: HttpClient) {
@@ -18,12 +19,19 @@ class ArchiApi(private val client: HttpClient) {
 
     suspend fun get(
         routeUrl: String,
+        vararg queryParams: Parameters
     ): HttpResponse? {
         try {
             val url = "$baseUrl$routeUrl"
             return client.get {
-                url(url)
+                url {
+                    url(url)
+                    queryParams.forEach { param ->
+                        parameters.appendAll(param)
+                    }
+                }
                 headers.append("Authorization", "Bearer $token")
+
             }
         } catch (e: Exception) {
             logger(e.message)

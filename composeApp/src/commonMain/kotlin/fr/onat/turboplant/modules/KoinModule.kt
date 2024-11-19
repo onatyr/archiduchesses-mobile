@@ -2,6 +2,7 @@ package fr.onat.turboplant.modules
 
 import fr.onat.turboplant.api.ArchiApi
 import fr.onat.turboplant.repositories.AuthRepository
+import fr.onat.turboplant.repositories.PlaceRepository
 import fr.onat.turboplant.repositories.PlantRepository
 import fr.onat.turboplant.viewModels.LoginViewModel
 import fr.onat.turboplant.viewModels.PlantListViewModel
@@ -52,6 +53,7 @@ val provideHttpClient = module {
 val provideRepositoryModule = module {
     singleOf(::AuthRepository)
     singleOf(::PlantRepository)
+    singleOf(::PlaceRepository)
 }
 
 val provideApiModule = module {
