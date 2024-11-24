@@ -7,15 +7,10 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import fr.onat.turboplant.libs.utils.LocalNavRoute
-import fr.onat.turboplant.libs.utils.getCurrentRoute
-import fr.onat.turboplant.logger.logger
-import fr.onat.turboplant.presentation.NavRoute
 import fr.onat.turboplant.presentation.NotImplementedRoute
 import org.jetbrains.compose.resources.painterResource
 
@@ -24,7 +19,7 @@ fun BottomNavigationBar(navController: NavController, modifier: Modifier = Modif
     BottomNavigation(modifier.height(60.dp)) {
         val currentRoute = LocalNavRoute.current
 
-        BottomSheetItem.values.forEach { item ->
+        NavBarItem.values.forEach { item ->
             BottomNavigationItem(
                 selected = currentRoute == item.route,
                 onClick = {

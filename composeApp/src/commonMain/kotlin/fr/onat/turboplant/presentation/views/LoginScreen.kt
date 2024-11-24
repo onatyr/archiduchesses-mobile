@@ -44,6 +44,7 @@ fun LoginScreen(
     val password by viewModel.password.collectAsStateWithLifecycle()
 
     viewModel.isAuthenticated.collectAsEffect {
+        if (!it) return@collectAsEffect
         navigate()
     }
 

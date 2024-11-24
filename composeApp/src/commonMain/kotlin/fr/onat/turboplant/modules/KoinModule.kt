@@ -1,6 +1,9 @@
 package fr.onat.turboplant.modules
 
 import fr.onat.turboplant.data.api.ArchiApi
+import fr.onat.turboplant.data.database.AppDatabase
+import fr.onat.turboplant.data.database.getDatabaseBuilder
+import fr.onat.turboplant.data.database.getRoomDatabase
 import fr.onat.turboplant.data.repositories.AuthRepository
 import fr.onat.turboplant.data.repositories.PlaceRepository
 import fr.onat.turboplant.data.repositories.PlantRepository
@@ -15,12 +18,14 @@ import org.koin.compose.viewmodel.dsl.viewModelOf
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.KoinAppDeclaration
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun initKoin(config: KoinAppDeclaration? = null) =
     startKoin {
         config?.invoke(this)
         modules(
+            provideDataSourceModule,
             provideRepositoryModule,
             provideApiModule,
             provideViewModelModule,
@@ -29,7 +34,9 @@ fun initKoin(config: KoinAppDeclaration? = null) =
     }
 
 val provideDataSourceModule = module {
-//    singleOf(::NoteLocalDataSourceImpl).bind(NoteLocalDataSource::class)
+    single {
+        getRoomDatabase(getDatabaseBuilder())
+    }
 }
 
 val provideHttpClient = module {

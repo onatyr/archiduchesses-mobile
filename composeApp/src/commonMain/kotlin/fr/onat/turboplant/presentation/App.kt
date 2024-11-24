@@ -1,6 +1,7 @@
 package fr.onat.turboplant.presentation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -26,8 +27,8 @@ fun App() {
 
 interface NavRoute {
     companion object {
-        fun getRouteByQualifiedName(route: String?): NavRoute? {
-            return when(route) {
+        fun NavDestination.getRoute(): NavRoute? {
+            return when(this.route) {
                 LoginRoute::class.qualifiedName -> LoginRoute
                 PlantsRoute::class.qualifiedName -> PlantsRoute
                 TasksRoute::class.qualifiedName -> TasksRoute

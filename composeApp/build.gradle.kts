@@ -1,3 +1,4 @@
+import com.google.devtools.ksp.gradle.KspTaskMetadata
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -6,6 +7,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
     kotlin(libs.plugins.serialization.get().pluginId).version(libs.versions.kotlin)
 }
 
@@ -61,8 +64,8 @@ kotlin {
             implementation(libs.koin.composeVM)
             implementation(libs.navigation.compose)
             implementation(libs.material3.window.size)
-
-//            implementation(libs.navigation.compose)
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -100,5 +103,13 @@ android {
 dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     debugImplementation(compose.uiTooling)
+    kspCommonMainMetadata(libs.room.compiler)
+
 }
+
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
+kotlin.sourceSets.commonMain { tasks.withType<KspTaskMetadata> { kotlin.srcDir(destinationDirectory) } }
 

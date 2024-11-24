@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 class ArchiApi(private val client: HttpClient) {
     private var token: String? = null
 
-    private val _isAuthenticated = MutableStateFlow(false)
+    private val _isAuthenticated = MutableStateFlow(token != null)
     val isAuthenticated = _isAuthenticated.asStateFlow()
 
 //    private val baseUrl = "http://90.40.139.106:3000"
