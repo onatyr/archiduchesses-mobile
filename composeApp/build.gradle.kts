@@ -59,6 +59,9 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.composeVM)
+            implementation(libs.navigation.compose)
+            implementation(libs.material3.window.size)
+
 //            implementation(libs.navigation.compose)
         }
         iosMain.dependencies {

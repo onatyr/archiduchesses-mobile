@@ -1,4 +1,4 @@
-package fr.onat.turboplant.views
+package fr.onat.turboplant.presentation.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.onat.turboplant.models.Plant
-import fr.onat.turboplant.viewModels.PlantListViewModel
+import fr.onat.turboplant.presentation.viewModels.PlantListViewModel
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI

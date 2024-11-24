@@ -1,6 +1,6 @@
-package fr.onat.turboplant.repositories
+package fr.onat.turboplant.data.repositories
 
-import fr.onat.turboplant.api.ArchiApi
+import fr.onat.turboplant.data.api.ArchiApi
 import fr.onat.turboplant.models.Plant
 import io.ktor.client.call.body
 

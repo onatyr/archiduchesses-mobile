@@ -1,4 +1,4 @@
-package fr.onat.turboplant.views
+package fr.onat.turboplant.presentation.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,10 +21,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import fr.onat.turboplant.LocalNavigate
+import fr.onat.turboplant.libs.extensions.collectAsEffect
+import fr.onat.turboplant.presentation.viewModels.LoginViewModel
 import fr.onat.turboplant.resources.Colors
-import fr.onat.turboplant.viewModels.LoginViewModel
-import fr.onat.turboplant.viewModels.NavigationRoute
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -38,10 +37,15 @@ import turboplant.composeapp.generated.resources.password
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = koinViewModel<LoginViewModel>()
+    viewModel: LoginViewModel = koinViewModel(),
+    navigate: () -> Unit
 ) {
     val email by viewModel.email.collectAsStateWithLifecycle()
     val password by viewModel.password.collectAsStateWithLifecycle()
+
+    viewModel.isAuthenticated.collectAsEffect {
+        navigate()
+    }
 
     Box(
         contentAlignment = Alignment.Center,
@@ -106,9 +110,8 @@ fun LoginField(
 
 @Composable
 fun LoginFooter(
-    sendLoginRequest: ((Boolean) -> Unit) -> Unit
+    sendLoginRequest: () -> Unit,
 ) {
-    val navigate = LocalNavigate.current
     Row(
         modifier = Modifier.fillMaxWidth().padding(top = 5.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -117,12 +120,7 @@ fun LoginFooter(
         Box(
             modifier = Modifier
                 .background(Colors.VerdiGreen)
-                .clickable {
-                    sendLoginRequest { response ->
-                        if (!response) return@sendLoginRequest
-                        navigate(NavigationRoute.PLANT_LIST)
-                    }
-                }
+                .clickable { sendLoginRequest() }
         ) {
             Text(
                 text = stringResource(Res.string.login).uppercase(),

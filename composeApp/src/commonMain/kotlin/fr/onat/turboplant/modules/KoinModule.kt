@@ -1,11 +1,11 @@
 package fr.onat.turboplant.modules
 
-import fr.onat.turboplant.api.ArchiApi
-import fr.onat.turboplant.repositories.AuthRepository
-import fr.onat.turboplant.repositories.PlaceRepository
-import fr.onat.turboplant.repositories.PlantRepository
-import fr.onat.turboplant.viewModels.LoginViewModel
-import fr.onat.turboplant.viewModels.PlantListViewModel
+import fr.onat.turboplant.data.api.ArchiApi
+import fr.onat.turboplant.data.repositories.AuthRepository
+import fr.onat.turboplant.data.repositories.PlaceRepository
+import fr.onat.turboplant.data.repositories.PlantRepository
+import fr.onat.turboplant.presentation.viewModels.LoginViewModel
+import fr.onat.turboplant.presentation.viewModels.PlantListViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation

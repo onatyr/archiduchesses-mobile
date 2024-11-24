@@ -1,3 +1,3 @@
 package fr.onat.turboplant.logger
 
-expect fun logger(message: String?)
+expect fun logger(content: Any?)

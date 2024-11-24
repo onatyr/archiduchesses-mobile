@@ -1,9 +1,9 @@
-package fr.onat.turboplant.viewModels
+package fr.onat.turboplant.presentation.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fr.onat.turboplant.models.Credentials
-import fr.onat.turboplant.repositories.AuthRepository
+import fr.onat.turboplant.data.repositories.AuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,6 +14,8 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
+    val isAuthenticated = authRepository.isAuthenticated
+
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
 
@@ -24,14 +26,13 @@ class LoginViewModel(
 
     fun updatePassword(password: String) = _password.update { password }
 
-    fun sendLoginRequest(onResponse: (Boolean) -> Unit) =
+    fun sendLoginRequest() =
         viewModelScope.launch(Dispatchers.IO) {
             authRepository.loginRequest(
                 Credentials(
                     email = email.value,
                     password = password.value
-                ),
-                onResponse = { onResponse(it) }
+                )
             )
         }
 }

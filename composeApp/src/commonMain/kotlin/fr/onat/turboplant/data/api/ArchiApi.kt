@@ -1,4 +1,4 @@
-package fr.onat.turboplant.api
+package fr.onat.turboplant.data.api
 
 import fr.onat.turboplant.logger.logger
 import io.ktor.client.HttpClient
@@ -10,9 +10,15 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.Parameters
 import io.ktor.http.contentType
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class ArchiApi(private val client: HttpClient) {
     private var token: String? = null
+
+    private val _isAuthenticated = MutableStateFlow(false)
+    val isAuthenticated = _isAuthenticated.asStateFlow()
 
 //    private val baseUrl = "http://90.40.139.106:3000"
     private val baseUrl = "http://127.0.0.1:3000"
@@ -42,7 +48,7 @@ class ArchiApi(private val client: HttpClient) {
     suspend fun post(
         routeUrl: String,
         body: Any,
-        onError: () -> Unit
+        onError: () -> Unit = {}
     ): HttpResponse? {
         try {
             val url = "$baseUrl$routeUrl"
@@ -60,9 +66,11 @@ class ArchiApi(private val client: HttpClient) {
 
     fun setToken(token: String) {
         this.token = token
+        _isAuthenticated.update { true }
     }
 
     fun clearToken() {
         this.token = null
+        _isAuthenticated.update { false }
     }
 }

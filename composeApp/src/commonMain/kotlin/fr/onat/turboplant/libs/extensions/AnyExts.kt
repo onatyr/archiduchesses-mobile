@@ -1,4 +1,4 @@
-package fr.onat.turboplant.extensions
+package fr.onat.turboplant.libs.extensions
 
 fun Any?.isNull() = this == null
 
