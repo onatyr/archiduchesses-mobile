@@ -1,8 +1,6 @@
 package fr.onat.turboplant.modules
 
 import fr.onat.turboplant.data.api.ArchiApi
-import fr.onat.turboplant.data.database.AppDatabase
-import fr.onat.turboplant.data.database.getDatabaseBuilder
 import fr.onat.turboplant.data.database.getRoomDatabase
 import fr.onat.turboplant.data.repositories.AuthRepository
 import fr.onat.turboplant.data.repositories.PlaceRepository
@@ -14,11 +12,11 @@ import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import org.koin.compose.viewmodel.dsl.viewModelOf
 import org.koin.core.context.startKoin
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.KoinAppDeclaration
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun initKoin(config: KoinAppDeclaration? = null) =
@@ -29,13 +27,14 @@ fun initKoin(config: KoinAppDeclaration? = null) =
             provideRepositoryModule,
             provideApiModule,
             provideViewModelModule,
-            provideHttpClient
+            provideHttpClient,
+            providePlatformModule
         )
     }
 
 val provideDataSourceModule = module {
     single {
-        getRoomDatabase(getDatabaseBuilder())
+        getRoomDatabase(get())
     }
 }
 
@@ -71,3 +70,5 @@ val provideViewModelModule = module {
     viewModelOf(::LoginViewModel)
     viewModelOf(::PlantListViewModel)
 }
+
+expect val providePlatformModule: Module

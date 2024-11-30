@@ -1,5 +1,6 @@
 package fr.onat.turboplant.data.api
 
+import fr.onat.turboplant.data.database.AppDatabase
 import fr.onat.turboplant.logger.logger
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -10,17 +11,27 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.Parameters
 import io.ktor.http.contentType
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.launch
 
-class ArchiApi(private val client: HttpClient) {
+class ArchiApi(
+    private val client: HttpClient,
+    private val database: AppDatabase,
+) {
     private var token: String? = null
 
-    private val _isAuthenticated = MutableStateFlow(token != null)
-    val isAuthenticated = _isAuthenticated.asStateFlow()
+    init {
+        CoroutineScope(Dispatchers.IO).launch {
+            database.getUserDao().getAll().collect {
+                if (it.isEmpty()) return@collect
+                token = it.first().token
+            }
+        }
+    }
 
-//    private val baseUrl = "http://90.40.139.106:3000"
+    //    private val baseUrl = "http://90.40.139.106:3000"
     private val baseUrl = "http://127.0.0.1:3000"
 
     suspend fun get(
@@ -62,15 +73,5 @@ class ArchiApi(private val client: HttpClient) {
             logger(e.message)
             return null
         }
-    }
-
-    fun setToken(token: String) {
-        this.token = token
-        _isAuthenticated.update { true }
-    }
-
-    fun clearToken() {
-        this.token = null
-        _isAuthenticated.update { false }
     }
 }

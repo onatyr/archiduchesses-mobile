@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
-    val isAuthenticated = authRepository.isAuthenticated
+    val isAuthenticated = authRepository.isAuthenticated()
 
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
