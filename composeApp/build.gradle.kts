@@ -66,7 +66,8 @@ kotlin {
             implementation(libs.material3.window.size)
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
-
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor3)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

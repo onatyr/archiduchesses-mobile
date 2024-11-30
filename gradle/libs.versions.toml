@@ -11,6 +11,7 @@ androidx-espresso-core = "3.6.1"
 androidx-lifecycle = "2.8.4"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
+coilCompose = "3.0.4"
 compose-plugin = "1.7.1"
 junit = "4.13.2"
 kotlin = "2.0.21"
@@ -28,8 +29,9 @@ room = "2.7.0-alpha11"
 ksp = "2.0.21-1.0.28"
 sqlite = "2.5.0-SNAPSHOT"
 
-
 [libraries]
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coilCompose" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
