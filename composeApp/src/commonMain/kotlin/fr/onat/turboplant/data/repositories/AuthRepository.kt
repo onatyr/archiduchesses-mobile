@@ -1,19 +1,19 @@
 package fr.onat.turboplant.data.repositories
 
 import fr.onat.turboplant.data.api.ArchiApi
-import fr.onat.turboplant.data.database.AppDatabase
-import fr.onat.turboplant.data.entities.User
+import fr.onat.turboplant.data.dao.UserDao
+import fr.onat.turboplant.data.dto.UserDto
+import fr.onat.turboplant.data.entities.toUser
 import fr.onat.turboplant.models.Credentials
-import fr.onat.turboplant.models.TokenResponse
 import io.ktor.client.call.body
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.flow.map
 
 class AuthRepository(
     private val archiApi: ArchiApi,
-    private val database: AppDatabase
+    private val userDao: UserDao
 ) {
-    fun isAuthenticated() = database.getUserDao()
+    fun isAuthenticated() = userDao
         .getAll()
         .map { it.isNotEmpty() && it.first().token != null }
 
@@ -25,14 +25,14 @@ class AuthRepository(
         if (loginResponse?.status != HttpStatusCode.OK) {
             return
         }
-        setToken(loginResponse.body<TokenResponse>().token)
+        setUser(loginResponse.body<UserDto>())
     }
 
-    private suspend fun setToken(token: String) {
-        database.getUserDao().upsert(User(name = null, token = token))
+    private suspend fun setUser(userDto: UserDto) {
+        userDao.upsert(userDto.toUser())
     }
 
     suspend fun clearToken() {
-        database.getUserDao().clear()
+        userDao.clear()
     }
 }

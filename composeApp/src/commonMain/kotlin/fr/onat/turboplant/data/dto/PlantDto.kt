@@ -1,11 +1,11 @@
-package fr.onat.turboplant.models
+package fr.onat.turboplant.data.dto
 
-import io.ktor.util.date.GMTDate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Plant(
+data class PlantDto(
+    val id: String,
     val name: String,
     val watering: Watering?,
     val sunlight: Sunlight?,
@@ -14,7 +14,7 @@ data class Plant(
     val imageUrl: String?
 )
 
-enum class Watering() {
+enum class Watering {
     @SerialName("Minimal")
     MINIMAL,
 
@@ -28,7 +28,7 @@ enum class Watering() {
     FREQUENT,
 }
 
-enum class Sunlight() {
+enum class Sunlight {
     @SerialName("Low Light")
     LOW,
 
@@ -41,4 +41,3 @@ enum class Sunlight() {
     @SerialName("Full Sun")
     FULL_SUN
 }
-

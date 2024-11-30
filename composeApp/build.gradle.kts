@@ -114,6 +114,3 @@ dependencies {
 room {
     schemaDirectory("$projectDir/schemas")
 }
-
-//kotlin.sourceSets.commonMain { tasks.withType<KspTaskMetadata> { kotlin.srcDir(destinationDirectory) } }
-

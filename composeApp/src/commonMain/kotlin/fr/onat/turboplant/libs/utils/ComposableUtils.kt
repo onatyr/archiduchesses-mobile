@@ -20,8 +20,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import fr.onat.turboplant.presentation.NavRoute
 import fr.onat.turboplant.presentation.NavRoute.Companion.getRoute
-import fr.onat.turboplant.presentation.bottomNavigationBar.BottomNavigationBar
-import fr.onat.turboplant.presentation.bottomNavigationBar.NavBarItem
+import fr.onat.turboplant.presentation.navigationBar.NavigationBar
+import fr.onat.turboplant.presentation.navigationBar.NavBarItem
 
 @Composable
 expect fun calculateWindowSizeClass(): WindowSizeClass
@@ -48,7 +48,7 @@ fun setMaterialWithProviders(
                 content(Modifier.weight(1f))
 
                 if (NavBarItem.routes.contains(LocalNavRoute.current))
-                    BottomNavigationBar(navController, Modifier.fillMaxWidth())
+                    NavigationBar(navController, Modifier.fillMaxWidth())
             }
         }
     }

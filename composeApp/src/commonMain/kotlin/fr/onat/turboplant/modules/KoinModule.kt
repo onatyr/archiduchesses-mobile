@@ -1,12 +1,14 @@
 package fr.onat.turboplant.modules
 
 import fr.onat.turboplant.data.api.ArchiApi
+import fr.onat.turboplant.data.dao.UserDao
+import fr.onat.turboplant.data.database.AppDatabase
 import fr.onat.turboplant.data.database.getRoomDatabase
 import fr.onat.turboplant.data.repositories.AuthRepository
 import fr.onat.turboplant.data.repositories.PlaceRepository
 import fr.onat.turboplant.data.repositories.PlantRepository
-import fr.onat.turboplant.presentation.viewModels.LoginViewModel
-import fr.onat.turboplant.presentation.viewModels.PlantListViewModel
+import fr.onat.turboplant.presentation.login.LoginViewModel
+import fr.onat.turboplant.presentation.plantList.PlantListViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -28,7 +30,8 @@ fun initKoin(config: KoinAppDeclaration? = null) =
             provideApiModule,
             provideViewModelModule,
             provideHttpClient,
-            providePlatformModule
+            providePlatformModule,
+            provideDaoModule
         )
     }
 
@@ -60,6 +63,11 @@ val provideRepositoryModule = module {
     singleOf(::AuthRepository)
     singleOf(::PlantRepository)
     singleOf(::PlaceRepository)
+}
+
+val provideDaoModule = module {
+    single { get<AppDatabase>().getUserDao() }
+    single { get<AppDatabase>().getPlantDao() }
 }
 
 val provideApiModule = module {

@@ -6,8 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import fr.onat.turboplant.libs.utils.setMaterialWithProviders
-import fr.onat.turboplant.presentation.views.LoginScreen
-import fr.onat.turboplant.presentation.views.PlantListScreen
+import fr.onat.turboplant.presentation.login.LoginScreen
+import fr.onat.turboplant.presentation.plantList.PlantListScreen
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

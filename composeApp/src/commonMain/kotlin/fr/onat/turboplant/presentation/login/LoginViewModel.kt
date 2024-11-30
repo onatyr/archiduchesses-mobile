@@ -1,4 +1,4 @@
-package fr.onat.turboplant.presentation.viewModels
+package fr.onat.turboplant.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

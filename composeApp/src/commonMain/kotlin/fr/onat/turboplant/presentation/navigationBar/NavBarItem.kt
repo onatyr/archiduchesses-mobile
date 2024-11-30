@@ -1,4 +1,4 @@
-package fr.onat.turboplant.presentation.bottomNavigationBar
+package fr.onat.turboplant.presentation.navigationBar
 
 import fr.onat.turboplant.presentation.NavRoute
 import fr.onat.turboplant.presentation.NotImplementedRoute

@@ -8,5 +8,6 @@
     <string name="sunlight">Sunlight</string>
 
     <string name="no_account_register">Don't have an account? Register</string>
+    <string name="enter_your_email">Enter your email</string>
     <string name="enter_your_password">Enter your password</string>
 </resources>

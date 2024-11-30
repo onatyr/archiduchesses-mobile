@@ -1,4 +1,4 @@
-package fr.onat.turboplant.presentation.bottomNavigationBar
+package fr.onat.turboplant.presentation.navigationBar
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -12,11 +12,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.presentation.NotImplementedRoute
+import fr.onat.turboplant.resources.Colors
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun BottomNavigationBar(navController: NavController, modifier: Modifier = Modifier) {
-    BottomNavigation(modifier.height(60.dp)) {
+fun NavigationBar(navController: NavController, modifier: Modifier = Modifier) {
+    BottomNavigation(
+        modifier = modifier.height(60.dp),
+        backgroundColor = Colors.TurboGreen,
+    ) {
         val currentRoute = LocalNavRoute.current
 
         NavBarItem.values.forEach { item ->

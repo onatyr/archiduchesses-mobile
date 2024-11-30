@@ -1,4 +1,4 @@
-package fr.onat.turboplant.presentation.views
+package fr.onat.turboplant.presentation.plantList
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -17,20 +17,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import fr.onat.turboplant.models.Plant
-import fr.onat.turboplant.presentation.viewModels.PlantListViewModel
+import fr.onat.turboplant.data.entities.Plant
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
-import turboplant.composeapp.generated.resources.*
+import turboplant.composeapp.generated.resources.Res
+import turboplant.composeapp.generated.resources.sunlight
+import turboplant.composeapp.generated.resources.watering
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun PlantListScreen(
     viewModel: PlantListViewModel = koinViewModel<PlantListViewModel>()
 ) {
-    viewModel.fetch()
-    val plants by viewModel.plants.collectAsStateWithLifecycle()
+    val plants by viewModel.plants.collectAsStateWithLifecycle(emptyList())
     LazyColumn(Modifier.padding(vertical = 10.dp)) {
         items(plants) { plant ->
             Card(
