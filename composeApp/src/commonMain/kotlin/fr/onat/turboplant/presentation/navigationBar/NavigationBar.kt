@@ -27,11 +27,11 @@ fun NavigationBar(navController: NavController, modifier: Modifier = Modifier) {
             BottomNavigationItem(
                 selected = currentRoute == item.route,
                 onClick = {
-                    if (item.route !== NotImplementedRoute) {
-                        navController.navigate(item.route) {
-                            popUpTo(navController.graph.startDestinationId)
-                            launchSingleTop = true
-                        }
+                    if (item.route == NotImplementedRoute || item.route == currentRoute) return@BottomNavigationItem
+                    navController.navigate(item.route) {
+                        popUpTo(navController.graph.startDestinationId)
+                        launchSingleTop = true
+
                     }
                 },
                 icon = {

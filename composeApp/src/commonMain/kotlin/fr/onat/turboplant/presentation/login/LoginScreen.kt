@@ -8,12 +8,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -96,7 +99,6 @@ fun AppHeader(modifier: Modifier = Modifier) {
             "Welcome to Turbo Plant",
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White
         )
     }
 
@@ -112,7 +114,6 @@ fun LoginField(
         Text(
             text = stringResource(loginFieldParams.label),
             fontWeight = FontWeight.Bold,
-            color = Color.White,
             modifier = Modifier.fillMaxWidth()
         )
         TextField(
@@ -121,14 +122,18 @@ fun LoginField(
             visualTransformation = loginFieldParams.visualTransformation,
             keyboardOptions = loginFieldParams.keyboardOptions,
             colors = TextFieldDefaults.textFieldColors(
-                textColor = Color.White,
+                textColor = LocalContentColor.current,
                 focusedIndicatorColor = Colors.SalmonPink
             ),
             placeholder = {
                 Text(stringResource(loginFieldParams.placeHolder), color = Color.White)
             },
             modifier = Modifier.fillMaxWidth()
-                .border(2.dp, Color.White.copy(alpha = 0.4f), RoundedCornerShape(5.dp))
+                .border(
+                    2.dp,
+                    LocalContentColor.current.copy(LocalContentAlpha.current),
+                    RoundedCornerShape(5.dp)
+                )
         )
     }
 }
@@ -144,12 +149,12 @@ fun LoginFooter(
         Box(
             modifier = Modifier
                 .background(color = Colors.TurboGreen, shape = RoundedCornerShape(5.dp))
+                .height(40.dp)
                 .fillMaxWidth()
                 .clickable { sendLoginRequest() }
         ) {
             Text(
                 text = stringResource(Res.string.login).uppercase(),
-                color = Color.White,
                 modifier = Modifier
                     .align(Alignment.Center)
                     .padding(4.dp)
