@@ -58,7 +58,7 @@ fun App() {
 interface NavRoute {
     companion object {
         fun NavDestination.getRoute(): NavRoute? {
-            return when (this.route) {
+            return when (route) {
                 LoginRoute::class.qualifiedName -> LoginRoute
                 PlantsRoute::class.qualifiedName -> PlantsRoute
                 TasksRoute::class.qualifiedName -> TasksRoute
