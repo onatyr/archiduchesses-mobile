@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import fr.onat.turboplant.libs.utils.LocalNavRoute
+import fr.onat.turboplant.libs.utils.isSelected
 import fr.onat.turboplant.presentation.NotImplementedRoute
 import fr.onat.turboplant.resources.Colors
 import org.jetbrains.compose.resources.painterResource
@@ -21,13 +24,13 @@ fun NavigationBar(navController: NavController, modifier: Modifier = Modifier) {
         modifier = modifier.height(60.dp),
         backgroundColor = Colors.TurboGreen,
     ) {
-        val currentRoute = LocalNavRoute.current
-
         NavBarItem.values.forEach { item ->
+            val isSelected = item.isSelected()
+
             BottomNavigationItem(
-                selected = currentRoute == item.route,
+                selected = isSelected,
                 onClick = {
-                    if (item.route == NotImplementedRoute || item.route == currentRoute) return@BottomNavigationItem
+                    if (item.route == NotImplementedRoute || isSelected) return@BottomNavigationItem
                     navController.navigate(item.route) {
                         popUpTo(navController.graph.startDestinationId)
                         launchSingleTop = true
@@ -42,6 +45,8 @@ fun NavigationBar(navController: NavController, modifier: Modifier = Modifier) {
                     )
                 },
                 label = { Text(item.label) },
+                selectedContentColor = Colors.SalmonPink,
+                unselectedContentColor = LocalContentColor.current.copy(LocalContentAlpha.current)
             )
         }
     }

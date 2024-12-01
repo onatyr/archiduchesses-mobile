@@ -65,3 +65,7 @@ fun isCompactLayout() = LocalWindowWidthSizeClass.current <= WindowWidthSizeClas
 
 @Composable
 fun isExpendedLayout() = LocalWindowWidthSizeClass.current > WindowWidthSizeClass.Medium
+
+@Composable
+fun NavBarItem.isSelected() =
+    route == LocalNavRoute.current || relatedRoutes.contains(LocalNavRoute.current)

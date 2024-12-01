@@ -1,14 +1,13 @@
 package fr.onat.turboplant.modules
 
 import fr.onat.turboplant.data.api.ArchiApi
-import fr.onat.turboplant.data.dao.UserDao
 import fr.onat.turboplant.data.database.AppDatabase
 import fr.onat.turboplant.data.database.getRoomDatabase
 import fr.onat.turboplant.data.repositories.AuthRepository
 import fr.onat.turboplant.data.repositories.PlaceRepository
 import fr.onat.turboplant.data.repositories.PlantRepository
 import fr.onat.turboplant.presentation.login.LoginViewModel
-import fr.onat.turboplant.presentation.plantList.PlantListViewModel
+import fr.onat.turboplant.presentation.plantList.PlantViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -76,7 +75,7 @@ val provideApiModule = module {
 
 val provideViewModelModule = module {
     viewModelOf(::LoginViewModel)
-    viewModelOf(::PlantListViewModel)
+    viewModelOf(::PlantViewModel)
 }
 
 expect val providePlatformModule: Module

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.libs.utils.setMaterialWithProviders
+import fr.onat.turboplant.logger.logger
 import fr.onat.turboplant.presentation.login.LoginScreen
 import fr.onat.turboplant.presentation.navigationBar.NavBarItem
 import fr.onat.turboplant.presentation.navigationBar.NavigationBar
@@ -46,10 +48,14 @@ fun App() {
                         }
                     })
                 }
-                composable<PlantsRoute> { PlantListScreen() }
+                composable<PlantsRoute> { PlantListScreen(navigate = { navController.navigate(it) }) }
+                composable<AddNewPlantRoute> { Text("Add new plant not implemented") }
+                composable<TasksRoute> { Text("Tasks not implemented") }
+                composable<RoomsRoute> { Text("Places not implemented") }
+
             }
 
-            if (NavBarItem.routes.contains(LocalNavRoute.current))
+            if (!NavBarItem.exemptedRoutes.contains(LocalNavRoute.current))
                 NavigationBar(navController, Modifier.fillMaxWidth())
         }
     }
@@ -63,6 +69,7 @@ interface NavRoute {
                 PlantsRoute::class.qualifiedName -> PlantsRoute
                 TasksRoute::class.qualifiedName -> TasksRoute
                 RoomsRoute::class.qualifiedName -> RoomsRoute
+                AddNewPlantRoute::class.qualifiedName -> AddNewPlantRoute
                 else -> null
             }
         }
@@ -74,6 +81,9 @@ object LoginRoute : NavRoute
 
 @Serializable
 object PlantsRoute : NavRoute
+
+@Serializable
+object AddNewPlantRoute : NavRoute
 
 @Serializable
 object TasksRoute : NavRoute

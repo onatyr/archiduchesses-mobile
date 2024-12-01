@@ -4,8 +4,11 @@
     <string name="login">Login</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+
     <string name="watering">Watering</string>
     <string name="sunlight">Sunlight</string>
+    <string name="droplet_emoji">💧</string>
+    <string name="sun_emoji">☀️</string>
 
     <string name="no_account_register">Don't have an account? Register</string>
     <string name="enter_your_email">Enter your email</string>

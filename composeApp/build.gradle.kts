@@ -68,6 +68,7 @@ kotlin {
             implementation(libs.sqlite.bundled)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
+
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
