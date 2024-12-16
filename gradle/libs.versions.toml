@@ -26,9 +26,11 @@ koin-compose = "4.0.0"
 material3 = "1.4.0-alpha04"
 material3WindowSizeClassVersion = "1.7.1"
 navigationCompose = "2.8.0-alpha10"
+moko = "0.18.1"
 room = "2.7.0-alpha11"
 ksp = "2.0.21-1.0.28"
 sqlite = "2.5.0-SNAPSHOT"
+cameraVersion = "1.4.1"
 
 [libraries]
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
@@ -63,11 +65,18 @@ lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifec
 androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
 material3-window-size = { module = "org.jetbrains.compose.material3:material3-window-size-class", version.ref = "material3WindowSizeClassVersion" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+
+moko-permissions = { module = "dev.icerock.moko:permissions", version.ref = "moko" }
+moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko" }
+
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 sqlite-bundled = { module= "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 
-
+androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "cameraVersion" }
+androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "cameraVersion" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraVersion" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "cameraVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

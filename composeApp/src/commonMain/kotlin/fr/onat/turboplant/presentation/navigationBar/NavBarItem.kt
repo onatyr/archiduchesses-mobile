@@ -1,9 +1,10 @@
 package fr.onat.turboplant.presentation.navigationBar
 
+import androidx.compose.runtime.Composable
+import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.presentation.AddNewPlantRoute
 import fr.onat.turboplant.presentation.LoginRoute
 import fr.onat.turboplant.presentation.NavRoute
-import fr.onat.turboplant.presentation.NotImplementedRoute
 import fr.onat.turboplant.presentation.PlantsRoute
 import fr.onat.turboplant.presentation.RoomsRoute
 import fr.onat.turboplant.presentation.TasksRoute
@@ -18,7 +19,7 @@ sealed class NavBarItem(
     val label: String,
     val icon: DrawableResource,
     val route: NavRoute,
-    val relatedRoutes: List<NavRoute>
+    internal val relatedRoutes: List<NavRoute>
 ) {
     companion object {
         val values = listOf(Plants, Tasks, Rooms)
@@ -31,4 +32,9 @@ sealed class NavBarItem(
 
     data object Rooms :
         NavBarItem("Lieux", Res.drawable.home_icon, RoomsRoute, emptyList())
+
 }
+
+@Composable
+fun NavBarItem.isSelected() =
+    route == LocalNavRoute.current || relatedRoutes.contains(LocalNavRoute.current)

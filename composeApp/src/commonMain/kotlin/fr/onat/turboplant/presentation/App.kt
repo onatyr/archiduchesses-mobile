@@ -7,18 +7,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
+import fr.onat.turboplant.libs.extensions.getCurrentRoute
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.libs.utils.setMaterialWithProviders
-import fr.onat.turboplant.logger.logger
+import fr.onat.turboplant.presentation.composables.handlePermission
 import fr.onat.turboplant.presentation.login.LoginScreen
 import fr.onat.turboplant.presentation.navigationBar.NavBarItem
 import fr.onat.turboplant.presentation.navigationBar.NavigationBar
+import fr.onat.turboplant.presentation.permissions.PermissionsViewModel
+import fr.onat.turboplant.presentation.plantList.AddNewPlantScreen
 import fr.onat.turboplant.presentation.plantList.PlantListScreen
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -28,7 +36,21 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun App() {
     val navController = rememberNavController()
 
-    setMaterialWithProviders(navController) {
+    val factory = rememberPermissionsControllerFactory()
+    val controller = remember(factory) { factory.createPermissionsController() }
+
+    BindEffect(controller)
+
+    val permissionsViewModel = viewModel { PermissionsViewModel(controller) }
+    LaunchedEffect(Unit) {
+        permissionsViewModel.getAllPermissions().forEach {
+            handlePermission()
+        }
+    }
+
+    setMaterialWithProviders(
+        LocalNavRoute provides navController.getCurrentRoute()
+    ) {
         Column(
             modifier = Modifier.fillMaxSize().background(Color.Black),
             verticalArrangement = Arrangement.SpaceBetween
@@ -49,7 +71,9 @@ fun App() {
                     })
                 }
                 composable<PlantsRoute> { PlantListScreen(navigate = { navController.navigate(it) }) }
-                composable<AddNewPlantRoute> { Text("Add new plant not implemented") }
+                composable<AddNewPlantRoute> {
+                    AddNewPlantScreen(navigate = { navController.navigate(it) })
+                }
                 composable<TasksRoute> { Text("Tasks not implemented") }
                 composable<RoomsRoute> { Text("Places not implemented") }
 

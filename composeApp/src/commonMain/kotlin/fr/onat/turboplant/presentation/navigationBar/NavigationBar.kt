@@ -12,8 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import fr.onat.turboplant.libs.utils.LocalNavRoute
-import fr.onat.turboplant.libs.utils.isSelected
 import fr.onat.turboplant.presentation.NotImplementedRoute
 import fr.onat.turboplant.resources.Colors
 import org.jetbrains.compose.resources.painterResource

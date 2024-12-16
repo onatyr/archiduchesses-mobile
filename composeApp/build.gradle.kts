@@ -1,4 +1,3 @@
-import com.google.devtools.ksp.gradle.KspTaskMetadata
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -42,6 +41,11 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            implementation(libs.androidx.camera.camera2)
+            implementation(libs.androidx.camera.core)
+            implementation(libs.androidx.camera.lifecycle)
+            implementation(libs.androidx.camera.view)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -68,6 +72,9 @@ kotlin {
             implementation(libs.sqlite.bundled)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
+
+            api(libs.moko.permissions)
+            api(libs.moko.permissions.compose)
 
         }
         iosMain.dependencies {
@@ -106,6 +113,7 @@ android {
 dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     debugImplementation(compose.uiTooling)
+
 //    kspCommonMainMetadata(libs.room.compiler)
     add("kspAndroid", libs.room.compiler)
     add("kspIosSimulatorArm64", libs.room.compiler)
