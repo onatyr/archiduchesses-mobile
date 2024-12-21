@@ -16,10 +16,7 @@ import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -31,8 +28,6 @@ import dev.icerock.moko.permissions.PermissionState
 import fr.onat.turboplant.logger.logger
 import fr.onat.turboplant.presentation.NavRoute
 import fr.onat.turboplant.presentation.composables.CameraView
-import fr.onat.turboplant.presentation.composables.checkPermission
-import fr.onat.turboplant.presentation.composables.requestPermission
 import fr.onat.turboplant.resources.Colors
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -61,27 +56,20 @@ fun AddNewPlantScreen(
 
 @Composable
 fun BoxScope.ImageIdentificationButton() {
-    var permissionState = checkPermission(Permission.CAMERA)
-    logger(permissionState)
-    if (permissionState != PermissionState.Granted) {
-        permissionState = requestPermission(Permission.CAMERA, permissionState)
-    }
+    Box {
+        CameraView(Modifier.fillMaxSize())
 
-    if (permissionState == PermissionState.Granted)
-        Box {
-            CameraView(Modifier.fillMaxSize())
-
-            Button(
-                onClick = {},
-                modifier = Modifier.size(100.dp).align(Alignment.BottomCenter).padding(20.dp),
-                shape = CircleShape,
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Colors.SalmonPink,
-                    contentColor = Color.Black
-                )
-            ) {
-                Icon(Icons.Default.Add, "add new plant", Modifier.scale(2f))
-            }
+        Button(
+            onClick = {},
+            modifier = Modifier.size(100.dp).align(Alignment.BottomCenter).padding(20.dp),
+            shape = CircleShape,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Colors.SalmonPink,
+                contentColor = Color.Black
+            )
+        ) {
+            Icon(Icons.Default.Add, "add new plant", Modifier.scale(2f))
         }
+    }
 
 }

@@ -4,25 +4,6 @@ import androidx.compose.material.AlertDialog
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import dev.icerock.moko.permissions.Permission
-import dev.icerock.moko.permissions.PermissionState
-import fr.onat.turboplant.presentation.permissions.PermissionsViewModel
-
-@Composable
-fun handlePermission(permissionsViewModel: PermissionsViewModel, permission: Permission) {
-    when (permissionsViewModel.getPermissionState(permission)) {
-        PermissionState.Granted -> return
-        PermissionState.DeniedAlways -> {
-            AlwaysDeniedDialog(
-                onOpenSettings = { permissionsViewModel.openAppSettings() },
-                onDismiss = {}
-            )
-        }
-        else -> {
-            permissionsViewModel.provideOrRequestPermission(permission)
-        }
-    }
-}
 
 @Composable
 fun AlwaysDeniedDialog(

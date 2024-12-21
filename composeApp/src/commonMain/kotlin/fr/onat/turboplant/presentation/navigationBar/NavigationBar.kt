@@ -30,9 +30,12 @@ fun NavigationBar(navController: NavController, modifier: Modifier = Modifier) {
                 onClick = {
                     if (item.route == NotImplementedRoute || isSelected) return@BottomNavigationItem
                     navController.navigate(item.route) {
-                        popUpTo(navController.graph.startDestinationId)
+                        navController.graph.startDestinationRoute?.let { startDestination ->
+                            popUpTo(startDestination) {
+                                inclusive = true
+                            }
+                        }
                         launchSingleTop = true
-
                     }
                 },
                 icon = {

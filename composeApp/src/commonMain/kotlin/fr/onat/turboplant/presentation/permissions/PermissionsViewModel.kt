@@ -14,18 +14,23 @@ class PermissionsViewModel(private val controller: PermissionsController) : View
 
     init {
         viewModelScope.launch {
-            CurrentPermissions.entries.forEach {
+            CurrentPermission.entries.forEach {
                 it.currentState = controller.getPermissionState(it.permission)
             }
         }
     }
 
-    fun getAllPermissions() = CurrentPermissions.entries.map { it.permission }
+    fun handlePermission(permission: Permission) =
+        when (permission.currentPermission?.currentState) {
+            PermissionState.Granted -> true
+            PermissionState.DeniedAlways -> false
+            else -> {
+                provideOrRequestPermission(Permission.CAMERA)
+                true
+            }
+        }
 
-    fun getPermissionState(permission: Permission) = permission.currentPermission?.currentState
-
-
-    fun provideOrRequestPermission(permission: Permission) {
+    private fun provideOrRequestPermission(permission: Permission) {
         viewModelScope.launch {
             try {
                 controller.providePermission(permission)
@@ -43,15 +48,15 @@ class PermissionsViewModel(private val controller: PermissionsController) : View
 
     fun openAppSettings() = controller.openAppSettings()
 
-    private enum class CurrentPermissions(
+    private enum class CurrentPermission(
         val permission: Permission,
         var currentState: PermissionState,
     ) {
         CAMERA(Permission.CAMERA, PermissionState.NotDetermined)
     }
 
-    private val Permission.currentPermission: CurrentPermissions?
-        get() = CurrentPermissions.entries.find { it.permission == this }
+    private val Permission.currentPermission: CurrentPermission?
+        get() = CurrentPermission.entries.find { it.permission == this }
 }
 
 

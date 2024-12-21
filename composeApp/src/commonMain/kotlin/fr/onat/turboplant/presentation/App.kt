@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,12 +15,13 @@ import androidx.navigation.NavDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import fr.onat.turboplant.libs.extensions.getCurrentRoute
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.libs.utils.setMaterialWithProviders
-import fr.onat.turboplant.presentation.composables.handlePermission
+import fr.onat.turboplant.presentation.composables.AlwaysDeniedDialog
 import fr.onat.turboplant.presentation.login.LoginScreen
 import fr.onat.turboplant.presentation.navigationBar.NavBarItem
 import fr.onat.turboplant.presentation.navigationBar.NavigationBar
@@ -42,11 +42,13 @@ fun App() {
     BindEffect(controller)
 
     val permissionsViewModel = viewModel { PermissionsViewModel(controller) }
-    LaunchedEffect(Unit) {
-        permissionsViewModel.getAllPermissions().forEach {
-            handlePermission()
-        }
-    }
+    val isCameraPermissionGranted = permissionsViewModel.handlePermission(Permission.CAMERA)
+
+    if (!isCameraPermissionGranted)
+        AlwaysDeniedDialog(
+            onOpenSettings = { permissionsViewModel.openAppSettings() },
+            onDismiss = {}
+        )
 
     setMaterialWithProviders(
         LocalNavRoute provides navController.getCurrentRoute()
@@ -63,8 +65,10 @@ fun App() {
                 composable<LoginRoute> {
                     LoginScreen(navigate = {
                         navController.navigate(PlantsRoute) {
-                            popUpTo(navController.graph.startDestinationId) {
-                                inclusive = true
+                            navController.graph.startDestinationRoute?.let { startDestination ->
+                                popUpTo(startDestination) {
+                                    inclusive = true
+                                }
                             }
                             launchSingleTop = true
                         }
