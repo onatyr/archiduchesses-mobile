@@ -22,11 +22,12 @@ import fr.onat.turboplant.libs.extensions.getCurrentRoute
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.libs.utils.setMaterialWithProviders
 import fr.onat.turboplant.presentation.composables.AlwaysDeniedDialog
+import fr.onat.turboplant.presentation.composables.CameraView
 import fr.onat.turboplant.presentation.login.LoginScreen
 import fr.onat.turboplant.presentation.navigationBar.NavBarItem
 import fr.onat.turboplant.presentation.navigationBar.NavigationBar
+import fr.onat.turboplant.presentation.newPlant.NewPlantScreen
 import fr.onat.turboplant.presentation.permissions.PermissionsViewModel
-import fr.onat.turboplant.presentation.plantList.AddNewPlantScreen
 import fr.onat.turboplant.presentation.plantList.PlantListScreen
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -76,7 +77,10 @@ fun App() {
                 }
                 composable<PlantsRoute> { PlantListScreen(navigate = { navController.navigate(it) }) }
                 composable<AddNewPlantRoute> {
-                    AddNewPlantScreen(navigate = { navController.navigate(it) })
+                    NewPlantScreen(navigate = { navController.navigate(it) })
+                }
+                composable<CameraRoute> {
+                    CameraView(Modifier.fillMaxSize())
                 }
                 composable<TasksRoute> { Text("Tasks not implemented") }
                 composable<RoomsRoute> { Text("Places not implemented") }
@@ -98,6 +102,7 @@ interface NavRoute {
                 TasksRoute::class.qualifiedName -> TasksRoute
                 RoomsRoute::class.qualifiedName -> RoomsRoute
                 AddNewPlantRoute::class.qualifiedName -> AddNewPlantRoute
+                CameraRoute::class.qualifiedName -> CameraRoute
                 else -> null
             }
         }
@@ -118,6 +123,9 @@ object TasksRoute : NavRoute
 
 @Serializable
 object RoomsRoute : NavRoute
+
+@Serializable
+object CameraRoute : NavRoute
 
 @Serializable
 object NotImplementedRoute : NavRoute

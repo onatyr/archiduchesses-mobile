@@ -25,5 +25,7 @@ class PlantRepository(private val archiApi: ArchiApi, private val plantDao: Plan
     suspend fun searchExternalPlantByName(name: String) =
         archiApi.get("/plants/searchExternalPlantByName/$name")?.bodyAsText()
 
+//    suspend fun addNewPlant(plant: Plant) = archiApi.post("/plants/add") // TODO
+
     fun getPlants() = plantDao.getAll()
 }

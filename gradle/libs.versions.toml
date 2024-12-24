@@ -31,6 +31,7 @@ room = "2.7.0-alpha11"
 ksp = "2.0.21-1.0.28"
 sqlite = "2.5.0-SNAPSHOT"
 cameraVersion = "1.4.1"
+peekaboo = "0.5.2"
 
 [libraries]
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
@@ -68,6 +69,9 @@ navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-co
 
 moko-permissions = { module = "dev.icerock.moko:permissions", version.ref = "moko" }
 moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko" }
+
+peekaboo-ui = { module = "io.github.onseok:peekaboo-ui", version.ref = "peekaboo" }
+peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekaboo" }
 
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }

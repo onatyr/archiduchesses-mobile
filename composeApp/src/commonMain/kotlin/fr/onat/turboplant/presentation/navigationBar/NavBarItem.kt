@@ -3,6 +3,7 @@ package fr.onat.turboplant.presentation.navigationBar
 import androidx.compose.runtime.Composable
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.presentation.AddNewPlantRoute
+import fr.onat.turboplant.presentation.CameraRoute
 import fr.onat.turboplant.presentation.LoginRoute
 import fr.onat.turboplant.presentation.NavRoute
 import fr.onat.turboplant.presentation.PlantsRoute
@@ -26,7 +27,13 @@ sealed class NavBarItem(
         val exemptedRoutes = listOf(LoginRoute)
     }
 
-    data object Plants : NavBarItem("Mes plantes", Res.drawable.plant_icon, PlantsRoute, listOf(AddNewPlantRoute))
+    data object Plants : NavBarItem(
+        "Mes plantes",
+        Res.drawable.plant_icon,
+        PlantsRoute,
+        relatedRoutes = listOf(AddNewPlantRoute, CameraRoute)
+    )
+
     data object Tasks :
         NavBarItem("Tâches", Res.drawable.check_icon, TasksRoute, emptyList())
 

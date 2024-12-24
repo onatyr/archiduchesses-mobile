@@ -76,6 +76,9 @@ kotlin {
             api(libs.moko.permissions)
             api(libs.moko.permissions.compose)
 
+//            implementation(libs.peekaboo.ui) // https://github.com/onseok/peekaboo conflict with actual camera implementation
+//            implementation(libs.peekaboo.image.picker)
+
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

@@ -2,6 +2,9 @@ package fr.onat.turboplant.presentation.plantList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import fr.onat.turboplant.data.dto.NewPlantDto
+import fr.onat.turboplant.data.dto.NewPlantField
+import fr.onat.turboplant.data.dto.Sunlight
 import fr.onat.turboplant.data.repositories.PlantRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,21 +16,18 @@ class PlantViewModel(
 ) : ViewModel() {
     val plants = plantRepository.getPlants()
 
-    private val _searchQuery = MutableStateFlow("")
-    val searchQuery = _searchQuery.asStateFlow()
+    private val _newPlant = MutableStateFlow(NewPlantDto())
+    val newPlant = _newPlant.asStateFlow()
 
     private val _searchResult = MutableStateFlow("")
     val searchResult = _searchResult.asStateFlow()
 
-    fun updateSearchQuery(value: String) {
-        _searchQuery.update { value }
-        if (searchQuery.value.length >= 3) searchExternalPlantByName()
-    }
+    fun <T> updateNewPlant(field: NewPlantField<T>, value: T) = field.update(_newPlant, value)
 
-    private fun searchExternalPlantByName() {
+    fun searchExternalPlantByName(value: String) {
         viewModelScope.launch {
             _searchResult.update {
-                plantRepository.searchExternalPlantByName(searchQuery.value) ?: ""
+                plantRepository.searchExternalPlantByName(value) ?: ""
             }
         }
     }
