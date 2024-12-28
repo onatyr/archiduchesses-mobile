@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fcc827e35b2d5c9182761e40a7f06caf",
+    "identityHash": "0cdb28b68119edab647fbb927d3b792e",
     "entities": [
       {
         "tableName": "User",
@@ -29,7 +29,7 @@
       },
       {
         "tableName": "Plant",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `watering` TEXT, `sunlight` TEXT, `adoptionDate` TEXT NOT NULL, `roomId` TEXT, `imageUrl` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `wateringRecurrenceDays` INTEGER, `sunlight` TEXT, `adoptionDate` TEXT NOT NULL, `roomId` TEXT, `imageUrl` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -44,9 +44,9 @@
             "notNull": true
           },
           {
-            "fieldPath": "watering",
-            "columnName": "watering",
-            "affinity": "TEXT"
+            "fieldPath": "wateringRecurrenceDays",
+            "columnName": "wateringRecurrenceDays",
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "sunlight",
@@ -80,7 +80,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fcc827e35b2d5c9182761e40a7f06caf')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0cdb28b68119edab647fbb927d3b792e')"
     ]
   }
 }

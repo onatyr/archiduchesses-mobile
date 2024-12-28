@@ -98,10 +98,6 @@ fun PlantCard(plant: Plant) {
                     emoji = stringResource(Res.string.sun_emoji),
                     ordinal = plant.sunlight?.ordinal
                 )
-                EmojiRow(
-                    emoji = stringResource(Res.string.droplet_emoji),
-                    ordinal = plant.watering?.ordinal
-                )
             }
         }
     }

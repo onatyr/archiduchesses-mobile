@@ -7,26 +7,12 @@ import kotlinx.serialization.Serializable
 data class PlantDto(
     val id: String,
     val name: String,
-    val watering: Watering?,
+    val wateringRecurrenceDays: Int?,
     val sunlight: Sunlight?,
     val adoptionDate: String,
     val roomId: String?,
     val imageUrl: String?
 )
-
-enum class Watering {
-    @SerialName("Minimal")
-    MINIMAL,
-
-    @SerialName("Sparing")
-    SPARING,
-
-    @SerialName("Moderate")
-    MODERATE,
-
-    @SerialName("Frequent")
-    FREQUENT,
-}
 
 enum class Sunlight {
     @SerialName("Low Light")

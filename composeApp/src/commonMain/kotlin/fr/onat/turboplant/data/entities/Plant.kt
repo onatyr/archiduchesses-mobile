@@ -4,13 +4,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import fr.onat.turboplant.data.dto.PlantDto
 import fr.onat.turboplant.data.dto.Sunlight
-import fr.onat.turboplant.data.dto.Watering
 
 @Entity
 data class Plant(
     @PrimaryKey val id: String,
     val name: String,
-    val watering: Watering?,
+    val wateringRecurrenceDays: Int?,
     val sunlight: Sunlight?,
     val adoptionDate: String,
     val roomId: String?,
@@ -20,7 +19,7 @@ data class Plant(
 fun PlantDto.toPlant() = Plant(
     id = id,
     name = name,
-    watering = watering,
+    wateringRecurrenceDays = wateringRecurrenceDays,
     sunlight = sunlight,
     adoptionDate = adoptionDate,
     roomId = roomId,

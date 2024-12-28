@@ -13,4 +13,11 @@
     <string name="no_account_register">Don't have an account? Register</string>
     <string name="enter_your_email">Enter your email</string>
     <string name="enter_your_password">Enter your password</string>
+
+    <string name="plant_name">Plant name</string>
+    <string name="species">Species</string>
+    <string name="watering_recurrence">Watering recurrence</string>
+    <string name="luminosity">Luminosity</string>
+    <string name="adoption_date">Adoption date</string>
+
 </resources>
