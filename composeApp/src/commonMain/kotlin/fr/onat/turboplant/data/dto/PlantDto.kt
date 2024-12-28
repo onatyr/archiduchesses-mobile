@@ -14,16 +14,16 @@ data class PlantDto(
     val imageUrl: String?
 )
 
-enum class Sunlight {
+enum class Sunlight(val textValue: String) {
     @SerialName("Low Light")
-    LOW,
+    LOW("Low Light"),
 
     @SerialName("Partial Shade")
-    PARTIAL_SHADE,
+    PARTIAL_SHADE("Partial Shade"),
 
     @SerialName("Bright Indirect Light")
-    BRIGHT_INDIRECT_LIGHT,
+    BRIGHT_INDIRECT_LIGHT("Bright Indirect Light"),
 
     @SerialName("Full Sun")
-    FULL_SUN
+    FULL_SUN("Full Sun")
 }
