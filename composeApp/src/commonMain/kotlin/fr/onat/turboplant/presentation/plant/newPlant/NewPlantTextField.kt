@@ -95,6 +95,7 @@ fun NewPlantTextField(
     fontSize: TextUnit = 16.sp,
     fontWeight: FontWeight? = null,
     fontStyle: FontStyle? = null,
+    enabled: Boolean = true,
     placeHolderText: String
 ) {
     val textStyle = LocalTextStyle.current.copy(
@@ -114,6 +115,7 @@ fun NewPlantTextField(
             backgroundColor = Color.Transparent,
             cursorColor = Color.White
         ),
+        enabled = enabled,
         singleLine = true,
         placeholder = {
             Text(

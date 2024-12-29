@@ -2,35 +2,25 @@ package fr.onat.turboplant.presentation.plant.newPlant
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Create
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.onat.turboplant.data.dto.NewPlantField
 import fr.onat.turboplant.data.dto.Sunlight
-import fr.onat.turboplant.libs.extensions.collectAsEffect
 import fr.onat.turboplant.libs.extensions.toStringOrNull
 import fr.onat.turboplant.presentation.CameraRoute
 import fr.onat.turboplant.presentation.NavRoute
+import fr.onat.turboplant.presentation.composables.SelectField
 import fr.onat.turboplant.presentation.plant.PlantViewModel
 import fr.onat.turboplant.resources.Colors
 import org.jetbrains.compose.resources.stringResource
@@ -69,49 +59,33 @@ fun NewPlantScreen(
             NewPlantTextField(
                 value = newPlant.wateringRecurrenceDays.toStringOrNull() ?: "",
                 onValueChange = {
-                    viewModel.updateNewPlant(
-                        NewPlantField.WateringRecurrenceDays,
-                        it.toInt()
-                    )
+                    it.toIntOrNull() ?: return@NewPlantTextField
+                    viewModel.updateNewPlant(NewPlantField.WateringRecurrenceDays, it)
                 },
                 placeHolderText = stringResource(Res.string.watering_recurrence)
             )
-            NewPlantTextField(
-                value = newPlant.sunlight?.textValue ?: "",
-                onValueChange = {
+            SelectField(
+                selectableOptions = Sunlight.entries.map { it.textValue },
+                onSelectIndexed = { index ->
                     viewModel.updateNewPlant(
                         NewPlantField.Sunlight,
-                        Sunlight.LOW // todo change it with select fields
+                        Sunlight.entries[index].textValue
                     )
-                },
-                placeHolderText = stringResource(Res.string.sunlight)
-            )
+                }
+            ) {
+                NewPlantTextField(
+                    value = newPlant.sunlight?.textValue ?: "",
+                    onValueChange = {},
+                    placeHolderText = stringResource(Res.string.sunlight),
+                    enabled = false
+                )
+            }
             NewPlantTextField(
                 value = newPlant.adoptionDate ?: "",
-                onValueChange = {
-                    viewModel.updateNewPlant(
-                        NewPlantField.AdoptionDate,
-                        it
-                    )
-                },
+                onValueChange = { viewModel.updateNewPlant(NewPlantField.AdoptionDate, it) },
                 placeHolderText = stringResource(Res.string.adoption_date)
             )
         }
 
-    }
-}
-
-@Composable
-fun BoxScope.ImageIdentificationButton(openCamera: () -> Unit) {
-    Button(
-        onClick = openCamera,
-        modifier = Modifier.size(100.dp).align(Alignment.BottomCenter).padding(20.dp),
-        shape = CircleShape,
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = Colors.SalmonPink,
-            contentColor = Color.Black
-        )
-    ) {
-        Icon(Icons.Default.Create, "add new plant", Modifier.scale(2f))
     }
 }

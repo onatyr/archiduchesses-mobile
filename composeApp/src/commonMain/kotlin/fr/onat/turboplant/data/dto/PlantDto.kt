@@ -27,3 +27,5 @@ enum class Sunlight(val textValue: String) {
     @SerialName("Full Sun")
     FULL_SUN("Full Sun")
 }
+
+fun String?.toSunlightEnumOrNull() = Sunlight.entries.firstOrNull { it.textValue == this }
