@@ -1,4 +1,4 @@
-package fr.onat.turboplant.presentation.newPlant
+package fr.onat.turboplant.presentation.plant.newPlant
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,9 +27,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.onat.turboplant.data.dto.NewPlantField
 import fr.onat.turboplant.data.dto.Sunlight
+import fr.onat.turboplant.libs.extensions.collectAsEffect
 import fr.onat.turboplant.libs.extensions.toStringOrNull
+import fr.onat.turboplant.presentation.CameraRoute
 import fr.onat.turboplant.presentation.NavRoute
-import fr.onat.turboplant.presentation.plantList.PlantViewModel
+import fr.onat.turboplant.presentation.plant.PlantViewModel
 import fr.onat.turboplant.resources.Colors
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -61,7 +63,7 @@ fun NewPlantScreen(
                 newPlant = newPlant,
                 updateName = { viewModel.updateNewPlant(NewPlantField.Name, it) },
                 updateSpecies = { viewModel.updateNewPlant(NewPlantField.Species, it) },
-                onIconClick = {}
+                onIconClick = { navigate(CameraRoute) }
             )
             Spacer(Modifier.height(10.dp))
             NewPlantTextField(

@@ -7,7 +7,7 @@ import fr.onat.turboplant.data.repositories.AuthRepository
 import fr.onat.turboplant.data.repositories.PlaceRepository
 import fr.onat.turboplant.data.repositories.PlantRepository
 import fr.onat.turboplant.presentation.login.LoginViewModel
-import fr.onat.turboplant.presentation.plantList.PlantViewModel
+import fr.onat.turboplant.presentation.plant.PlantViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation

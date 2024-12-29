@@ -5,15 +5,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.compose.NavHost
@@ -26,13 +22,13 @@ import fr.onat.turboplant.libs.extensions.getCurrentRoute
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.libs.utils.setMaterialWithProviders
 import fr.onat.turboplant.presentation.composables.AlwaysDeniedDialog
-import fr.onat.turboplant.presentation.composables.CameraView
 import fr.onat.turboplant.presentation.login.LoginScreen
 import fr.onat.turboplant.presentation.navigationBar.NavBarItem
 import fr.onat.turboplant.presentation.navigationBar.NavigationBar
-import fr.onat.turboplant.presentation.newPlant.NewPlantScreen
 import fr.onat.turboplant.presentation.permissions.PermissionsViewModel
-import fr.onat.turboplant.presentation.plantList.PlantListScreen
+import fr.onat.turboplant.presentation.plant.identification.PlantIdentificationScreen
+import fr.onat.turboplant.presentation.plant.newPlant.NewPlantScreen
+import fr.onat.turboplant.presentation.plant.plantList.PlantListScreen
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -84,7 +80,7 @@ fun App() {
                     NewPlantScreen(navigate = { navController.navigate(it) })
                 }
                 composable<CameraRoute> {
-                    CameraView(Modifier.fillMaxSize())
+                    PlantIdentificationScreen(Modifier.fillMaxSize())
                 }
                 composable<TasksRoute> { Text("Tasks not implemented") }
                 composable<RoomsRoute> { Text("Places not implemented") }

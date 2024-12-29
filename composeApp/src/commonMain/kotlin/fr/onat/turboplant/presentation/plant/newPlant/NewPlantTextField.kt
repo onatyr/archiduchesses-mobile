@@ -1,4 +1,4 @@
-package fr.onat.turboplant.presentation.newPlant
+package fr.onat.turboplant.presentation.plant.newPlant
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -79,7 +79,7 @@ fun NewPlantCardHeader(
                         bounded = true,
                         color = Color.White
                     )
-                ) { onIconClick }
+                ) { onIconClick() }
                 .align(Alignment.CenterVertically)
                 .padding(20.dp)
                 .size(100.dp)

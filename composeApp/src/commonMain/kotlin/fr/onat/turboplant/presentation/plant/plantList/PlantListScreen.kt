@@ -1,4 +1,4 @@
-package fr.onat.turboplant.presentation.plantList
+package fr.onat.turboplant.presentation.plant.plantList
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -34,11 +34,11 @@ import coil3.compose.AsyncImage
 import fr.onat.turboplant.data.entities.Plant
 import fr.onat.turboplant.presentation.AddNewPlantRoute
 import fr.onat.turboplant.presentation.NavRoute
+import fr.onat.turboplant.presentation.plant.PlantViewModel
 import fr.onat.turboplant.resources.Colors
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import turboplant.composeapp.generated.resources.Res
-import turboplant.composeapp.generated.resources.droplet_emoji
 import turboplant.composeapp.generated.resources.sun_emoji
 
 @Composable

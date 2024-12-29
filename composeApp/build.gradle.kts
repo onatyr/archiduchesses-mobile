@@ -42,10 +42,10 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
 
-            implementation(libs.androidx.camera.camera2)
-            implementation(libs.androidx.camera.core)
-            implementation(libs.androidx.camera.lifecycle)
-            implementation(libs.androidx.camera.view)
+//            implementation(libs.androidx.camera.camera2)
+//            implementation(libs.androidx.camera.core)
+//            implementation(libs.androidx.camera.lifecycle)
+//            implementation(libs.androidx.camera.view)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -76,8 +76,8 @@ kotlin {
             api(libs.moko.permissions)
             api(libs.moko.permissions.compose)
 
-//            implementation(libs.peekaboo.ui) // https://github.com/onseok/peekaboo conflict with actual camera implementation
-//            implementation(libs.peekaboo.image.picker)
+            implementation(libs.peekaboo.ui) // https://github.com/onseok/peekaboo conflict with actual camera implementation
+            implementation(libs.peekaboo.image.picker)
 
         }
         iosMain.dependencies {
