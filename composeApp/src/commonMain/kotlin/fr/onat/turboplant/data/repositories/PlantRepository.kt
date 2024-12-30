@@ -2,14 +2,20 @@ package fr.onat.turboplant.data.repositories
 
 import fr.onat.turboplant.data.api.ArchiApi
 import fr.onat.turboplant.data.dao.PlantDao
+import fr.onat.turboplant.data.dao.TaskDao
 import fr.onat.turboplant.data.dto.NewPlantDto
 import fr.onat.turboplant.data.dto.PlantDto
+import fr.onat.turboplant.data.entities.Plant
+import fr.onat.turboplant.data.entities.Task
 import fr.onat.turboplant.data.entities.toPlant
+import fr.onat.turboplant.data.entities.toTask
+import fr.onat.turboplant.logger.logger
 import fr.onat.turboplant.models.PlantIdentificationDto
 import fr.onat.turboplant.models.PlantbookEntityDto
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.CoroutineScope
@@ -17,16 +23,30 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 
-class PlantRepository(private val archiApi: ArchiApi, private val plantDao: PlantDao) {
+class PlantRepository(
+    private val archiApi: ArchiApi,
+    private val plantDao: PlantDao,
+    private val taskDao: TaskDao
+) {
     init {
         CoroutineScope(Dispatchers.IO).launch {
-            val plants = fetchPlants()
-            plantDao.upsertAll(plants.map { it.toPlant() })
+            val plants = mutableListOf<Plant>()
+            val tasks = mutableListOf<Task>()
+            logger(archiApi.get("/plants/all")?.bodyAsText())
+            fetchPlants().forEach { plantDto ->
+                plants.add(plantDto.toPlant())
+                tasks.addAll(plantDto.tasks.map { it.toTask() })
+            }
+
+            plantDao.upsertAll(plants)
+            taskDao.upsertAll(tasks)
         }
     }
 
     private suspend fun fetchPlants() =
         archiApi.get("/plants/all")?.body<List<PlantDto>>() ?: emptyList()
+
+
 
     suspend fun identify(image: ByteArray?, onError: () -> Unit) = image?.let {
         archiApi.post(

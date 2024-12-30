@@ -26,9 +26,10 @@ import fr.onat.turboplant.presentation.login.LoginScreen
 import fr.onat.turboplant.presentation.navigationBar.NavBarItem
 import fr.onat.turboplant.presentation.navigationBar.NavigationBar
 import fr.onat.turboplant.presentation.permissions.PermissionsViewModel
-import fr.onat.turboplant.presentation.plant.identification.PlantIdentificationScreen
-import fr.onat.turboplant.presentation.plant.newPlant.NewPlantScreen
-import fr.onat.turboplant.presentation.plant.plantList.PlantListScreen
+import fr.onat.turboplant.presentation.plants.identification.PlantIdentificationScreen
+import fr.onat.turboplant.presentation.plants.newPlant.NewPlantScreen
+import fr.onat.turboplant.presentation.plants.plantList.PlantListScreen
+import fr.onat.turboplant.presentation.tasks.TasksScreen
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -82,7 +83,7 @@ fun App() {
                 composable<CameraRoute> {
                     PlantIdentificationScreen(Modifier.fillMaxSize())
                 }
-                composable<TasksRoute> { Text("Tasks not implemented") }
+                composable<TasksRoute> { TasksScreen() }
                 composable<RoomsRoute> { Text("Places not implemented") }
 
             }

@@ -6,8 +6,10 @@ import fr.onat.turboplant.data.database.getRoomDatabase
 import fr.onat.turboplant.data.repositories.AuthRepository
 import fr.onat.turboplant.data.repositories.PlaceRepository
 import fr.onat.turboplant.data.repositories.PlantRepository
+import fr.onat.turboplant.data.repositories.TaskRepository
 import fr.onat.turboplant.presentation.login.LoginViewModel
-import fr.onat.turboplant.presentation.plant.PlantViewModel
+import fr.onat.turboplant.presentation.plants.PlantsViewModel
+import fr.onat.turboplant.presentation.tasks.TasksViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -62,11 +64,13 @@ val provideRepositoryModule = module {
     singleOf(::AuthRepository)
     singleOf(::PlantRepository)
     singleOf(::PlaceRepository)
+    singleOf(::TaskRepository)
 }
 
 val provideDaoModule = module {
     single { get<AppDatabase>().getUserDao() }
     single { get<AppDatabase>().getPlantDao() }
+    single { get<AppDatabase>().getTaskDao() }
 }
 
 val provideApiModule = module {
@@ -75,7 +79,8 @@ val provideApiModule = module {
 
 val provideViewModelModule = module {
     viewModelOf(::LoginViewModel)
-    viewModelOf(::PlantViewModel)
+    viewModelOf(::PlantsViewModel)
+    viewModelOf(::TasksViewModel)
 }
 
 expect val providePlatformModule: Module

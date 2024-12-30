@@ -1,4 +1,4 @@
-package fr.onat.turboplant.presentation.plant.newPlant
+package fr.onat.turboplant.presentation.plants.newPlant
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -28,8 +28,10 @@ import fr.onat.turboplant.libs.extensions.toStringOrNull
 import fr.onat.turboplant.presentation.CameraRoute
 import fr.onat.turboplant.presentation.NavRoute
 import fr.onat.turboplant.presentation.composables.SelectField
-import fr.onat.turboplant.presentation.plant.PlantViewModel
+import fr.onat.turboplant.presentation.plants.PlantsViewModel
 import fr.onat.turboplant.resources.Colors
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import turboplant.composeapp.generated.resources.Res
@@ -39,7 +41,7 @@ import turboplant.composeapp.generated.resources.watering_recurrence
 
 @Composable
 fun NewPlantScreen(
-    viewModel: PlantViewModel = koinViewModel(),
+    viewModel: PlantsViewModel = koinViewModel(),
     navigate: (NavRoute) -> Unit
 ) {
     val newPlant by viewModel.newPlant.collectAsStateWithLifecycle()
@@ -91,7 +93,7 @@ fun NewPlantScreen(
                 )
             }
             NewPlantTextField(
-                value = newPlant.adoptionDate ?: "2024-12-14T03:57:09.849Z", // todo get date time + use datepicker
+                value = newPlant.adoptionDate.toString(), // todo use date picker
                 onValueChange = { viewModel.updateNewPlant(NewPlantField.AdoptionDate, it) },
                 placeHolderText = stringResource(Res.string.adoption_date)
             )

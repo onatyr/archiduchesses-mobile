@@ -1,4 +1,4 @@
-package fr.onat.turboplant.presentation.plant.newPlant
+package fr.onat.turboplant.presentation.plants.newPlant
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

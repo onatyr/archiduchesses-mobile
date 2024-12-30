@@ -1,5 +1,6 @@
 package fr.onat.turboplant.data.dto
 
+import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -9,9 +10,10 @@ data class PlantDto(
     val name: String,
     val wateringRecurrenceDays: Int?,
     val sunlight: Sunlight?,
-    val adoptionDate: String,
+    val adoptionDate: Instant,
     val roomId: String?,
-    val imageUrl: String?
+    val imageUrl: String?,
+    val tasks: List<TaskDto>
 )
 
 enum class Sunlight(val textValue: String) {

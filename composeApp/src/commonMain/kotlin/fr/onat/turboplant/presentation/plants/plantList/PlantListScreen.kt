@@ -1,4 +1,4 @@
-package fr.onat.turboplant.presentation.plant.plantList
+package fr.onat.turboplant.presentation.plants.plantList
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -34,7 +34,7 @@ import coil3.compose.AsyncImage
 import fr.onat.turboplant.data.entities.Plant
 import fr.onat.turboplant.presentation.AddNewPlantRoute
 import fr.onat.turboplant.presentation.NavRoute
-import fr.onat.turboplant.presentation.plant.PlantViewModel
+import fr.onat.turboplant.presentation.plants.PlantsViewModel
 import fr.onat.turboplant.resources.Colors
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -43,7 +43,7 @@ import turboplant.composeapp.generated.resources.sun_emoji
 
 @Composable
 fun PlantListScreen(
-    viewModel: PlantViewModel = koinViewModel(),
+    viewModel: PlantsViewModel = koinViewModel(),
     navigate: (NavRoute) -> Unit,
 ) {
     val plants by viewModel.plants.collectAsStateWithLifecycle(emptyList())

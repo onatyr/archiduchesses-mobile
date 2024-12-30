@@ -1,10 +1,11 @@
-package fr.onat.turboplant.presentation.plant
+package fr.onat.turboplant.presentation.plants
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fr.onat.turboplant.data.dto.NewPlantDto
 import fr.onat.turboplant.data.dto.NewPlantField
 import fr.onat.turboplant.data.repositories.PlantRepository
+import fr.onat.turboplant.data.repositories.TaskRepository
 import fr.onat.turboplant.logger.logger
 import fr.onat.turboplant.models.PlantIdentificationDto
 import fr.onat.turboplant.models.PlantbookDetailsDto
@@ -15,8 +16,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PlantViewModel(
-    private val plantRepository: PlantRepository
+class PlantsViewModel(
+    private val plantRepository: PlantRepository,
+    private val taskRepository: TaskRepository // todo use
 ) : ViewModel() {
 
     val plants = plantRepository.getPlants()

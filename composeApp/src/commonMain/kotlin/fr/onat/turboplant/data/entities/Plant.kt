@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import fr.onat.turboplant.data.dto.PlantDto
 import fr.onat.turboplant.data.dto.Sunlight
+import kotlinx.datetime.Instant
 
 @Entity
 data class Plant(
@@ -11,7 +12,7 @@ data class Plant(
     val name: String,
     val wateringRecurrenceDays: Int?,
     val sunlight: Sunlight?,
-    val adoptionDate: String,
+    val adoptionDate: Instant,
     val roomId: String?,
     val imageUrl: String?
 )

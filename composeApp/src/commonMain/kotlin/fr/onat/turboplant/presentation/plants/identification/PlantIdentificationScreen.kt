@@ -1,4 +1,4 @@
-package fr.onat.turboplant.presentation.plant.identification
+package fr.onat.turboplant.presentation.plants.identification
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -33,12 +33,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.preat.peekaboo.ui.camera.PeekabooCamera
 import com.preat.peekaboo.ui.camera.rememberPeekabooCameraState
 import fr.onat.turboplant.libs.utils.toImageBitmap
-import fr.onat.turboplant.presentation.plant.PlantViewModel
+import fr.onat.turboplant.presentation.plants.PlantsViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun PlantIdentificationScreen(
-    modifier: Modifier = Modifier, viewModel: PlantViewModel = koinViewModel(),
+    modifier: Modifier = Modifier, viewModel: PlantsViewModel = koinViewModel(),
 ) {
     var capturedImage by remember { mutableStateOf<ByteArray?>(null) }
     var isCapturing by remember { mutableStateOf(false) }

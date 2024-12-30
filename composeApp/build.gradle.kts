@@ -41,11 +41,6 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
-
-//            implementation(libs.androidx.camera.camera2)
-//            implementation(libs.androidx.camera.core)
-//            implementation(libs.androidx.camera.lifecycle)
-//            implementation(libs.androidx.camera.view)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -72,11 +67,12 @@ kotlin {
             implementation(libs.sqlite.bundled)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
+            implementation(libs.kotlinx.datetime)
 
             api(libs.moko.permissions)
             api(libs.moko.permissions.compose)
 
-            implementation(libs.peekaboo.ui) // https://github.com/onseok/peekaboo conflict with actual camera implementation
+            implementation(libs.peekaboo.ui) // https://github.com/onseok/peekaboo
             implementation(libs.peekaboo.image.picker)
 
         }
