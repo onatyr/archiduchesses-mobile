@@ -1,6 +1,5 @@
 package fr.onat.turboplant.data.dto
 
-import fr.onat.turboplant.libs.extensions.toStringOrNull
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.Clock
@@ -14,7 +13,7 @@ data class NewPlantDto(
     val species: String? = null,
     val sunlight: SunlightEnum? = null,
     val wateringRecurrenceDays: Int? = null,
-    val adoptionDate: Instant = Clock.System.now(),
+    val adoptionDate: Instant = Instant.parse("2025-01-03T16:50:19.730740Z"),
     val roomId: String? = null,
     val imageUrl: String? = null
 )
