@@ -33,7 +33,7 @@ fun SelectField(
             selectableOptions.forEachIndexed { index, option ->
                 DropdownMenuItem(
                     content = { Text(text = option, color = Color.Black) },
-                    onClick = { onSelectIndexed(index) }
+                    onClick = { onSelectIndexed(index); isExpended = !isExpended }
                 )
             }
         }

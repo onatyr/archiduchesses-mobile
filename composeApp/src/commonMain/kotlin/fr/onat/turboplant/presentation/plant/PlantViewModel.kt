@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import fr.onat.turboplant.data.dto.NewPlantDto
 import fr.onat.turboplant.data.dto.NewPlantField
 import fr.onat.turboplant.data.repositories.PlantRepository
+import fr.onat.turboplant.logger.logger
 import fr.onat.turboplant.models.PlantIdentificationDto
 import fr.onat.turboplant.models.PlantbookDetailsDto
 import kotlinx.coroutines.Dispatchers
@@ -42,5 +43,11 @@ class PlantViewModel(
                 onError = onError
             )
         }
+    }
+
+    fun addNewPlant() = viewModelScope.launch(Dispatchers.IO) {
+        val response = plantRepository.addNewPlant(newPlant.value)
+        logger(response?.status)
+        _newPlant.update { NewPlantDto() }
     }
 }

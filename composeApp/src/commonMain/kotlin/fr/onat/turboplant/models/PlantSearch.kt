@@ -3,6 +3,12 @@ package fr.onat.turboplant.models
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class PlantbookEntityDto(
+    val pid: String,
+    val displayPid: String
+)
+
+@Serializable
 data class PlantbookDetailsDto(
     val pid: String,
     val displayPid: String,

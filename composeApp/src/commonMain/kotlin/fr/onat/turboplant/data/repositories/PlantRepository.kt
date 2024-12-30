@@ -2,10 +2,11 @@ package fr.onat.turboplant.data.repositories
 
 import fr.onat.turboplant.data.api.ArchiApi
 import fr.onat.turboplant.data.dao.PlantDao
+import fr.onat.turboplant.data.dto.NewPlantDto
 import fr.onat.turboplant.data.dto.PlantDto
 import fr.onat.turboplant.data.entities.toPlant
 import fr.onat.turboplant.models.PlantIdentificationDto
-import fr.onat.turboplant.models.PlantbookDetailsDto
+import fr.onat.turboplant.models.PlantbookEntityDto
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
@@ -44,9 +45,9 @@ class PlantRepository(private val archiApi: ArchiApi, private val plantDao: Plan
     }
 
     suspend fun searchExternalPlantByName(name: String) =
-        archiApi.get("/plants/searchExternalPlantByName/$name")?.body<List<PlantbookDetailsDto>>()
+        archiApi.get("/plants/searchExternalPlantByName/$name")?.body<List<PlantbookEntityDto>>()
 
-//    suspend fun addNewPlant(plant: Plant) = archiApi.post("/plants/add") // TODO
+    suspend fun addNewPlant(newPlant: NewPlantDto) = archiApi.post("/plants/add", body = newPlant)
 
     fun getPlants() = plantDao.getAll()
 }

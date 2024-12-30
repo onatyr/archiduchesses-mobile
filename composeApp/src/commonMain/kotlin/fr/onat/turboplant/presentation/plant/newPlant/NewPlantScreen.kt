@@ -8,11 +8,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.onat.turboplant.data.dto.NewPlantField
@@ -36,7 +43,9 @@ fun NewPlantScreen(
     navigate: (NavRoute) -> Unit
 ) {
     val newPlant by viewModel.newPlant.collectAsStateWithLifecycle()
-    val searchResult by viewModel.searchResult.collectAsStateWithLifecycle()
+    val searchResult by viewModel.searchResult.collectAsStateWithLifecycle() // todo implement
+
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(newPlant.species) {
         newPlant.species?.let {
@@ -62,6 +71,7 @@ fun NewPlantScreen(
                     it.toIntOrNull() ?: return@NewPlantTextField
                     viewModel.updateNewPlant(NewPlantField.WateringRecurrenceDays, it)
                 },
+                keyboardType = KeyboardType.Decimal,
                 placeHolderText = stringResource(Res.string.watering_recurrence)
             )
             SelectField(
@@ -81,11 +91,16 @@ fun NewPlantScreen(
                 )
             }
             NewPlantTextField(
-                value = newPlant.adoptionDate ?: "",
+                value = newPlant.adoptionDate ?: "2024-12-14T03:57:09.849Z", // todo get date time + use datepicker
                 onValueChange = { viewModel.updateNewPlant(NewPlantField.AdoptionDate, it) },
                 placeHolderText = stringResource(Res.string.adoption_date)
             )
         }
-
+        Button(
+            onClick = { viewModel.addNewPlant(); focusManager.clearFocus() },
+            modifier = Modifier.align(Alignment.BottomEnd)
+        ) {
+            Icon(Icons.AutoMirrored.Filled.Send, "")
+        }
     }
 }

@@ -3,8 +3,10 @@ package fr.onat.turboplant.data.dto
 import fr.onat.turboplant.libs.extensions.toStringOrNull
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.serialization.Serializable
 import fr.onat.turboplant.data.dto.Sunlight as SunlightEnum
 
+@Serializable
 data class NewPlantDto(
     val name: String? = null,
     val species: String? = null,
@@ -17,11 +19,11 @@ data class NewPlantDto(
 
 sealed class NewPlantField<T>(
     val value: NewPlantDto.() -> String,
-    val update: MutableStateFlow<NewPlantDto>.(String) -> Unit
+    val update: MutableStateFlow<NewPlantDto>.(String) -> Unit,
 ) {
     data object Name : NewPlantField<String?>(
         value = { name ?: "" },
-        update = { value -> update { it.copy(name = value) } }
+        update = { value -> update { it.copy(name = value) } },
     )
 
     data object Species : NewPlantField<String?>(

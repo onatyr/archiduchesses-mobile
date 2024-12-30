@@ -67,6 +67,7 @@ class ArchiApi(
                 url(url)
                 contentType(ContentType.Application.Json)
                 setBody(body)
+                token?.let { headers.append("Authorization", "Bearer $token") }
             }
         } catch (e: Exception) {
             onError()
