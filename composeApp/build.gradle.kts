@@ -63,8 +63,10 @@ kotlin {
             implementation(libs.koin.composeVM)
             implementation(libs.navigation.compose)
             implementation(libs.material3.window.size)
+
             implementation(libs.room.runtime)
-            implementation(libs.sqlite.bundled)
+            implementation(libs.androidx.sqlite.framework)
+
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
             implementation(libs.kotlinx.datetime)

@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import androidx.room.TypeConverters
-import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import androidx.sqlite.SQLiteDriver
 import fr.onat.turboplant.data.dao.PlantDao
 import fr.onat.turboplant.data.dao.TaskDao
 import fr.onat.turboplant.data.dao.UserDao
@@ -37,13 +37,14 @@ expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase> {
     override fun initialize(): AppDatabase
 }
 
+expect fun getSQLiteDriver(): SQLiteDriver
 
 fun getRoomDatabase(
     builder: RoomDatabase.Builder<AppDatabase>
 ): AppDatabase {
     return builder
         .fallbackToDestructiveMigrationOnDowngrade(true)
-        .setDriver(BundledSQLiteDriver())
+        .setDriver(getSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
         .build()
 }

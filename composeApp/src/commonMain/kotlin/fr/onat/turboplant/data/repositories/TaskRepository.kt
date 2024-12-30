@@ -8,7 +8,7 @@ class TaskRepository(
     private val archiApi: ArchiApi,
     private val taskDao: TaskDao
 ) {
-    fun getAll() = taskDao.getAll().map { list -> list.sortedBy { it.task.dueDate } }
+    fun getAllToDO() = taskDao.getAllToDo().map { list -> list.sortedBy { it.task.dueDate } }
 
     suspend fun updateDone(id: String, done: Boolean) = taskDao.updateDone(id, done)
 }

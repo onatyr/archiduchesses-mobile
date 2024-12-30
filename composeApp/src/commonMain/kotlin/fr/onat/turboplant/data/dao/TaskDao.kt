@@ -15,13 +15,16 @@ interface TaskDao {
     @Upsert
     suspend fun upsert(task: Task)
 
-    @Query("SELECT * FROM Task")
-    fun getAll(): Flow<List<TaskWithPlant>>
+    @Query("""
+        SELECT * FROM Task
+            WHERE done = 0
+            """)
+    fun getAllToDo(): Flow<List<TaskWithPlant>>
 
     @Query("""
         UPDATE Task
             SET done = :done
             WHERE id = :id
-    """)
+            """)
     suspend fun updateDone(id: String, done: Boolean)
 }

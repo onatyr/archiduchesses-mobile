@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 class TasksViewModel(
     private val taskRepository: TaskRepository
 ) : ViewModel() {
-    val tasks = taskRepository.getAll()
+    val tasks = taskRepository.getAllToDO()
 
     fun updateDone(id: String, done: Boolean) =
         viewModelScope.launch(Dispatchers.IO) { taskRepository.updateDone(id, done) }

@@ -56,23 +56,17 @@ fun TaskCard(taskWithPlant: TaskWithPlant, updateDone: (String, Boolean) -> Unit
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
-                .background(if (task.done) Color.Green else Colors.PlantCardGreen)
+                .background(Colors.PlantCardGreen)
                 .padding(horizontal = 10.dp)
                 .offset { IntOffset(animatedOffset.roundToInt(), 0) }
                 .pointerInput(Unit) {
                     detectHorizontalDragGestures(
                         onHorizontalDrag = { _, dragAmount -> targetOffset += if (dragAmount > 0f) dragAmount else 0f },
                         onDragEnd = {
-                            logger(
-                                "targetOffset",
-                                targetOffset.convertPxToDp(density),
-                                "screenWidth",
-                                screenWidth
-                            )
                             targetOffset =
-                                if (targetOffset.convertPxToDp(density) > (screenWidth - screenWidth / 2.5).dp) screenWidth.dp.toPx(
-                                    density
-                                ) else 0f
+                                if (targetOffset.convertPxToDp(density) > (screenWidth - screenWidth / 2.5).dp)
+                                    screenWidth.dp.toPx(density)
+                                else 0f
                         }
                     )
                 },
