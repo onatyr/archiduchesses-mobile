@@ -13,7 +13,7 @@ fun TasksScreen(viewModel: TasksViewModel = koinViewModel()) {
     Column {
         tasks.forEach {
             Text(it.id)
-            Text(it.dueDate)
+            Text(it.dueDate.toString())
         }
     }
 }

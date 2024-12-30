@@ -5,6 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import fr.onat.turboplant.data.dto.TaskDto
 import fr.onat.turboplant.data.dto.TaskType
+import kotlinx.datetime.Instant
 
 @Entity(
     foreignKeys = [
@@ -19,7 +20,7 @@ data class Task(
     @PrimaryKey val id: String,
     val plantId: String,
     val type: TaskType,
-    val dueDate: String, // todo Timestamp
+    val dueDate: Instant,
     val done: Boolean
 )
 

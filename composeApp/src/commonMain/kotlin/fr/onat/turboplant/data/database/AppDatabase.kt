@@ -4,10 +4,12 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
+import androidx.room.TypeConverters
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import fr.onat.turboplant.data.dao.PlantDao
 import fr.onat.turboplant.data.dao.TaskDao
 import fr.onat.turboplant.data.dao.UserDao
+import fr.onat.turboplant.data.database.typeConverters.InstantTypeConverter
 import fr.onat.turboplant.data.entities.Plant
 import fr.onat.turboplant.data.entities.Task
 import fr.onat.turboplant.data.entities.User
@@ -22,6 +24,7 @@ import kotlinx.coroutines.IO
     ],
     version = 1
 )
+@TypeConverters(InstantTypeConverter::class)
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getUserDao(): UserDao
