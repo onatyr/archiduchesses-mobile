@@ -2,6 +2,6 @@ package fr.onat.turboplant.logger
 
 import platform.Foundation.NSLog
 
-actual fun logger(content: Any?) {
-    NSLog(content.toString())
+actual fun logger(vararg content: Any?) {
+    NSLog(content.joinToString { it.toString() })
 }

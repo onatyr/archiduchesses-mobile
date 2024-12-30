@@ -9,6 +9,7 @@ import fr.onat.turboplant.data.repositories.TaskRepository
 import fr.onat.turboplant.logger.logger
 import fr.onat.turboplant.models.PlantIdentificationDto
 import fr.onat.turboplant.models.PlantbookDetailsDto
+import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,7 +50,6 @@ class PlantsViewModel(
 
     fun addNewPlant() = viewModelScope.launch(Dispatchers.IO) {
         val response = plantRepository.addNewPlant(newPlant.value)
-        logger(response?.status)
-        _newPlant.update { NewPlantDto() }
+        if (response?.status == HttpStatusCode.OK) _newPlant.update { NewPlantDto() }
     }
 }

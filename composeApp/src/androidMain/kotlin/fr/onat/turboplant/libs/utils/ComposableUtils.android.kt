@@ -4,6 +4,7 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import fr.onat.turboplant.libs.extensions.getActivity
 
@@ -11,3 +12,9 @@ import fr.onat.turboplant.libs.extensions.getActivity
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 actual fun calculateWindowSizeClass(): WindowSizeClass =
     calculateWindowSizeClass(LocalContext.current.getActivity())
+
+@Composable
+actual fun getScreenSize(): ScreenSize = ScreenSize(
+    widthDp = LocalConfiguration.current.screenWidthDp,
+    heightDp = LocalConfiguration.current.screenHeightDp
+)

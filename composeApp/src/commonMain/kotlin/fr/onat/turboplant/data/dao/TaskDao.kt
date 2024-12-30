@@ -17,4 +17,11 @@ interface TaskDao {
 
     @Query("SELECT * FROM Task")
     fun getAll(): Flow<List<TaskWithPlant>>
+
+    @Query("""
+        UPDATE Task
+            SET done = :done
+            WHERE id = :id
+    """)
+    suspend fun updateDone(id: String, done: Boolean)
 }
