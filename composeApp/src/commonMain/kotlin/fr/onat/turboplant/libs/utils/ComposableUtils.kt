@@ -8,13 +8,11 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.Dp
 import fr.onat.turboplant.presentation.NavRoute
 
 data class ScreenSize(val widthDp: Int, val heightDp: Int)
@@ -53,4 +51,7 @@ fun isCompactLayout() = LocalWindowWidthSizeClass.current <= WindowWidthSizeClas
 
 @Composable
 fun isExpendedLayout() = LocalWindowWidthSizeClass.current > WindowWidthSizeClass.Medium
+
+@Composable
+fun onDispose(block: () -> Unit) = DisposableEffect(Unit) { onDispose { block() } }
 

@@ -17,7 +17,7 @@ interface TaskDao {
 
     @Query("""
         SELECT * FROM Task
-            WHERE done = 0
+            WHERE done = false
             """)
     fun getAllToDo(): Flow<List<TaskWithPlant>>
 
