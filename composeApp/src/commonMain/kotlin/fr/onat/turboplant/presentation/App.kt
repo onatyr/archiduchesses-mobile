@@ -31,6 +31,7 @@ import fr.onat.turboplant.presentation.permissions.PermissionsViewModel
 import fr.onat.turboplant.presentation.plants.identification.PlantIdentificationScreen
 import fr.onat.turboplant.presentation.plants.newPlant.NewPlantScreen
 import fr.onat.turboplant.presentation.plants.plantList.PlantListScreen
+import fr.onat.turboplant.presentation.rooms.RoomsScreen
 import fr.onat.turboplant.presentation.tasks.TasksScreen
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -88,7 +89,7 @@ fun App() {
                     PlantIdentificationScreen(Modifier.fillMaxSize())
                 }
                 composable<TasksRoute> { TasksScreen() }
-                composable<RoomsRoute> { Text("Places not implemented") }
+                composable<RoomsRoute> { RoomsScreen() }
 
             }
 

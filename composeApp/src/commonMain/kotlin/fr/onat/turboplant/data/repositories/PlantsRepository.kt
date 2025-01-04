@@ -1,5 +1,6 @@
 package fr.onat.turboplant.data.repositories
 
+import androidx.compose.ui.util.fastFlatMap
 import fr.onat.turboplant.data.api.ArchiApi
 import fr.onat.turboplant.data.dao.PlantDao
 import fr.onat.turboplant.data.dao.TaskDao
@@ -23,29 +24,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 
-class PlantRepository(
+class PlantsRepository(
     private val archiApi: ArchiApi,
     private val plantDao: PlantDao,
     private val taskDao: TaskDao
 ) {
     init {
         CoroutineScope(Dispatchers.IO).launch {
-            val plants = mutableListOf<Plant>()
-            val tasks = mutableListOf<Task>()
-            logger(archiApi.get("/plants/all")?.bodyAsText())
             fetchPlants().forEach { plantDto ->
-                plants.add(plantDto.toPlant())
-                tasks.addAll(plantDto.tasks.map { it.toTask() })
+                taskDao.upsertAll(plantDto.tasks.map { it.toTask() })
             }
-
-            plantDao.upsertAll(plants)
-            taskDao.upsertAll(tasks)
         }
     }
 
     private suspend fun fetchPlants() =
-        archiApi.get("/plants/all")?.body<List<PlantDto>>() ?: emptyList()
-
+        (archiApi.get("/plants/all")?.body<List<PlantDto>>() ?: emptyList()).apply {
+            plantDao.upsertAll(map { dto -> dto.toPlant() })
+        }
 
 
     suspend fun identify(image: ByteArray?, onError: () -> Unit) = image?.let {

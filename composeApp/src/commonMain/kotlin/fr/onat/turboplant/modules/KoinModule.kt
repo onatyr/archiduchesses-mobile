@@ -4,11 +4,12 @@ import fr.onat.turboplant.data.api.ArchiApi
 import fr.onat.turboplant.data.database.AppDatabase
 import fr.onat.turboplant.data.database.getRoomDatabase
 import fr.onat.turboplant.data.repositories.AuthRepository
-import fr.onat.turboplant.data.repositories.PlaceRepository
-import fr.onat.turboplant.data.repositories.PlantRepository
-import fr.onat.turboplant.data.repositories.TaskRepository
+import fr.onat.turboplant.data.repositories.PlantsRepository
+import fr.onat.turboplant.data.repositories.RoomsRepository
+import fr.onat.turboplant.data.repositories.TasksRepository
 import fr.onat.turboplant.presentation.login.LoginViewModel
 import fr.onat.turboplant.presentation.plants.PlantsViewModel
+import fr.onat.turboplant.presentation.rooms.RoomsViewModel
 import fr.onat.turboplant.presentation.tasks.TasksViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
@@ -62,15 +63,17 @@ val provideHttpClient = module {
 
 val provideRepositoryModule = module {
     singleOf(::AuthRepository)
-    singleOf(::PlantRepository)
-    singleOf(::PlaceRepository)
-    singleOf(::TaskRepository)
+    singleOf(::PlantsRepository)
+    singleOf(::RoomsRepository)
+    singleOf(::TasksRepository)
 }
 
 val provideDaoModule = module {
     single { get<AppDatabase>().getUserDao() }
     single { get<AppDatabase>().getPlantDao() }
     single { get<AppDatabase>().getTaskDao() }
+    single { get<AppDatabase>().getPlaceDao() }
+    single { get<AppDatabase>().getRoomDao() }
 }
 
 val provideApiModule = module {
@@ -81,6 +84,7 @@ val provideViewModelModule = module {
     viewModelOf(::LoginViewModel)
     viewModelOf(::PlantsViewModel)
     viewModelOf(::TasksViewModel)
+    viewModelOf(::RoomsViewModel)
 }
 
 expect val providePlatformModule: Module

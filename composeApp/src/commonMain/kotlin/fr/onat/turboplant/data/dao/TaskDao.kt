@@ -19,7 +19,7 @@ interface TaskDao {
         SELECT * FROM Task
             WHERE done = false
             """)
-    fun getAllToDo(): Flow<List<TaskWithPlant>>
+    fun getAllNotDone(): Flow<List<TaskWithPlant>>
 
     @Query("""
         UPDATE Task

@@ -34,7 +34,6 @@ kotlin {
     }
 
     sourceSets {
-
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -76,6 +75,8 @@ kotlin {
 
             implementation(libs.peekaboo.ui) // https://github.com/onseok/peekaboo
             implementation(libs.peekaboo.image.picker)
+
+            implementation(libs.symbol.processing.ksp)
 
         }
         iosMain.dependencies {

@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fr.onat.turboplant.data.dto.NewPlantDto
 import fr.onat.turboplant.data.dto.NewPlantField
-import fr.onat.turboplant.data.repositories.PlantRepository
-import fr.onat.turboplant.data.repositories.TaskRepository
-import fr.onat.turboplant.logger.logger
+import fr.onat.turboplant.data.repositories.PlantsRepository
+import fr.onat.turboplant.data.repositories.TasksRepository
 import fr.onat.turboplant.models.PlantIdentificationDto
 import fr.onat.turboplant.models.PlantbookDetailsDto
 import io.ktor.http.HttpStatusCode
@@ -18,11 +17,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class PlantsViewModel(
-    private val plantRepository: PlantRepository,
-    private val taskRepository: TaskRepository // todo use
+    private val plantsRepository: PlantsRepository,
+    private val tasksRepository: TasksRepository // todo use
 ) : ViewModel() {
 
-    val plants = plantRepository.getPlants()
+    val plants = plantsRepository.getPlants()
 
     private val _newPlant = MutableStateFlow(NewPlantDto())
     val newPlant = _newPlant.asStateFlow()
@@ -36,12 +35,12 @@ class PlantsViewModel(
     fun <T> updateNewPlant(field: NewPlantField<T>, value: String) = field.update(_newPlant, value)
 
     fun searchExternalPlantByName(value: String) = viewModelScope.launch(Dispatchers.IO) {
-        plantRepository.searchExternalPlantByName(value)?.let { _searchResult.update { it } }
+        plantsRepository.searchExternalPlantByName(value)?.let { _searchResult.update { it } }
     }
 
     fun identify(image: ByteArray?, onError: () -> Unit) = viewModelScope.launch(Dispatchers.IO) {
         _identificationResult.update {
-            plantRepository.identify(
+            plantsRepository.identify(
                 image = image,
                 onError = onError
             )
@@ -49,7 +48,7 @@ class PlantsViewModel(
     }
 
     fun addNewPlant() = viewModelScope.launch(Dispatchers.IO) {
-        val response = plantRepository.addNewPlant(newPlant.value)
+        val response = plantsRepository.addNewPlant(newPlant.value)
         if (response?.status == HttpStatusCode.OK) _newPlant.update { NewPlantDto() }
     }
 }

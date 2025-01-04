@@ -3,11 +3,14 @@ package fr.onat.turboplant.data.api
 import fr.onat.turboplant.data.database.AppDatabase
 import fr.onat.turboplant.logger.logger
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.Parameters
 import io.ktor.http.contentType
@@ -58,7 +61,7 @@ class ArchiApi(
 
     suspend fun post(
         routeUrl: String,
-        body: Any,
+        body: Any? = null,
         onError: () -> Unit = {}
     ): HttpResponse? {
         try {
@@ -66,8 +69,28 @@ class ArchiApi(
             return client.post {
                 url(url)
                 contentType(ContentType.Application.Json)
-                setBody(body)
-                token?.let { headers.append("Authorization", "Bearer $token") }
+                body?.let { setBody(it) }
+                token?.let { headers.append("Authorization", "Bearer $it") }
+            }
+        } catch (e: Exception) {
+            onError()
+            logger(e.message)
+            return null
+        }
+    }
+
+    suspend fun put(
+        routeUrl: String,
+        body: Any? = null,
+        onError: () -> Unit = {}
+    ): HttpResponse? {
+        try {
+            val url = "$baseUrl$routeUrl"
+            return client.put {
+                url(url)
+                contentType(ContentType.Application.Json)
+                body?.let { setBody(it) }
+                token?.let { headers.append("Authorization", "Bearer $it") }
             }
         } catch (e: Exception) {
             onError()
@@ -76,3 +99,5 @@ class ArchiApi(
         }
     }
 }
+
+suspend inline fun <reified T> HttpResponse.bodyDebug(): T = body<T>().also { logger(bodyAsText()) }

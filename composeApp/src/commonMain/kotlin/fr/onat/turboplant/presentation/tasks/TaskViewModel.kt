@@ -2,16 +2,16 @@ package fr.onat.turboplant.presentation.tasks
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import fr.onat.turboplant.data.repositories.TaskRepository
+import fr.onat.turboplant.data.repositories.TasksRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 
 class TasksViewModel(
-    private val taskRepository: TaskRepository
+    private val tasksRepository: TasksRepository
 ) : ViewModel() {
-    val tasks = taskRepository.getAllToDO()
+    val tasks = tasksRepository.getAllNotDone()
 
     fun updateDone(id: String, done: Boolean) =
-        viewModelScope.launch(Dispatchers.IO) { taskRepository.updateDone(id, done) }
+        viewModelScope.launch(Dispatchers.IO) { tasksRepository.updateDone(id, done) }
 }
