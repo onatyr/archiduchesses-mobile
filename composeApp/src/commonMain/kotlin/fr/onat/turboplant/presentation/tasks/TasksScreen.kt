@@ -22,17 +22,17 @@ fun TasksScreen(viewModel: TasksViewModel = koinViewModel()) {
     val tasksWithPlant by viewModel.tasks.collectAsStateWithLifecycle(emptyList())
     LazyColumn(Modifier.fillMaxSize()) {
         items(tasksWithPlant, key = { it.task.id }) {
-            var visible by remember { mutableStateOf(true) }
+            var isDone by remember { mutableStateOf(false) }
             AnimatedVisibility(
-                visible = visible,
+                visible = !isDone,
                 enter = fadeIn(),
                 exit = shrinkVertically()
             ) {
                 TaskCard(
                     taskWithPlant = it,
-                    onDone = { visible = false }
+                    onDone = { isDone = true }
                 )
-                onDispose { viewModel.updateDone(it.task.id, true) }
+                onDispose { if (isDone) viewModel.updateDone(it.task.id, true) }
             }
         }
     }
