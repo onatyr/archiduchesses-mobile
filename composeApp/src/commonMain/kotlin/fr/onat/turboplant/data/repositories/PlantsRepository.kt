@@ -65,4 +65,6 @@ class PlantsRepository(
     suspend fun addNewPlant(newPlant: NewPlantDto) = archiApi.post("/plants/add", body = newPlant)
 
     fun getPlants() = plantDao.getAll()
+
+    fun getPlantsByRoomId(id: String) = plantDao.getPlantsByRoomId(id)
 }

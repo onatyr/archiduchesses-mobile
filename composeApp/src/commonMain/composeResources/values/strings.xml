@@ -20,4 +20,6 @@
     <string name="luminosity">Luminosity</string>
     <string name="adoption_date">Adoption date</string>
 
+    <string name="error_negative_value">"Value must be positive"</string>
+
 </resources>

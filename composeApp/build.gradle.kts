@@ -75,10 +75,12 @@ kotlin {
 
             implementation(libs.peekaboo.ui) // https://github.com/onseok/peekaboo
             implementation(libs.peekaboo.image.picker)
-
-            implementation(libs.symbol.processing.ksp)
-
         }
+
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
+
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }

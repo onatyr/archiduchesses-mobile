@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import fr.onat.turboplant.data.entities.TaskWithPlant
 import fr.onat.turboplant.libs.extensions.convertPxToDp
+import fr.onat.turboplant.libs.extensions.getDisplayableDayCount
 import fr.onat.turboplant.libs.extensions.toPx
 import fr.onat.turboplant.libs.extensions.toStringWithUnit
 import fr.onat.turboplant.libs.utils.LocalScreenSize
@@ -77,23 +78,7 @@ fun TaskCard(taskWithPlant: TaskWithPlant, onDone: () -> Unit) {
                 Icon(UnimplementedIcon, null)
                 plant?.let { Text(it.name) }
             }
-            Text(getDisplayableDayCount(task.dueDate))
+            Text(task.dueDate.getDisplayableDayCount())
         }
-    }
-}
-
-fun getDisplayableDayCount(dueDate: Instant): String {
-    val dayCountString: (Long) -> String =
-        {
-            (if (it > 0) "in " else "") +
-                    abs(it).toStringWithUnit("day", "days") +
-                    (if (it < 0) " ago" else "")
-        }
-
-    val timeDeltaDays = (dueDate - Clock.System.now()).inWholeDays
-    return when {
-        timeDeltaDays < -1 -> dayCountString(timeDeltaDays)
-        timeDeltaDays > 1 -> dayCountString(timeDeltaDays)
-        else -> "today"
     }
 }
