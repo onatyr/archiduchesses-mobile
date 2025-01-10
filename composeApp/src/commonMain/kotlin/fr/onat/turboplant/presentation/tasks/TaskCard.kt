@@ -27,13 +27,9 @@ import fr.onat.turboplant.data.entities.TaskWithPlant
 import fr.onat.turboplant.libs.extensions.convertPxToDp
 import fr.onat.turboplant.libs.extensions.getDisplayableDayCount
 import fr.onat.turboplant.libs.extensions.toPx
-import fr.onat.turboplant.libs.extensions.toStringWithUnit
 import fr.onat.turboplant.libs.utils.LocalScreenSize
 import fr.onat.turboplant.presentation.UnimplementedIcon
 import fr.onat.turboplant.resources.Colors
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
-import kotlin.math.abs
 import kotlin.math.roundToInt
 
 @Composable

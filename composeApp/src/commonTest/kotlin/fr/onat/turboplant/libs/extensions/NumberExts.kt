@@ -1,9 +1,7 @@
 package fr.onat.turboplant.libs.extensions
 
-import turboplant.composeapp.generated.resources.Res
-import turboplant.composeapp.generated.resources.error_negative_value
-import kotlin.test.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 
