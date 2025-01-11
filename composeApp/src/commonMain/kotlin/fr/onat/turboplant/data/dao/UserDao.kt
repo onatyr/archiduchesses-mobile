@@ -4,8 +4,10 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import fr.onat.turboplant.data.entities.User
+import io.mockative.Mockable
 import kotlinx.coroutines.flow.Flow
 
+@Mockable
 @Dao
 interface UserDao {
     @Upsert

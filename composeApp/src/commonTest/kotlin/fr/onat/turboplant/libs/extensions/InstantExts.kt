@@ -10,9 +10,8 @@ import kotlin.test.assertEquals
 class InstantExts {
     @BeforeTest
     fun setClock() {
-        val fixedInstant = Instant.parse("2025-01-20T10:15:30Z")
         DelegatedClock.setClock(object : Clock {
-            override fun now(): Instant = fixedInstant
+            override fun now(): Instant = Instant.parse("2025-01-20T10:15:30Z")
         })
     }
 
@@ -21,25 +20,27 @@ class InstantExts {
         DelegatedClock.reset()
     }
 
-
     @Test
     fun `should display 'today'`() {
-        val result = Instant.parse("2025-01-20T16:50:19.730740Z").getDisplayableDayCount()
-            .also { println(it) }
-        assertEquals(expected = "today", actual = result)
+        assertEquals(
+            expected = "today",
+            actual = Instant.parse("2025-01-20T16:50:19.730740Z").getDisplayableDayCount()
+        )
     }
 
     @Test
     fun `should display prior date`() {
-        val result = Instant.parse("2025-01-14T09:49:19.730740Z").getDisplayableDayCount()
-            .also { println(it) }
-        assertEquals(expected = "6 days ago", actual = result)
+        assertEquals(
+            expected = "6 days ago",
+            actual = Instant.parse("2025-01-14T09:49:19.730740Z").getDisplayableDayCount()
+        )
     }
 
     @Test
     fun `should display posterior date`() {
-        val result = Instant.parse("2025-01-28T18:51:19.730740Z").getDisplayableDayCount()
-            .also { println(it) }
-        assertEquals(expected = "in 8 days", actual = result)
+        assertEquals(
+            expected = "in 8 days",
+            actual = Instant.parse("2025-01-28T18:51:19.730740Z").getDisplayableDayCount()
+        )
     }
 }

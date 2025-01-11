@@ -1,6 +1,8 @@
 package fr.onat.turboplant.modules
 
 import fr.onat.turboplant.data.api.ArchiApi
+import fr.onat.turboplant.data.api.DefaultHttpClient
+import fr.onat.turboplant.data.api.IHttpClient
 import fr.onat.turboplant.data.database.AppDatabase
 import fr.onat.turboplant.data.database.getRoomDatabase
 import fr.onat.turboplant.data.repositories.AuthRepository
@@ -31,7 +33,8 @@ fun initKoin(config: KoinAppDeclaration? = null) =
             provideRepositoryModule,
             provideApiModule,
             provideViewModelModule,
-            provideHttpClient,
+            provideDefaultHttpClient,
+            provideKtorHttpClient,
             providePlatformModule,
             provideDaoModule
         )
@@ -43,7 +46,13 @@ val provideDataSourceModule = module {
     }
 }
 
-val provideHttpClient = module {
+val provideDefaultHttpClient = module {
+    single<IHttpClient> {
+        DefaultHttpClient(get())
+    }
+}
+
+val provideKtorHttpClient = module {
     single {
         HttpClient {
             install(ContentNegotiation)

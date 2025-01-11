@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -8,12 +7,12 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.mockative)
     kotlin(libs.plugins.serialization.get().pluginId).version(libs.versions.kotlin)
 }
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
@@ -75,6 +74,8 @@ kotlin {
 
             implementation(libs.peekaboo.ui) // https://github.com/onseok/peekaboo
             implementation(libs.peekaboo.image.picker)
+
+            implementation(libs.mockative)
         }
 
         commonTest.dependencies {
@@ -118,11 +119,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     debugImplementation(compose.uiTooling)
 
-//    kspCommonMainMetadata(libs.room.compiler)
-    add("kspAndroid", libs.room.compiler)
-    add("kspIosSimulatorArm64", libs.room.compiler)
-    add("kspIosX64", libs.room.compiler)
-    add("kspIosArm64", libs.room.compiler)
+    kspCommonMainMetadata(libs.room.compiler)
+//    add("kspAndroid", libs.room.compiler)
+//    add("kspIosSimulatorArm64", libs.room.compiler)
+//    add("kspIosX64", libs.room.compiler)
+//    add("kspIosArm64", libs.room.compiler)
 }
 
 room {

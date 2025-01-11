@@ -7,7 +7,7 @@ import turboplant.composeapp.generated.resources.error_negative_value
 import kotlin.math.abs
 
 fun Long.toStringWithUnit(singular: String, plural: String): String {
-    require(this > 0) { Res.string.error_negative_value }
+    require(this > 0) { Res.string.error_negative_value.toString() }
     return "$this ${if (abs(this) > 1) plural else singular}"
 }
 

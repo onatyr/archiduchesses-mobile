@@ -4,19 +4,22 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-
 class NumberExts {
 
     @Test
     fun `should display value with singular unit`() {
-        val result = (1L).toStringWithUnit("day", "days")
-        assertEquals(expected = "1 day", actual = result)
+        assertEquals(
+            expected = "1 day",
+            actual = (1L).toStringWithUnit("day", "days")
+        )
     }
 
     @Test
     fun `should display value with plural unit`() {
-        val result = (2L).toStringWithUnit("day", "days")
-        assertEquals(expected = "2 days", actual = result)
+        assertEquals(
+            expected = "2 days",
+            actual = (2L).toStringWithUnit("day", "days")
+        )
     }
 
     @Test
