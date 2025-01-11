@@ -14,7 +14,7 @@ import io.ktor.http.contentType
 import io.mockative.Mockable
 import kotlinx.coroutines.flow.first
 
-@Mockable
+@Mockable(ArchiApi::class, HttpResponse::class)
 class ArchiApi(
     private val client: IHttpClient,
     private val userDao: UserDao,

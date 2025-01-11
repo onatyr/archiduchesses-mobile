@@ -7,7 +7,6 @@ import fr.onat.turboplant.data.entities.toUser
 import fr.onat.turboplant.models.Credentials
 import io.ktor.client.call.body
 import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class AuthRepository(

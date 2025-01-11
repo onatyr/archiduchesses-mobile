@@ -5,14 +5,21 @@ import fr.onat.turboplant.data.dao.UserDao
 import fr.onat.turboplant.data.dto.UserDto
 import fr.onat.turboplant.data.entities.User
 import fr.onat.turboplant.data.entities.toUser
+import fr.onat.turboplant.models.Credentials
+import io.ktor.client.call.body
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.HttpStatusCode
+import io.mockative.any
+import io.mockative.coEvery
+import io.mockative.coVerify
 import io.mockative.every
 import io.mockative.mock
 import io.mockative.of
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class AuthRepositoryTest {
@@ -21,69 +28,43 @@ class AuthRepositoryTest {
     private val userDao = mock(of<UserDao>())
     private val authRepository = AuthRepository(archiApi, userDao)
 
-    @BeforeTest
-    fun setup() {
-        every { userDao.getAll() } returns flowOf(listOf(User(id= "mockId", token = "mockToken")))
-    }
-
     @Test
     fun `isAuthenticated returns true when user has a token`() {
+        every { userDao.getAll() } returns flowOf(listOf(User(id = "id", token = "token")))
         val isAuthenticated = authRepository.isAuthenticated()
         runBlocking {
             assertTrue(isAuthenticated.first())
         }
     }
 
-//    @BeforeTest
-//    fun setup() {
-//        archiApi =
-//            userDao = mockk()
-//        authRepository = AuthRepository(archiApi, userDao)
-//    }
-//
-//    @Test
-//    fun `isAuthenticated returns true when user has a token`() {
-//        every { userDao.getAll() } returns flowOf(listOf(UserDto(token = "token123").toUser()))
-//
-//        val isAuthenticated = authRepository.isAuthenticated()
-//        runBlocking {
-//            assertTrue(isAuthenticated.first())
-//        }
-//    }
-//
-//    @Test
-//    fun `isAuthenticated returns false when no users or token is null`() {
-//        // Mock the DAO to return a flow with no users
-//        every { userDao.getAll() } returns flowOf(emptyList())
-//
-//        // Assert the result
-//        val isAuthenticated = authRepository.isAuthenticated()
-//        runBlocking {
-//            assertFalse(isAuthenticated.first())
-//        }
-//    }
-//
-//    @Test
-//    fun `loginRequest successfully logs in user`() = runBlocking {
-//        val credentials = Credentials(username = "test", password = "password")
-//        val userDto = UserDto(id = 1, token = "token123")
-//
-//        // Mock the API response
-//        val response = mockk<HttpResponse> {
-//            every { status } returns HttpStatusCode.OK
-//            coEvery { body<UserDto>() } returns userDto
-//        }
-//        coEvery { archiApi.post("/auth/login", credentials) } returns response
-//
-//        // Mock the DAO
-//        coEvery { userDao.upsert(any()) } just Runs
-//
-//        // Call the method
-//        authRepository.loginRequest(credentials)
-//
-//        // Verify interactions
-//        coVerify { userDao.upsert(userDto.toUser()) }
-//    }
+    @Test
+    fun `isAuthenticated returns false when there is no user`() {
+        every { userDao.getAll() } returns flowOf(emptyList())
+        val isAuthenticated = authRepository.isAuthenticated()
+        runBlocking {
+            assertFalse(isAuthenticated.first())
+        }
+    }
+
+    @Test
+    fun `loginRequest successfully upsert new user`() {
+        runBlocking {
+            val userDto = UserDto(id = "id", token = "token")
+            val credentials = Credentials(email = "email", password = "password")
+
+            val successfulResponse = mock(of<HttpResponse>())
+            every { successfulResponse.status } returns HttpStatusCode.BadRequest
+            coEvery { successfulResponse.body<UserDto>() } returns userDto
+
+            coEvery { archiApi.post("/auth/login", credentials) } returns successfulResponse
+
+            coEvery { userDao.upsert(any()) } returns Unit
+
+            authRepository.loginRequest(credentials)
+
+            coVerify { userDao.upsert(userDto.toUser()) }
+        }
+    }
 //
 //    @Test
 //    fun `loginRequest does nothing on failed login`() = runBlocking {
