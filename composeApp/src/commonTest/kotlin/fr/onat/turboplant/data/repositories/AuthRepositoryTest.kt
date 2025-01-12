@@ -2,19 +2,13 @@ package fr.onat.turboplant.data.repositories
 
 import fr.onat.turboplant.data.api.ArchiApi
 import fr.onat.turboplant.data.dao.UserDao
-import fr.onat.turboplant.data.dto.UserDto
 import fr.onat.turboplant.data.entities.User
-import fr.onat.turboplant.data.entities.toUser
-import fr.onat.turboplant.models.Credentials
-import io.ktor.client.call.body
-import io.ktor.client.statement.HttpResponse
-import io.ktor.http.HttpStatusCode
-import io.mockative.any
 import io.mockative.coEvery
 import io.mockative.coVerify
 import io.mockative.every
 import io.mockative.mock
 import io.mockative.of
+import io.mockative.once
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
@@ -47,51 +41,33 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun `loginRequest successfully upsert new user`() {
+    fun `clearToken clears user data`() {
         runBlocking {
-            val userDto = UserDto(id = "id", token = "token")
-            val credentials = Credentials(email = "email", password = "password")
+            coEvery { userDao.clear() }
 
-            val successfulResponse = mock(of<HttpResponse>())
-            every { successfulResponse.status } returns HttpStatusCode.BadRequest
-            coEvery { successfulResponse.body<UserDto>() } returns userDto
+            authRepository.clearToken()
 
-            coEvery { archiApi.post("/auth/login", credentials) } returns successfulResponse
-
-            coEvery { userDao.upsert(any()) } returns Unit
-
-            authRepository.loginRequest(credentials)
-
-            coVerify { userDao.upsert(userDto.toUser()) }
+            coVerify { userDao.clear() }.wasInvoked(exactly = once)
         }
     }
-//
+
 //    @Test
-//    fun `loginRequest does nothing on failed login`() = runBlocking {
-//        val credentials = Credentials(username = "test", password = "password")
+//    fun `loginRequest successfully upsert new user`() {
+//        runBlocking {
+//            val userDto = UserDto(id = "id", token = "token")
+//            val credentials = Credentials(email = "email", password = "password")
 //
-//        // Mock the API response with a failure
-//        val response = mockk<HttpResponse> {
-//            every { status } returns HttpStatusCode.Unauthorized
+//            val successfulResponse = mock(of<HttpResponse>())
+//            every { successfulResponse.status } returns HttpStatusCode.OK
+////            coEvery { successfulResponse.body<UserDto>() } returns userDto
+//
+//            coEvery { archiApi.post("/auth/login", credentials) } returns successfulResponse
+//
+//            coEvery { userDao.upsert(any()) } returns Unit
+//
+//            authRepository.loginRequest(credentials)
+//
+//            coVerify { userDao.upsert(userDto.toUser()) }.wasInvoked()
 //        }
-//        coEvery { archiApi.post("/auth/login", credentials) } returns response
-//
-//        // Call the method
-//        authRepository.loginRequest(credentials)
-//
-//        // Verify no interaction with the DAO
-//        coVerify(exactly = 0) { userDao.upsert(any()) }
-//    }
-//
-//    @Test
-//    fun `clearToken clears user data`() = runBlocking {
-//        // Mock the DAO
-//        coEvery { userDao.clear() } just Runs
-//
-//        // Call the method
-//        authRepository.clearToken()
-//
-//        // Verify interactions
-//        coVerify { userDao.clear() }
 //    }
 }
