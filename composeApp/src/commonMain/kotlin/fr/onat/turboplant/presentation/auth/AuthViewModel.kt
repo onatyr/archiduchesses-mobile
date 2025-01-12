@@ -4,10 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fr.onat.turboplant.models.LoginDetails
 import fr.onat.turboplant.data.repositories.AuthRepository
-import fr.onat.turboplant.logger.logger
+import fr.onat.turboplant.libs.extensions.asyncLaunch
+import fr.onat.turboplant.libs.extensions.getMessage
 import fr.onat.turboplant.models.RegistrationDetails
-import io.ktor.client.statement.bodyAsText
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,21 +44,20 @@ class AuthViewModel(
     fun updateRegistrationDetails(details: RegistrationDetails) =
         _registrationDetails.update { details }
 
-    fun sendLoginRequest() =
-        viewModelScope.launch(Dispatchers.IO) {
-            authRepository.loginRequest(loginDetails.value)
-        }
-
-    fun sendRegistrationRequest() = viewModelScope.launch(Dispatchers.IO) {
-        if (registrationDetails.value.password != registrationDetails.value.confirmationPassword) return@launch
-        authRepository.registrationRequest(
-            registrationDetails = registrationDetails.value,
-            onSuccess = { logger("Successfully registered") },
-            onFailure = {
-                CoroutineScope(Dispatchers.IO).launch {
-                    logger(it?.bodyAsText())
-                }
-            }
+    fun sendLoginRequest(showSnackBarMessage: (String?) -> Unit) = asyncLaunch {
+        authRepository.loginRequest(
+            loginDetails = loginDetails.value,
+            onFailure = { asyncLaunch { showSnackBarMessage(it.getMessage()) } }
         )
     }
+
+    fun sendRegistrationRequest(showSnackBarMessage: (String?) -> Unit) =
+        viewModelScope.launch(Dispatchers.IO) {
+            if (registrationDetails.value.password != registrationDetails.value.confirmationPassword) return@launch
+            authRepository.registrationRequest(
+                registrationDetails = registrationDetails.value,
+                onSuccess = { asyncLaunch { showSnackBarMessage(it.getMessage()) } },
+                onFailure = { asyncLaunch { showSnackBarMessage(it.getMessage()) } }
+            )
+        }
 }

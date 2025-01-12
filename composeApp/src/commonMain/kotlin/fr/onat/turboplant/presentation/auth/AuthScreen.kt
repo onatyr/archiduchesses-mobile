@@ -20,17 +20,21 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.onat.turboplant.libs.extensions.collectAsEffect
+import fr.onat.turboplant.libs.utils.LocalSnackbarHostState
 import fr.onat.turboplant.models.LoginDetails
 import fr.onat.turboplant.models.RegistrationDetails
 import fr.onat.turboplant.resources.Colors
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -50,6 +54,14 @@ fun AuthScreen(
     val loginDetails by viewModel.loginDetails.collectAsStateWithLifecycle()
     val registrationDetails by viewModel.registrationDetails.collectAsStateWithLifecycle()
 
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = LocalSnackbarHostState.current
+    val showSnackBarMessage: (String?) -> Unit = {
+        scope.launch {
+            snackbarHostState.showSnackbar(it ?: "")
+        }
+    }
+
     viewModel.isAuthenticated.collectAsEffect {
         if (it) navigate()
     }
@@ -66,13 +78,13 @@ fun AuthScreen(
             LoginForm(
                 loginDetails = loginDetails,
                 updateLoginDetails = viewModel::updateLoginDetails,
-                validateForm = viewModel::sendLoginRequest
+                validateForm = { viewModel.sendLoginRequest(showSnackBarMessage) }
             )
         else
             RegistrationForm(
                 registrationDetails = registrationDetails,
                 updateRegistrationDetails = viewModel::updateRegistrationDetails,
-                validateForm = viewModel::sendRegistrationRequest
+                validateForm = { viewModel.sendRegistrationRequest(showSnackBarMessage) }
             )
     }
 }
@@ -89,6 +101,7 @@ fun ColumnScope.LoginForm(
     )
     PasswordField(
         value = loginDetails.password,
+        imeAction = ImeAction.Done,
         updateValue = { updateLoginDetails(loginDetails.copy(password = it)) }
     )
     AuthFormFooter(label = stringResource(Res.string.login), onClick = validateForm)
@@ -115,6 +128,7 @@ fun ColumnScope.RegistrationForm(
     )
     PasswordField(
         value = registrationDetails.confirmationPassword,
+        imeAction = ImeAction.Done,
         confirmField = true,
         updateValue = { updateRegistrationDetails(registrationDetails.copy(confirmationPassword = it)) }
     )

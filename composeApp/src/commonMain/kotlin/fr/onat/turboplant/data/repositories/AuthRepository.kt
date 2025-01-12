@@ -24,7 +24,8 @@ class AuthRepository(
         .map { !it.isNullOrEmpty() }
 
     suspend fun loginRequest(
-        loginDetails: LoginDetails
+        loginDetails: LoginDetails,
+        onFailure: (HttpResponse?) -> Unit
     ) {
         archiApi.post(routeUrl = "/auth/login", body = loginDetails)
             .onSuccess {
@@ -32,17 +33,18 @@ class AuthRepository(
                     setUser(it.body<UserDto>())
                 }
             }
+            .onFailure(onFailure)
     }
 
     suspend fun registrationRequest(
         registrationDetails: RegistrationDetails,
-        onSuccess: () -> Unit,
+        onSuccess: (HttpResponse) -> Unit,
         onFailure: (HttpResponse?) -> Unit
     ) {
         archiApi
             .post(routeUrl = "/auth/register", body = registrationDetails)
-            .onSuccess { onSuccess() }
-            .onFailure { onFailure(it) }
+            .onSuccess(onSuccess)
+            .onFailure(onFailure)
     }
 
     private suspend fun setUser(userDto: UserDto) = userDao.upsert(userDto.toUser())

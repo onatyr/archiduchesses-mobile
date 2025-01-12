@@ -1,12 +1,8 @@
 package fr.onat.turboplant.presentation.auth
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,7 +13,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -82,6 +77,7 @@ private fun BaseAuthField(
 @Composable
 fun NameField(
     value: String,
+    imeAction: ImeAction = ImeAction.Next,
     updateValue: (String) -> Unit
 ) {
     BaseAuthField(
@@ -89,7 +85,7 @@ fun NameField(
         placeHolderRes = Res.string.name_placeholder,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Done,
+            imeAction = imeAction,
             autoCorrectEnabled = true
         ),
         value = value,
@@ -100,6 +96,7 @@ fun NameField(
 @Composable
 fun EmailField(
     value: String,
+    imeAction: ImeAction = ImeAction.Next,
     updateValue: (String) -> Unit
 ) {
     BaseAuthField(
@@ -108,7 +105,7 @@ fun EmailField(
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
             keyboardType = KeyboardType.Email,
-            imeAction = ImeAction.Done,
+            imeAction = imeAction,
             autoCorrectEnabled = false
         ),
         value = value,
@@ -119,6 +116,7 @@ fun EmailField(
 @Composable
 fun PasswordField(
     value: String,
+    imeAction: ImeAction = ImeAction.Next,
     confirmField: Boolean = false,
     updateValue: (String) -> Unit
 ) {
@@ -127,7 +125,7 @@ fun PasswordField(
         placeHolderRes = Res.string.password_placeholder,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
-            imeAction = ImeAction.Done,
+            imeAction = imeAction,
             autoCorrectEnabled = false
         ),
         visualTransformation = PasswordVisualTransformation(),
