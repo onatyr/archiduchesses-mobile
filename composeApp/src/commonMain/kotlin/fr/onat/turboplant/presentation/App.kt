@@ -23,7 +23,7 @@ import fr.onat.turboplant.libs.extensions.getCurrentRoute
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.libs.utils.setMaterialWithProviders
 import fr.onat.turboplant.presentation.composables.AlwaysDeniedDialog
-import fr.onat.turboplant.presentation.auth.LoginScreen
+import fr.onat.turboplant.presentation.auth.AuthScreen
 import fr.onat.turboplant.presentation.navigationBar.NavBarItem
 import fr.onat.turboplant.presentation.navigationBar.NavigationBar
 import fr.onat.turboplant.presentation.permissions.PermissionsViewModel
@@ -69,7 +69,7 @@ fun App() {
                 modifier = Modifier.weight(1f)
             ) {
                 composable<LoginRoute> {
-                    LoginScreen(navigate = {
+                    AuthScreen(navigate = {
                         navController.navigate(PlantsRoute) {
                             navController.graph.startDestinationRoute?.let { startDestination ->
                                 popUpTo(startDestination) {

@@ -6,12 +6,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -38,7 +42,7 @@ import turboplant.composeapp.generated.resources.welcome_sub_title
 import turboplant.composeapp.generated.resources.welcome_turbo_plant
 
 @Composable
-fun LoginScreen(
+fun AuthScreen(
     viewModel: AuthViewModel = koinViewModel(),
     navigate: () -> Unit
 ) {
@@ -49,7 +53,6 @@ fun LoginScreen(
     viewModel.isAuthenticated.collectAsEffect {
         if (it) navigate()
     }
-
     Column(
         modifier = Modifier
             .background(Color.Black)
@@ -57,7 +60,8 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        AuthHeader(modifier = Modifier.padding(vertical = 90.dp))
+        AuthHeader()
+        SignModeToggle(currentSignMode = signMode, updateSignMode = viewModel::updateSignMode)
         if (signMode == SignMode.IN)
             LoginForm(
                 loginDetails = loginDetails,
@@ -122,13 +126,14 @@ fun ColumnScope.RegistrationForm(
 
 
 @Composable
-fun AuthHeader(modifier: Modifier = Modifier) {
+fun AuthHeader() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = modifier
+        modifier = Modifier
             .background(Colors.TurboGreen)
             .fillMaxWidth()
+            .height(250.dp)
     ) {
         Icon(
             painter = painterResource(Res.drawable.plant_icon),
@@ -141,9 +146,29 @@ fun AuthHeader(modifier: Modifier = Modifier) {
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
         )
+        Divider(thickness = 5.dp, color = Color.Transparent)
         Text(
             stringResource(Res.string.welcome_sub_title)
         )
+    }
+}
+
+@Composable
+fun SignModeToggle(currentSignMode: SignMode, updateSignMode: (SignMode) -> Unit) {
+    Row(Modifier.padding(15.dp)) {
+        SignMode.entries.forEach {
+            val isSelected = it == currentSignMode
+            Button(
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = if (isSelected) Colors.TurboGreen else Colors.BlackGround
+                ),
+                onClick = { updateSignMode(it) }) {
+                Text(
+                    text = stringResource(it.labelRes),
+                    modifier = Modifier.padding(horizontal = 10.dp)
+                )
+            }
+        }
     }
 }
 
@@ -153,7 +178,7 @@ fun AuthFormFooter(
     onClick: () -> Unit,
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(10.dp),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(

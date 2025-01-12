@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Divider
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
@@ -54,12 +55,14 @@ private fun BaseAuthField(
             modifier = Modifier.fillMaxWidth()
 
         )
+        Divider(thickness = 5.dp, color = Color.Transparent)
         TextField(
             value = value,
             onValueChange = updateValue,
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Colors.BlackGround,
                 textColor = LocalContentColor.current,
                 focusedIndicatorColor = Colors.SalmonPink
             ),

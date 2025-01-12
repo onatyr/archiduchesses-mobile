@@ -14,10 +14,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.StringResource
+import turboplant.composeapp.generated.resources.Res
+import turboplant.composeapp.generated.resources.sign_in
+import turboplant.composeapp.generated.resources.sign_up
 
-enum class SignMode {
-    IN,
-    UP
+enum class SignMode(val labelRes: StringResource) {
+    IN(Res.string.sign_in),
+    UP(Res.string.sign_up)
 }
 
 class AuthViewModel(

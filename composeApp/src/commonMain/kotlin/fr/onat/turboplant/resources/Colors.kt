@@ -7,4 +7,5 @@ object Colors {
     val TurboGreen = Color(0xFF55694D)
     val PlantCardGreen = Color(0xFF5C8069)
     val SalmonPink = Color(0xFFB1767A)
+    val BlackGround = Color(0xFF1E1E1E)
 }
