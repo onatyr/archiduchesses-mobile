@@ -2,10 +2,10 @@ package fr.onat.turboplant.presentation.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import fr.onat.turboplant.models.LoginDetails
 import fr.onat.turboplant.data.repositories.AuthRepository
 import fr.onat.turboplant.libs.extensions.asyncLaunch
 import fr.onat.turboplant.libs.extensions.getMessage
+import fr.onat.turboplant.models.LoginDetails
 import fr.onat.turboplant.models.RegistrationDetails
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -28,11 +28,11 @@ class AuthViewModel(
 ) : ViewModel() {
     val isAuthenticated = authRepository.isAuthenticated()
 
-    private val _signMode = MutableStateFlow(SignMode.IN)
+    private val _signMode = MutableStateFlow(SignMode.UP)
     val signMode = _signMode.asStateFlow()
 
-    private val _loginDetails = MutableStateFlow(LoginDetails())
-    val loginDetails = _loginDetails.asStateFlow()
+    private val _loginDetails = MutableStateFlow(LoginDetails()) // todo email textfield takes uppercase and always have a space char at end
+    val loginDetails = _loginDetails.asStateFlow()               // todo add validators
 
     private val _registrationDetails = MutableStateFlow(RegistrationDetails())
     val registrationDetails = _registrationDetails.asStateFlow()
@@ -56,7 +56,11 @@ class AuthViewModel(
             if (registrationDetails.value.password != registrationDetails.value.confirmationPassword) return@launch
             authRepository.registrationRequest(
                 registrationDetails = registrationDetails.value,
-                onSuccess = { asyncLaunch { showSnackBarMessage(it.getMessage()) } },
+                onSuccess = {
+                    asyncLaunch { showSnackBarMessage(it.getMessage()) }
+                    updateSignMode(SignMode.IN)
+                    updateRegistrationDetails(RegistrationDetails())
+                },
                 onFailure = { asyncLaunch { showSnackBarMessage(it.getMessage()) } }
             )
         }

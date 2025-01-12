@@ -10,11 +10,16 @@ import kotlinx.serialization.Serializable
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
-suspend inline fun <reified T> HttpResponse.bodyDebug(): T = body<T>().also { logger(bodyAsText()) }
+
+fun HttpResponse?.debug(): HttpResponse? {
+    this ?: return this
+    asyncLaunch { logger("[HttpResponse] status: $status body: ${bodyAsText()}") }
+    return this
+}
 
 fun HttpResponse?.onSuccess(block: (HttpResponse) -> Unit): HttpResponse? {
     if (isSuccessful()) {
-        asyncLaunch { logger("HttpResponse: onSuccess \"${this@onSuccess.getMessage()}\"") }
+        asyncLaunch { }
         block(this)
     }
     return this
@@ -22,7 +27,6 @@ fun HttpResponse?.onSuccess(block: (HttpResponse) -> Unit): HttpResponse? {
 
 fun HttpResponse?.onFailure(block: (HttpResponse?) -> Unit): HttpResponse? {
     if (!isSuccessful()) {
-        asyncLaunch { logger("HttpResponse: onFailure \"${this@onFailure.getMessage()}\"") }
         block(this)
     }
     return this
@@ -39,4 +43,8 @@ fun HttpResponse?.isSuccessful(): Boolean {
 @Serializable
 data class HttpMessage(val message: String)
 
-suspend fun HttpResponse?.getMessage(): String = this?.body<HttpMessage>()?.message ?: ""
+suspend fun HttpResponse?.getMessage(): String = try {
+    this?.body<HttpMessage?>()?.message ?: ""
+} catch (e: Exception) {
+    ""
+}
