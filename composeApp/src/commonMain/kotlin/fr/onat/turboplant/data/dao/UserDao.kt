@@ -18,4 +18,7 @@ interface UserDao {
 
     @Query("SELECT * FROM User")
     fun getAll(): Flow<List<User>>
+
+    @Query("SELECT token FROM USER LIMIT 1")
+    fun getToken(): Flow<String?>
 }

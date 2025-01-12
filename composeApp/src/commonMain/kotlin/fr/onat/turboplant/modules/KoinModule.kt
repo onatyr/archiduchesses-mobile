@@ -9,7 +9,7 @@ import fr.onat.turboplant.data.repositories.AuthRepository
 import fr.onat.turboplant.data.repositories.PlantsRepository
 import fr.onat.turboplant.data.repositories.RoomsRepository
 import fr.onat.turboplant.data.repositories.TasksRepository
-import fr.onat.turboplant.presentation.login.LoginViewModel
+import fr.onat.turboplant.presentation.auth.AuthViewModel
 import fr.onat.turboplant.presentation.plants.PlantsViewModel
 import fr.onat.turboplant.presentation.rooms.RoomsViewModel
 import fr.onat.turboplant.presentation.tasks.TasksViewModel
@@ -90,7 +90,7 @@ val provideApiModule = module {
 }
 
 val provideViewModelModule = module {
-    viewModelOf(::LoginViewModel)
+    viewModelOf(::AuthViewModel)
     viewModelOf(::PlantsViewModel)
     viewModelOf(::TasksViewModel)
     viewModelOf(::RoomsViewModel)

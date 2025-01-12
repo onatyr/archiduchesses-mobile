@@ -119,11 +119,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     debugImplementation(compose.uiTooling)
 
-    kspCommonMainMetadata(libs.room.compiler)
-//    add("kspAndroid", libs.room.compiler)
-//    add("kspIosSimulatorArm64", libs.room.compiler)
-//    add("kspIosX64", libs.room.compiler)
-//    add("kspIosArm64", libs.room.compiler)
+//    kspCommonMainMetadata(libs.room.compiler)
+    add("kspAndroid", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspIosX64", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
 }
 
 room {

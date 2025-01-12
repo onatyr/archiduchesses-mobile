@@ -1,18 +1,24 @@
 <resources>
     <string name="app_name">Turbo Plant</string>
-
-    <string name="login">Login</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
+    <string name="welcome_turbo_plant">Welcome to Turbo Plant</string>
+    <string name="welcome_sub_title">Your ultimate companion for all your plants at home</string>
 
     <string name="watering">Watering</string>
     <string name="sunlight">Sunlight</string>
     <string name="droplet_emoji">💧</string>
     <string name="sun_emoji">☀️</string>
 
-    <string name="no_account_register">Don't have an account? Register</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+
+    <string name="enter_your_name">Enter your name</string>
     <string name="enter_your_email">Enter your email</string>
     <string name="enter_your_password">Enter your password</string>
+    <string name="confirm_your_password">Confirm your password</string>
+
+    <string name="name_placeholder">Plant Lover</string>
+    <string name="email_placeholder">plantlover@turboplant.com</string>
+    <string name="password_placeholder">********</string>
 
     <string name="plant_name">Plant name</string>
     <string name="species">Species</string>
