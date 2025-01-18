@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -31,7 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import fr.onat.turboplant.data.entities.Plant
+import fr.onat.turboplant.data.entities.PlantWithRoom
+import fr.onat.turboplant.libs.extensions.formatToString
+import fr.onat.turboplant.libs.extensions.toStringWithUnit
 import fr.onat.turboplant.presentation.AddNewPlantRoute
 import fr.onat.turboplant.presentation.NavRoute
 import fr.onat.turboplant.presentation.plants.PlantsViewModel
@@ -39,6 +42,10 @@ import fr.onat.turboplant.resources.Colors
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import turboplant.composeapp.generated.resources.Res
+import turboplant.composeapp.generated.resources.calendar_emoji
+import turboplant.composeapp.generated.resources.day
+import turboplant.composeapp.generated.resources.days
+import turboplant.composeapp.generated.resources.droplet_emoji
 import turboplant.composeapp.generated.resources.sun_emoji
 
 @Composable
@@ -66,7 +73,8 @@ fun PlantListScreen(
 }
 
 @Composable
-fun PlantCard(plant: Plant) {
+fun PlantCard(plantWithRoom: PlantWithRoom) {
+    val (plant, room) = plantWithRoom
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
@@ -87,34 +95,66 @@ fun PlantCard(plant: Plant) {
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
+            room?.let { room ->
+                TextWithLeadingContent(
+                    leadingContent = { },
+                    text = room.label
+                )
+            }
+
             Text(
                 text = plant.name,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
                 modifier = Modifier.fillMaxWidth()
             )
-            Row {
-                EmojiRow(
-                    emoji = stringResource(Res.string.sun_emoji),
-                    ordinal = plant.sunlight?.ordinal
+
+            plant.species?.let { species ->
+                Text(
+                    text = species,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
+
+            Spacer(Modifier.size(20.dp))
+
+            plant.sunlight?.let { sunlight ->
+                TextWithLeadingContent(
+                    leadingContent = { Text(stringResource(Res.string.sun_emoji)) },
+                    text = sunlight.textValue
+                )
+            }
+            plant.wateringRecurrenceDays?.let { wateringRecurrenceDays ->
+                TextWithLeadingContent(
+                    leadingContent = { Text(stringResource(Res.string.droplet_emoji)) },
+                    text = "Every ${
+                        wateringRecurrenceDays.toStringWithUnit(
+                            singular = Res.string.day.key,
+                            plural = Res.string.days.key
+                        )
+                    }"
+                )
+            }
+            TextWithLeadingContent(
+                leadingContent = { Text(stringResource(Res.string.calendar_emoji)) },
+                text = "Adopted on ${plant.adoptionDate.formatToString()}"
+            )
+
         }
     }
 }
 
 @Composable
-fun EmojiRow(
-    emoji: String,
-    ordinal: Int?
+fun TextWithLeadingContent(
+    leadingContent: @Composable () -> Unit,
+    text: String,
 ) {
-    ordinal ?: return
-    Text(
-        text = emoji.repeat(ordinal + 1),
-        modifier = Modifier
-            .padding(4.dp)
-            .background(Color.White.copy(alpha = 0.4f), RoundedCornerShape(16.dp))
-    )
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        leadingContent()
+        Text(text = text)
+    }
 }
 
 @Composable

@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 data class PlantDto(
     val id: String,
     val name: String,
+    val species: String?,
     val wateringRecurrenceDays: Int?,
     val sunlight: Sunlight?,
     val adoptionDate: Instant,

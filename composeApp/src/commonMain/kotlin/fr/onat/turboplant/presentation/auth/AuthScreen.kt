@@ -161,9 +161,7 @@ fun AuthHeader() {
             fontWeight = FontWeight.Bold,
         )
         Divider(thickness = 5.dp, color = Color.Transparent)
-        Text(
-            stringResource(Res.string.welcome_sub_title)
-        )
+        Text(stringResource(Res.string.welcome_sub_title))
     }
 }
 

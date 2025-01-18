@@ -11,6 +11,11 @@ fun Long.toStringWithUnit(singular: String, plural: String): String {
     return "$this ${if (abs(this) > 1) plural else singular}"
 }
 
+fun Int.toStringWithUnit(singular: String, plural: String): String {
+    require(this > 0) { Res.string.error_negative_value.toString() }
+    return "$this ${if (abs(this) > 1) plural else singular}"
+}
+
 fun Float.convertPxToDp(density: Density) = with(density) { toDp() }
 
 fun Dp.toPx(density: Density) = with(density) { toPx() }

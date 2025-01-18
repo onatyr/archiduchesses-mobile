@@ -30,8 +30,6 @@ import fr.onat.turboplant.presentation.NavRoute
 import fr.onat.turboplant.presentation.composables.SelectField
 import fr.onat.turboplant.presentation.plants.PlantsViewModel
 import fr.onat.turboplant.resources.Colors
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import turboplant.composeapp.generated.resources.Res

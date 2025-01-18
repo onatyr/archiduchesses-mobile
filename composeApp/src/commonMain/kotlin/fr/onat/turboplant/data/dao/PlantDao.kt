@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import fr.onat.turboplant.data.entities.Plant
+import fr.onat.turboplant.data.entities.PlantWithRoom
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,7 +19,7 @@ interface PlantDao {
     suspend fun clear()
 
     @Query("SELECT * FROM Plant")
-    fun getAll(): Flow<List<Plant>>
+    fun getAllWithRoom(): Flow<List<PlantWithRoom>>
 
     @Query(
         """SELECT * FROM Plant

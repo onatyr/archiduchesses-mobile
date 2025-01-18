@@ -17,7 +17,6 @@ import fr.onat.turboplant.data.entities.Plant
 import fr.onat.turboplant.data.entities.Room
 import fr.onat.turboplant.data.entities.Task
 import fr.onat.turboplant.data.entities.User
-import io.mockative.Mockable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 

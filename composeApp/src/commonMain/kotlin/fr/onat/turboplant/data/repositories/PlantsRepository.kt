@@ -1,22 +1,20 @@
 package fr.onat.turboplant.data.repositories
 
-import androidx.compose.ui.util.fastFlatMap
 import fr.onat.turboplant.data.api.ArchiApi
 import fr.onat.turboplant.data.dao.PlantDao
 import fr.onat.turboplant.data.dao.TaskDao
 import fr.onat.turboplant.data.dto.NewPlantDto
 import fr.onat.turboplant.data.dto.PlantDto
-import fr.onat.turboplant.data.entities.Plant
-import fr.onat.turboplant.data.entities.Task
 import fr.onat.turboplant.data.entities.toPlant
 import fr.onat.turboplant.data.entities.toTask
+import fr.onat.turboplant.libs.extensions.onFailure
+import fr.onat.turboplant.libs.extensions.onSuccess
 import fr.onat.turboplant.logger.logger
 import fr.onat.turboplant.models.PlantIdentificationDto
 import fr.onat.turboplant.models.PlantbookEntityDto
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
-import io.ktor.client.statement.bodyAsText
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.CoroutineScope
@@ -62,9 +60,16 @@ class PlantsRepository(
     suspend fun searchExternalPlantByName(name: String) =
         archiApi.get("/plants/searchExternalPlantByName/$name")?.body<List<PlantbookEntityDto>>()
 
-    suspend fun addNewPlant(newPlant: NewPlantDto) = archiApi.post("/plants/add", body = newPlant)
+    suspend fun addNewPlant(newPlant: NewPlantDto) =
+        archiApi.post("/plants/add", body = newPlant)
+            .onSuccess {
+                // todo upsert plant with the task ?
+            }
+            .onFailure {
+                // todo show snackbar -> event bus or something for the snackbar
+            }
 
-    fun getPlants() = plantDao.getAll()
+    fun getPlantsWithRoom() = plantDao.getAllWithRoom()
 
     fun getPlantsByRoomId(id: String) = plantDao.getPlantsByRoomId(id)
 }

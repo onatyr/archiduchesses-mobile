@@ -6,6 +6,8 @@ import fr.onat.turboplant.data.dto.NewPlantDto
 import fr.onat.turboplant.data.dto.NewPlantField
 import fr.onat.turboplant.data.repositories.PlantsRepository
 import fr.onat.turboplant.data.repositories.TasksRepository
+import fr.onat.turboplant.libs.extensions.onSuccess
+import fr.onat.turboplant.logger.logger
 import fr.onat.turboplant.models.PlantIdentificationDto
 import fr.onat.turboplant.models.PlantbookDetailsDto
 import io.ktor.http.HttpStatusCode
@@ -21,7 +23,7 @@ class PlantsViewModel(
     private val tasksRepository: TasksRepository // todo use
 ) : ViewModel() {
 
-    val plants = plantsRepository.getPlants()
+    val plants = plantsRepository.getPlantsWithRoom()
 
     private val _newPlant = MutableStateFlow(NewPlantDto())
     val newPlant = _newPlant.asStateFlow()
@@ -48,7 +50,8 @@ class PlantsViewModel(
     }
 
     fun addNewPlant() = viewModelScope.launch(Dispatchers.IO) {
-        val response = plantsRepository.addNewPlant(newPlant.value)
-        if (response?.status == HttpStatusCode.OK) _newPlant.update { NewPlantDto() }
+        val response = plantsRepository.addNewPlant(newPlant.value).onSuccess {
+            _newPlant.update { NewPlantDto() }
+        }
     }
 }
