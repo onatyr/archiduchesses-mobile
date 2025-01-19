@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import fr.onat.turboplant.presentation.NotImplementedRoute
 import fr.onat.turboplant.resources.Colors
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun NavigationBar(navController: NavController, modifier: Modifier = Modifier) {
@@ -40,12 +41,12 @@ fun NavigationBar(navController: NavController, modifier: Modifier = Modifier) {
                 },
                 icon = {
                     Icon(
-                        painterResource(item.icon),
-                        contentDescription = item.label,
+                        painter = painterResource(item.iconRes),
+                        contentDescription = stringResource(item.labelRes),
                         modifier = Modifier.size(30.dp)
                     )
                 },
-                label = { Text(item.label) },
+                label = { Text(stringResource(item.labelRes)) },
                 selectedContentColor = Colors.SalmonPink,
                 unselectedContentColor = LocalContentColor.current.copy(LocalContentAlpha.current)
             )

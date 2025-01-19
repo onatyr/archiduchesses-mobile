@@ -3,6 +3,11 @@
     <string name="welcome_turbo_plant">Welcome to\nTurbo Plant</string>
     <string name="welcome_sub_title">Your ultimate companion for all your plants at home</string>
 
+    <string name="nav_route_plants">My plants</string>
+    <string name="nav_route_tasks">Tasks</string>
+    <string name="nav_route_places">Places</string>
+    <string name="nav_route_profile">Profile</string>
+
     <string name="watering">Watering</string>
     <string name="sunlight">Sunlight</string>
     <string name="droplet_emoji">💧</string>

@@ -108,6 +108,7 @@ interface NavRoute {
                 RoomsRoute::class.qualifiedName -> RoomsRoute
                 AddNewPlantRoute::class.qualifiedName -> AddNewPlantRoute
                 CameraRoute::class.qualifiedName -> CameraRoute
+                ProfileRoute::class.qualifiedName -> ProfileRoute
                 else -> null
             }
         }
@@ -131,6 +132,9 @@ object RoomsRoute : NavRoute
 
 @Serializable
 object CameraRoute : NavRoute
+
+@Serializable
+object ProfileRoute : NavRoute
 
 @Serializable
 object NotImplementedRoute : NavRoute
