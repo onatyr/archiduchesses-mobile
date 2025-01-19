@@ -32,7 +32,7 @@ object DelegatedClock : Clock {
 @Composable
 fun Instant.getDisplayableDayCount(): String {
 
-    val toStringWithUnit: @Composable (Long) -> Unit = {
+    val toStringWithUnit: @Composable (Long) -> String = {
         abs(it).toStringWithUnit(stringResource(Res.string.day), stringResource(Res.string.days))
     }
 

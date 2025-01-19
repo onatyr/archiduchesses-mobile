@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,6 +40,7 @@ import fr.onat.turboplant.presentation.AddNewPlantRoute
 import fr.onat.turboplant.presentation.NavRoute
 import fr.onat.turboplant.presentation.plants.PlantsViewModel
 import fr.onat.turboplant.resources.Colors
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import turboplant.composeapp.generated.resources.Res
@@ -46,6 +48,7 @@ import turboplant.composeapp.generated.resources.calendar_emoji
 import turboplant.composeapp.generated.resources.day
 import turboplant.composeapp.generated.resources.days
 import turboplant.composeapp.generated.resources.droplet_emoji
+import turboplant.composeapp.generated.resources.location_icon
 import turboplant.composeapp.generated.resources.sun_emoji
 
 @Composable
@@ -97,7 +100,9 @@ fun PlantCard(plantWithRoom: PlantWithRoom) {
         ) {
             room?.let { room ->
                 TextWithLeadingContent(
-                    leadingContent = { },
+                    leadingContent = {
+                        Icon(painter = painterResource(Res.drawable.location_icon), null)
+                    },
                     text = room.label
                 )
             }
@@ -112,8 +117,8 @@ fun PlantCard(plantWithRoom: PlantWithRoom) {
             plant.species?.let { species ->
                 Text(
                     text = species,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
+                    fontStyle = FontStyle.Italic,
+                    fontSize = 15.sp,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
