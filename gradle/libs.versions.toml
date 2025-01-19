@@ -1,9 +1,9 @@
 [versions]
-agp = "8.6.0"
-android-compileSdk = "34"
+agp = "8.7.3"
+android-compileSdk = "35"
+android-targetSdk = "35"
 android-minSdk = "24"
-android-targetSdk = "34"
-androidx-activityCompose = "1.9.3"
+androidx-activityCompose = "1.10.0"
 androidx-lifecycle = "2.8.4"
 coilCompose = "3.0.4"
 compose-plugin = "1.7.1"

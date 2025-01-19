@@ -32,19 +32,14 @@ object DelegatedClock : Clock {
 @Composable
 fun Instant.getDisplayableDayCount(): String {
 
-    val singularUnit = stringResource(Res.string.day)
-    val pluralUnit = stringResource(Res.string.days)
+    val toStringWithUnit: @Composable (Long) -> Unit = {
+        abs(it).toStringWithUnit(stringResource(Res.string.day), stringResource(Res.string.days))
+    }
 
     val dayCountString: @Composable (Long) -> String =
         {
-            if (it > 0) stringResource(
-                Res.string.future_instant,
-                abs(it).toStringWithUnit(singularUnit, pluralUnit)
-            )
-            else stringResource(
-                Res.string.past_instant,
-                abs(it).toStringWithUnit(singularUnit, pluralUnit)
-            )
+            if (it > 0) stringResource(Res.string.future_instant, toStringWithUnit(it))
+            else stringResource(Res.string.past_instant, toStringWithUnit(it))
         }
 
     val timeDeltaHours = (this - DelegatedClock.now()).inWholeHours

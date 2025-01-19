@@ -118,7 +118,7 @@ fun PlantCard(plantWithRoom: PlantWithRoom) {
                 )
             }
 
-            Spacer(Modifier.size(20.dp))
+            Spacer(Modifier.size(10.dp))
 
             plant.sunlight?.let { sunlight ->
                 TextWithLeadingContent(
@@ -141,7 +141,6 @@ fun PlantCard(plantWithRoom: PlantWithRoom) {
                 leadingContent = { Text(stringResource(Res.string.calendar_emoji)) },
                 text = "Adopted on ${plant.adoptionDate.formatToString()}"
             )
-
         }
     }
 }
@@ -153,6 +152,7 @@ fun TextWithLeadingContent(
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         leadingContent()
+        Spacer(Modifier.size(2.dp))
         Text(text = text)
     }
 }

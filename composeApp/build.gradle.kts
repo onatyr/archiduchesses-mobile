@@ -63,7 +63,7 @@ kotlin {
             implementation(libs.material3.window.size)
 
             implementation(libs.room.runtime)
-            implementation(libs.androidx.sqlite.framework)
+            implementation(libs.androidx.sqlite.framework) // https://github.com/sqldelight/sqldelight/issues/5368#issuecomment-2324957442
 
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
