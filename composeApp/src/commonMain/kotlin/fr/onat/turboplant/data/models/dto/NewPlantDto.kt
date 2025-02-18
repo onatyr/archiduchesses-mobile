@@ -1,11 +1,11 @@
-package fr.onat.turboplant.data.dto
+package fr.onat.turboplant.data.models.dto
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import fr.onat.turboplant.data.dto.Sunlight as SunlightEnum
+import fr.onat.turboplant.data.models.dto.Sunlight as SunlightEnum
 
 @Serializable
 data class NewPlantDto(

@@ -1,4 +1,4 @@
-package fr.onat.turboplant.models
+package fr.onat.turboplant.data.models
 
 import kotlinx.serialization.Serializable
 

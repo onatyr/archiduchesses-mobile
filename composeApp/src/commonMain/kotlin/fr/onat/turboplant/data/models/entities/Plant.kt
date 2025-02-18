@@ -1,11 +1,11 @@
-package fr.onat.turboplant.data.entities
+package fr.onat.turboplant.data.models.entities
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import fr.onat.turboplant.data.dto.PlantDto
-import fr.onat.turboplant.data.dto.Sunlight
+import fr.onat.turboplant.data.models.dto.PlantDto
+import fr.onat.turboplant.data.models.dto.Sunlight
 import kotlinx.datetime.Instant
 
 @Entity

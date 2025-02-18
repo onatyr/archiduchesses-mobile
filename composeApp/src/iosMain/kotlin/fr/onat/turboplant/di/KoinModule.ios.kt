@@ -1,4 +1,4 @@
-package fr.onat.turboplant.modules
+package fr.onat.turboplant.di
 
 import androidx.room.RoomDatabase
 import fr.onat.turboplant.data.database.AppDatabase

@@ -1,10 +1,10 @@
-package fr.onat.turboplant.data.entities
+package fr.onat.turboplant.data.models.entities
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import fr.onat.turboplant.data.dto.RoomDto
-import fr.onat.turboplant.data.dto.RoomLocation
+import fr.onat.turboplant.data.models.dto.RoomDto
+import fr.onat.turboplant.data.models.dto.RoomLocation
 
 @Entity(
     foreignKeys = [

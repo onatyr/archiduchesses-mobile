@@ -3,8 +3,8 @@ package fr.onat.turboplant.data.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import fr.onat.turboplant.data.entities.Plant
-import fr.onat.turboplant.data.entities.PlantWithRoom
+import fr.onat.turboplant.data.models.entities.Plant
+import fr.onat.turboplant.data.models.entities.PlantWithRoom
 import kotlinx.coroutines.flow.Flow
 
 @Dao

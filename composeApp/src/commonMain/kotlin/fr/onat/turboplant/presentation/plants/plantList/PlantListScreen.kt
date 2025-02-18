@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import fr.onat.turboplant.data.entities.PlantWithRoom
+import fr.onat.turboplant.data.models.entities.PlantWithRoom
 import fr.onat.turboplant.libs.extensions.formatToString
 import fr.onat.turboplant.libs.extensions.toStringWithUnit
 import fr.onat.turboplant.presentation.AddNewPlantRoute

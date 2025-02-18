@@ -3,7 +3,7 @@ package fr.onat.turboplant.data.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import fr.onat.turboplant.data.entities.User
+import fr.onat.turboplant.data.models.entities.User
 import io.mockative.Mockable
 import kotlinx.coroutines.flow.Flow
 

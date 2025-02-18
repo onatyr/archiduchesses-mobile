@@ -2,7 +2,7 @@ package fr.onat.turboplant.data.repositories
 
 import fr.onat.turboplant.data.api.ArchiApi
 import fr.onat.turboplant.data.dao.UserDao
-import fr.onat.turboplant.data.entities.User
+import fr.onat.turboplant.data.models.entities.User
 import io.mockative.coEvery
 import io.mockative.coVerify
 import io.mockative.every

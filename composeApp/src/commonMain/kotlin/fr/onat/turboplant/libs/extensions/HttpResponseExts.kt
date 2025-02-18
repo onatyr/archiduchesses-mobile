@@ -1,7 +1,7 @@
 package fr.onat.turboplant.libs.extensions
 
 import fr.onat.turboplant.libs.utils.asyncLaunch
-import fr.onat.turboplant.logger.logger
+import fr.onat.turboplant.libs.logger.logger
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText

@@ -23,7 +23,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import fr.onat.turboplant.data.entities.TaskWithPlant
+import fr.onat.turboplant.data.models.entities.TaskWithPlant
 import fr.onat.turboplant.libs.extensions.convertPxToDp
 import fr.onat.turboplant.libs.extensions.getDisplayableDayCount
 import fr.onat.turboplant.libs.extensions.toPx

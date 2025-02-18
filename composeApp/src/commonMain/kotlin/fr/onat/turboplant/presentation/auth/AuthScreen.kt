@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,14 +30,15 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.onat.turboplant.libs.extensions.collectAsEffect
 import fr.onat.turboplant.libs.utils.LocalSnackbarHostState
-import fr.onat.turboplant.models.LoginDetails
-import fr.onat.turboplant.models.RegistrationDetails
+import fr.onat.turboplant.data.models.LoginDetails
+import fr.onat.turboplant.data.models.RegistrationDetails
 import fr.onat.turboplant.resources.Colors
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import turboplant.composeapp.generated.resources.Res
+import turboplant.composeapp.generated.resources.confirm_your_password
 import turboplant.composeapp.generated.resources.login
 import turboplant.composeapp.generated.resources.plant_icon
 import turboplant.composeapp.generated.resources.register
@@ -62,9 +62,8 @@ fun AuthScreen(
         }
     }
 
-    viewModel.isAuthenticated.collectAsEffect {
-        if (it) navigate()
-    }
+    viewModel.isAuthenticated.collectAsEffect { if (it) navigate() }
+
     Column(
         modifier = Modifier
             .background(Color.Black)
@@ -90,7 +89,7 @@ fun AuthScreen(
 }
 
 @Composable
-fun ColumnScope.LoginForm(
+fun LoginForm(
     loginDetails: LoginDetails,
     updateLoginDetails: (LoginDetails) -> Unit,
     validateForm: () -> Unit
@@ -109,7 +108,7 @@ fun ColumnScope.LoginForm(
 
 
 @Composable
-fun ColumnScope.RegistrationForm(
+fun RegistrationForm(
     registrationDetails: RegistrationDetails,
     updateRegistrationDetails: (RegistrationDetails) -> Unit,
     validateForm: () -> Unit
@@ -129,7 +128,7 @@ fun ColumnScope.RegistrationForm(
     PasswordField(
         value = registrationDetails.confirmationPassword,
         imeAction = ImeAction.Done,
-        confirmField = true,
+        labelRes = Res.string.confirm_your_password,
         updateValue = { updateRegistrationDetails(registrationDetails.copy(confirmationPassword = it)) }
     )
     AuthFormFooter(

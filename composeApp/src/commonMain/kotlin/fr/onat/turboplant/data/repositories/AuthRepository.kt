@@ -2,12 +2,12 @@ package fr.onat.turboplant.data.repositories
 
 import fr.onat.turboplant.data.api.ArchiApi
 import fr.onat.turboplant.data.dao.UserDao
-import fr.onat.turboplant.data.dto.UserDto
-import fr.onat.turboplant.data.entities.toUser
+import fr.onat.turboplant.data.models.dto.UserDto
+import fr.onat.turboplant.data.models.entities.toUser
 import fr.onat.turboplant.libs.extensions.onFailure
 import fr.onat.turboplant.libs.extensions.onSuccess
-import fr.onat.turboplant.models.LoginDetails
-import fr.onat.turboplant.models.RegistrationDetails
+import fr.onat.turboplant.data.models.LoginDetails
+import fr.onat.turboplant.data.models.RegistrationDetails
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.CoroutineScope

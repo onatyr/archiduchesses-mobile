@@ -1,8 +1,8 @@
-package fr.onat.turboplant.data.entities
+package fr.onat.turboplant.data.models.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import fr.onat.turboplant.data.dto.UserDto
+import fr.onat.turboplant.data.models.dto.UserDto
 
 @Entity
 data class User(

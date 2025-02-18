@@ -3,10 +3,10 @@ package fr.onat.turboplant.data.repositories
 import fr.onat.turboplant.data.api.ArchiApi
 import fr.onat.turboplant.data.dao.PlaceDao
 import fr.onat.turboplant.data.dao.RoomDao
-import fr.onat.turboplant.data.dto.PlaceDto
-import fr.onat.turboplant.data.dto.RoomDto
-import fr.onat.turboplant.data.entities.toPlace
-import fr.onat.turboplant.data.entities.toRoom
+import fr.onat.turboplant.data.models.dto.PlaceDto
+import fr.onat.turboplant.data.models.dto.RoomDto
+import fr.onat.turboplant.data.models.entities.toPlace
+import fr.onat.turboplant.data.models.entities.toRoom
 import io.ktor.client.call.body
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package fr.onat.turboplant.logger
+package fr.onat.turboplant.libs.logger
 
 import platform.Foundation.NSLog
 

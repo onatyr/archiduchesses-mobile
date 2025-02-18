@@ -2,14 +2,14 @@ package fr.onat.turboplant.presentation.plants
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import fr.onat.turboplant.data.dto.NewPlantDto
-import fr.onat.turboplant.data.dto.NewPlantField
+import fr.onat.turboplant.data.models.dto.NewPlantDto
+import fr.onat.turboplant.data.models.dto.NewPlantField
 import fr.onat.turboplant.data.repositories.PlantsRepository
 import fr.onat.turboplant.data.repositories.TasksRepository
 import fr.onat.turboplant.libs.extensions.onSuccess
-import fr.onat.turboplant.logger.logger
-import fr.onat.turboplant.models.PlantIdentificationDto
-import fr.onat.turboplant.models.PlantbookDetailsDto
+import fr.onat.turboplant.libs.logger.logger
+import fr.onat.turboplant.data.models.PlantIdentificationDto
+import fr.onat.turboplant.data.models.PlantbookDetailsDto
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

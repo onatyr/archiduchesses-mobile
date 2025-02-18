@@ -1,12 +1,12 @@
-package fr.onat.turboplant.data.entities
+package fr.onat.turboplant.data.models.entities
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import fr.onat.turboplant.data.dto.TaskDto
-import fr.onat.turboplant.data.dto.TaskType
+import fr.onat.turboplant.data.models.dto.TaskDto
+import fr.onat.turboplant.data.models.dto.TaskType
 import kotlinx.datetime.Instant
 
 @Entity(

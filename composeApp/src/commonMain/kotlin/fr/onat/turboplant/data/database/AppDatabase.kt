@@ -12,11 +12,11 @@ import fr.onat.turboplant.data.dao.RoomDao
 import fr.onat.turboplant.data.dao.TaskDao
 import fr.onat.turboplant.data.dao.UserDao
 import fr.onat.turboplant.data.database.typeConverters.InstantTypeConverter
-import fr.onat.turboplant.data.entities.Place
-import fr.onat.turboplant.data.entities.Plant
-import fr.onat.turboplant.data.entities.Room
-import fr.onat.turboplant.data.entities.Task
-import fr.onat.turboplant.data.entities.User
+import fr.onat.turboplant.data.models.entities.Place
+import fr.onat.turboplant.data.models.entities.Plant
+import fr.onat.turboplant.data.models.entities.Room
+import fr.onat.turboplant.data.models.entities.Task
+import fr.onat.turboplant.data.models.entities.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 

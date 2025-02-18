@@ -1,4 +1,4 @@
-package fr.onat.turboplant.modules
+package fr.onat.turboplant.di
 
 import fr.onat.turboplant.data.api.ArchiApi
 import fr.onat.turboplant.data.api.DefaultHttpClient

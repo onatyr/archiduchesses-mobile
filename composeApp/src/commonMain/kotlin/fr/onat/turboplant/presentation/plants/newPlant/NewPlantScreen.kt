@@ -22,8 +22,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import fr.onat.turboplant.data.dto.NewPlantField
-import fr.onat.turboplant.data.dto.Sunlight
+import fr.onat.turboplant.data.models.dto.NewPlantField
+import fr.onat.turboplant.data.models.dto.Sunlight
 import fr.onat.turboplant.libs.extensions.toStringOrNull
 import fr.onat.turboplant.presentation.CameraRoute
 import fr.onat.turboplant.presentation.NavRoute

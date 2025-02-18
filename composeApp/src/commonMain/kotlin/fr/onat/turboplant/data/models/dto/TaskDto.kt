@@ -1,4 +1,4 @@
-package fr.onat.turboplant.data.dto
+package fr.onat.turboplant.data.models.dto
 
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName

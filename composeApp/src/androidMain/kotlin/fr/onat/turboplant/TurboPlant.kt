@@ -1,7 +1,7 @@
 package fr.onat.turboplant
 
 import android.app.Application
-import fr.onat.turboplant.modules.initKoin
+import fr.onat.turboplant.di.initKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.component.KoinComponent

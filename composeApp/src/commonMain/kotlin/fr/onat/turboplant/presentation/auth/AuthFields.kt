@@ -26,7 +26,6 @@ import fr.onat.turboplant.resources.Colors
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import turboplant.composeapp.generated.resources.Res
-import turboplant.composeapp.generated.resources.confirm_your_password
 import turboplant.composeapp.generated.resources.email_placeholder
 import turboplant.composeapp.generated.resources.enter_your_email
 import turboplant.composeapp.generated.resources.enter_your_name
@@ -35,7 +34,7 @@ import turboplant.composeapp.generated.resources.name_placeholder
 import turboplant.composeapp.generated.resources.password_placeholder
 
 @Composable
-private fun BaseAuthField(
+private fun BaseTextField(
     labelRes: StringResource,
     placeHolderRes: StringResource,
     keyboardOptions: KeyboardOptions,
@@ -80,7 +79,7 @@ fun NameField(
     imeAction: ImeAction = ImeAction.Next,
     updateValue: (String) -> Unit
 ) {
-    BaseAuthField(
+    BaseTextField(
         labelRes = Res.string.enter_your_name,
         placeHolderRes = Res.string.name_placeholder,
         keyboardOptions = KeyboardOptions(
@@ -99,7 +98,7 @@ fun EmailField(
     imeAction: ImeAction = ImeAction.Next,
     updateValue: (String) -> Unit
 ) {
-    BaseAuthField(
+    BaseTextField(
         labelRes = Res.string.enter_your_email,
         placeHolderRes = Res.string.email_placeholder,
         keyboardOptions = KeyboardOptions(
@@ -117,11 +116,11 @@ fun EmailField(
 fun PasswordField(
     value: String,
     imeAction: ImeAction = ImeAction.Next,
-    confirmField: Boolean = false,
+    labelRes: StringResource = Res.string.enter_your_password,
     updateValue: (String) -> Unit
 ) {
-    BaseAuthField(
-        labelRes = if (confirmField) Res.string.confirm_your_password else Res.string.enter_your_password,
+    BaseTextField(
+        labelRes = labelRes,
         placeHolderRes = Res.string.password_placeholder,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,

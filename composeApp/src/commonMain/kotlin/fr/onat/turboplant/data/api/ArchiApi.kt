@@ -1,7 +1,7 @@
 package fr.onat.turboplant.data.api
 
 import fr.onat.turboplant.data.dao.UserDao
-import fr.onat.turboplant.logger.logger
+import fr.onat.turboplant.libs.logger.logger
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse

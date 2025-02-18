@@ -33,7 +33,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import fr.onat.turboplant.data.dto.NewPlantDto
+import fr.onat.turboplant.data.models.dto.NewPlantDto
 import fr.onat.turboplant.resources.JudsonFontFamily
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource

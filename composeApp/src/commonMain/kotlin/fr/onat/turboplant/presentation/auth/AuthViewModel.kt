@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import fr.onat.turboplant.data.repositories.AuthRepository
 import fr.onat.turboplant.libs.extensions.asyncLaunch
 import fr.onat.turboplant.libs.extensions.getMessage
-import fr.onat.turboplant.models.LoginDetails
-import fr.onat.turboplant.models.RegistrationDetails
+import fr.onat.turboplant.data.models.LoginDetails
+import fr.onat.turboplant.data.models.RegistrationDetails
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow

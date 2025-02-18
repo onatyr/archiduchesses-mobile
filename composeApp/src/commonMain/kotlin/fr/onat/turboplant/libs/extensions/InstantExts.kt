@@ -1,7 +1,7 @@
 package fr.onat.turboplant.libs.extensions
 
 import androidx.compose.runtime.Composable
-import fr.onat.turboplant.logger.logger
+import fr.onat.turboplant.libs.logger.logger
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
