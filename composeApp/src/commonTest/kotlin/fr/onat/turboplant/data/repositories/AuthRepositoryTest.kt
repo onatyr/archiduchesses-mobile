@@ -23,8 +23,8 @@ class AuthRepositoryTest {
     private val authRepository = AuthRepository(archiApi, userDao)
 
     @Test
-    fun `isAuthenticated returns true when user has a token`() {
-        every { userDao.getAll() } returns flowOf(listOf(User(id = "id", token = "token")))
+    fun `isAuthenticated returns true when a token is returned`() {
+        every { userDao.getToken() }.invokes { flowOf("mockToken") }
         val isAuthenticated = authRepository.isAuthenticated()
         runBlocking {
             assertTrue(isAuthenticated.first())
@@ -32,8 +32,8 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun `isAuthenticated returns false when there is no user`() {
-        every { userDao.getAll() } returns flowOf(emptyList())
+    fun `isAuthenticated returns false when no token is returned`() {
+        every { userDao.getToken() }.invokes { flowOf(null) }
         val isAuthenticated = authRepository.isAuthenticated()
         runBlocking {
             assertFalse(isAuthenticated.first())
