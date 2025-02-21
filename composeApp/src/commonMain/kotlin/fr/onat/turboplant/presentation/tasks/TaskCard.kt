@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,7 +30,6 @@ import fr.onat.turboplant.libs.extensions.convertPxToDp
 import fr.onat.turboplant.libs.extensions.getDisplayableDayCount
 import fr.onat.turboplant.libs.extensions.toPx
 import fr.onat.turboplant.libs.utils.LocalScreenSize
-import fr.onat.turboplant.presentation.UnimplementedIcon
 import fr.onat.turboplant.resources.Colors
 import kotlin.math.roundToInt
 
@@ -71,7 +72,7 @@ fun TaskCard(taskWithPlant: TaskWithPlant, onDone: () -> Unit) {
                 },
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(UnimplementedIcon, null)
+                Icon(Icons.Default.Warning, null)
                 plant?.let { Text(it.name) }
             }
             Text(task.dueDate.getDisplayableDayCount())
