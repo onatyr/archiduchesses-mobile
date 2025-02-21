@@ -2,7 +2,7 @@
 
 **TurboPlant** is a mobile app to help people sharing the sames plants to take care of them together.
 It is developped with Kotlin Multiplatform and target both Android and IOS.
-You can check the [turboplant back](https://github.com/onatyr/turboplant-back) which is the API this app uses.
+You can check the [turboplant back repository](https://github.com/onatyr/turboplant-back) which contains the code of the API used by the app.
 
 ## Installation
 1. For an initial setup with the required tools please refer to the [Jetbrain Documentation - Setup](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-setup.html)
