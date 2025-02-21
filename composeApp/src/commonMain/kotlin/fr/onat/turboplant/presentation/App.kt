@@ -51,10 +51,7 @@ fun App() {
     val isCameraPermissionGranted = permissionsViewModel.handlePermission(Permission.CAMERA)
 
     if (!isCameraPermissionGranted)
-        AlwaysDeniedDialog(
-            onOpenSettings = { permissionsViewModel.openAppSettings() },
-            onDismiss = {}
-        )
+        AlwaysDeniedDialog(onOpenSettings = { permissionsViewModel.openAppSettings() })
 
     setMaterialWithProviders(
         LocalNavRoute provides navController.getCurrentRoute()

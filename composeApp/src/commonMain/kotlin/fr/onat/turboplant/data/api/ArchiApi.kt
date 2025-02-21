@@ -15,8 +15,8 @@ class ArchiApi(
     private val client: IHttpClient,
     private val userDao: UserDao,
 ) {
-    //    private val baseUrl = "http://90.40.139.106:3000"
-    private val baseUrl = "http://127.0.0.1:3000"
+
+    private val baseUrl = "https://api.turboplant.onat.fr"
 
     suspend fun get(
         routeUrl: String,
@@ -25,9 +25,7 @@ class ArchiApi(
         try {
             val url = "$baseUrl$routeUrl"
             return client.get {
-                url {
-                    url(url)
-                }
+                url { url(url) }
                 token?.let { headers.append("Authorization", "Bearer $it") }
 
             }

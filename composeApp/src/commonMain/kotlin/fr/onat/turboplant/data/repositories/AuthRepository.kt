@@ -8,6 +8,7 @@ import fr.onat.turboplant.libs.extensions.onFailure
 import fr.onat.turboplant.libs.extensions.onSuccess
 import fr.onat.turboplant.data.models.LoginDetails
 import fr.onat.turboplant.data.models.RegistrationDetails
+import fr.onat.turboplant.libs.extensions.onSuccessAsync
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.CoroutineScope
@@ -28,10 +29,8 @@ class AuthRepository(
         onFailure: (HttpResponse?) -> Unit
     ) {
         archiApi.post(routeUrl = "/auth/login", body = loginDetails)
-            .onSuccess {
-                CoroutineScope(Dispatchers.IO).launch {
-                    setUser(it.body<UserDto>())
-                }
+            .onSuccessAsync {
+                setUser(it.body<UserDto>())
             }
             .onFailure(onFailure)
     }

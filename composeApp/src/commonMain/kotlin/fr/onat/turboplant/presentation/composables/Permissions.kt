@@ -8,10 +8,10 @@ import androidx.compose.runtime.Composable
 @Composable
 fun AlwaysDeniedDialog(
     onOpenSettings: () -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit = {}
 ) {
     AlertDialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = {},
         confirmButton = {
             TextButton(onClick = {
                 onOpenSettings()

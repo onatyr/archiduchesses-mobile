@@ -7,6 +7,8 @@ import fr.onat.turboplant.data.models.dto.PlaceDto
 import fr.onat.turboplant.data.models.dto.RoomDto
 import fr.onat.turboplant.data.models.entities.toPlace
 import fr.onat.turboplant.data.models.entities.toRoom
+import fr.onat.turboplant.libs.extensions.onSuccessAsync
+import fr.onat.turboplant.libs.utils.asyncLaunch
 import io.ktor.client.call.body
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,20 +22,28 @@ class RoomsRepository(
 ) {
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
-            fetchPlaces().forEach { fetchAllRoomsByPlaceId(it.id) }
+        asyncLaunch {
+            fetchPlaces()
         }
     }
 
-    private suspend fun fetchPlaces() =
-        (archiApi.get("/places/all")?.body<List<PlaceDto>>() ?: emptyList()).apply {
-            placeDao.upsertAll(map { it.toPlace() })
-        }
+    private suspend fun fetchPlaces() = archiApi.get("/places/all").onSuccessAsync { response ->
+        placeDao.upsertAll(
+            response.body<List<PlaceDto>>().map { dto ->
+                dto.toPlace()
+                    .also {
+                        fetchAllRoomsByPlaceId(dto.id)
+                    }
+            }
+        )
+    }
 
     private suspend fun fetchAllRoomsByPlaceId(placeId: String) =
-        (archiApi.get("/places/allRoomsByPlaceId/${placeId}")?.body<List<RoomDto>>()
-            ?: emptyList()).apply {
-            roomDao.upsertAll(map { it.toRoom() })
+        archiApi.get("/places/allRoomsByPlaceId/${placeId}").onSuccessAsync { response ->
+            roomDao.upsertAll(
+                response.body<List<RoomDto>>().map { dto ->
+                    dto.toRoom()
+                })
         }
 
     fun getAllPlaces() = placeDao.getAll()
