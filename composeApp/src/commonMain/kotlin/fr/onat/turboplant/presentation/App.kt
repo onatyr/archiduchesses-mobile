@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -22,8 +20,8 @@ import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import fr.onat.turboplant.libs.extensions.getCurrentRoute
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.libs.utils.setMaterialWithProviders
-import fr.onat.turboplant.presentation.composables.AlwaysDeniedDialog
 import fr.onat.turboplant.presentation.auth.AuthScreen
+import fr.onat.turboplant.presentation.composables.AlwaysDeniedDialog
 import fr.onat.turboplant.presentation.navigationBar.NavBarItem
 import fr.onat.turboplant.presentation.navigationBar.NavigationBar
 import fr.onat.turboplant.presentation.permissions.PermissionsViewModel
@@ -34,8 +32,6 @@ import fr.onat.turboplant.presentation.rooms.RoomsScreen
 import fr.onat.turboplant.presentation.tasks.TasksScreen
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
-val UnimplementedIcon = Icons.Default.Warning // todo implement icons
 
 @Composable
 @Preview
