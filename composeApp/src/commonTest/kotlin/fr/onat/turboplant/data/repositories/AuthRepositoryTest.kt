@@ -53,24 +53,4 @@ class AuthRepositoryTest {
             coVerify { userDao.clear() }.wasInvoked(exactly = once)
         }
     }
-
-//    @Test
-//    fun `loginRequest successfully upsert new user`() {
-//        runBlocking {
-//            val userDto = UserDto(id = "id", token = "token")
-//            val credentials = Credentials(email = "email", password = "password")
-//
-//            val successfulResponse = mock(of<HttpResponse>())
-//            every { successfulResponse.status } returns HttpStatusCode.OK
-////            coEvery { successfulResponse.body<UserDto>() } returns userDto
-//
-//            coEvery { archiApi.post("/auth/login", credentials) } returns successfulResponse
-//
-//            coEvery { userDao.upsert(any()) } returns Unit
-//
-//            authRepository.loginRequest(credentials)
-//
-//            coVerify { userDao.upsert(userDto.toUser()) }.wasInvoked()
-//        }
-//    }
 }
