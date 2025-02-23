@@ -32,7 +32,7 @@ class ArchiApiMock(responseContent: String, userDao: UserDao) : ArchiApi(
     userDao = userDao
 ) {
     companion object {
-        fun getMockEngine(responseContent: String) = MockEngine { request ->
+        fun getMockEngine(responseContent: String) = MockEngine { _ ->
             respond(
                 content = ByteReadChannel(responseContent),
                 status = HttpStatusCode.OK,
