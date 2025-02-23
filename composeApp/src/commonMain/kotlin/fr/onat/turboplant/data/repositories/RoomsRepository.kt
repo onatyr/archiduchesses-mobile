@@ -7,6 +7,7 @@ import fr.onat.turboplant.data.models.dto.PlaceDto
 import fr.onat.turboplant.data.models.dto.RoomDto
 import fr.onat.turboplant.data.models.entities.toPlace
 import fr.onat.turboplant.data.models.entities.toRoom
+import fr.onat.turboplant.libs.utils.asyncLaunch
 import io.ktor.client.call.body
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,17 +21,17 @@ class RoomsRepository(
 ) {
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
+        asyncLaunch {
             fetchPlaces().forEach { fetchAllRoomsByPlaceId(it.id) }
         }
     }
 
-    private suspend fun fetchPlaces() =
+    suspend fun fetchPlaces() =
         (archiApi.get("/places/all")?.body<List<PlaceDto>>() ?: emptyList()).apply {
             placeDao.upsertAll(map { it.toPlace() })
         }
 
-    private suspend fun fetchAllRoomsByPlaceId(placeId: String) =
+    suspend fun fetchAllRoomsByPlaceId(placeId: String) =
         (archiApi.get("/places/allRoomsByPlaceId/${placeId}")?.body<List<RoomDto>>()
             ?: emptyList()).apply {
             roomDao.upsertAll(map { it.toRoom() })

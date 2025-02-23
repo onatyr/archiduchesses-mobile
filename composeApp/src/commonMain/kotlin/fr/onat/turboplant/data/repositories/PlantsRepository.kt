@@ -9,9 +9,9 @@ import fr.onat.turboplant.data.models.entities.toPlant
 import fr.onat.turboplant.data.models.entities.toTask
 import fr.onat.turboplant.libs.extensions.onFailure
 import fr.onat.turboplant.libs.extensions.onSuccess
-import fr.onat.turboplant.libs.logger.logger
 import fr.onat.turboplant.data.models.PlantIdentificationDto
 import fr.onat.turboplant.data.models.PlantbookEntityDto
+import fr.onat.turboplant.libs.utils.asyncLaunch
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
@@ -28,14 +28,14 @@ class PlantsRepository(
     private val taskDao: TaskDao
 ) {
     init {
-        CoroutineScope(Dispatchers.IO).launch {
+        asyncLaunch {
             fetchPlants().forEach { plantDto ->
                 taskDao.upsertAll(plantDto.tasks.map { it.toTask() })
             }
         }
     }
 
-    private suspend fun fetchPlants() =
+    suspend fun fetchPlants() =
         (archiApi.get("/plants/all")?.body<List<PlantDto>>() ?: emptyList()).apply {
             plantDao.upsertAll(map { dto -> dto.toPlant() })
         }

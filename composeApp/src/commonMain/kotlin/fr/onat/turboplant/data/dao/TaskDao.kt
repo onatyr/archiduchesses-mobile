@@ -5,8 +5,10 @@ import androidx.room.Query
 import androidx.room.Upsert
 import fr.onat.turboplant.data.models.entities.Task
 import fr.onat.turboplant.data.models.entities.TaskWithPlant
+import io.mockative.Mockable
 import kotlinx.coroutines.flow.Flow
 
+@Mockable
 @Dao
 interface TaskDao {
     @Upsert
