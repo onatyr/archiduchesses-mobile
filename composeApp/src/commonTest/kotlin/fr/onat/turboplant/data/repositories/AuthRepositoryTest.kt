@@ -25,7 +25,9 @@ class AuthRepositoryTest {
     @Test
     fun `isAuthenticated returns true when a token is returned`() {
         every { userDao.getToken() }.invokes { flowOf("mockToken") }
+
         val isAuthenticated = authRepository.isAuthenticated()
+
         runBlocking {
             assertTrue(isAuthenticated.first())
         }
@@ -34,7 +36,9 @@ class AuthRepositoryTest {
     @Test
     fun `isAuthenticated returns false when no token is returned`() {
         every { userDao.getToken() }.invokes { flowOf(null) }
+
         val isAuthenticated = authRepository.isAuthenticated()
+
         runBlocking {
             assertFalse(isAuthenticated.first())
         }
