@@ -98,7 +98,7 @@ fun LazyListScope.taskListWithHeader(
                 Text(
                     text = "Nothing to do !",
                     fontSize = 24.sp,
-                    color = Colors.SmoothGrey,
+                    color = Colors.SmootherGrey,
                     fontStyle = FontStyle.Italic
                 )
             }

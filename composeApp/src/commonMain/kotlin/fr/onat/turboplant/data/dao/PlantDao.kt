@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import fr.onat.turboplant.data.models.entities.Plant
+import fr.onat.turboplant.data.models.entities.PlantDetailed
 import fr.onat.turboplant.data.models.entities.PlantWithRoom
 import io.mockative.Mockable
 import kotlinx.coroutines.flow.Flow
@@ -23,9 +24,15 @@ interface PlantDao {
     @Query("SELECT * FROM Plant")
     fun getAllWithRoom(): Flow<List<PlantWithRoom>>
 
-    @Query(
-        """SELECT * FROM Plant
-            WHERE roomId = :id"""
-    )
+    @Query("""
+        SELECT * FROM Plant
+        WHERE roomId = :id
+            """)
     fun getPlantsByRoomId(id: String): Flow<List<Plant>>
+
+    @Query("""
+        SELECT * FROM Plant
+        WHERE id = :id
+    """)
+    fun getPlantById(id: String): Flow<PlantDetailed?>
 }

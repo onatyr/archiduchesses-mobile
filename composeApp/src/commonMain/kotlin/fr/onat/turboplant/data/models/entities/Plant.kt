@@ -2,6 +2,7 @@ package fr.onat.turboplant.data.models.entities
 
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import fr.onat.turboplant.data.models.dto.PlantDto
@@ -26,6 +27,20 @@ data class PlantWithRoom(
         parentColumn = "roomId",
         entityColumn = "id"
     ) val room: Room?,
+)
+
+data class PlantDetailed(
+    @Embedded val plant: Plant,
+    @Relation(
+        entity = Room::class,
+        parentColumn = "roomId",
+        entityColumn = "id"
+    ) val roomWithPlace: RoomWithPlace?,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "plantId"
+    )
+    val tasks: List<Task>
 )
 
 fun PlantDto.toPlant() = Plant(

@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
@@ -26,6 +27,7 @@ import fr.onat.turboplant.presentation.navigationBar.NavigationBar
 import fr.onat.turboplant.presentation.permissions.PermissionsViewModel
 import fr.onat.turboplant.presentation.plants.identification.PlantIdentificationScreen
 import fr.onat.turboplant.presentation.plants.newPlant.NewPlantScreen
+import fr.onat.turboplant.presentation.plants.plantDetailed.PlantDetailedScreen
 import fr.onat.turboplant.presentation.plants.plantList.PlantListScreen
 import fr.onat.turboplant.presentation.rooms.RoomsScreen
 import fr.onat.turboplant.presentation.tasks.TasksScreen
@@ -76,8 +78,9 @@ fun App() {
                     })
                 }
                 composable<PlantsRoute> { PlantListScreen(navigate = { navController.navigate(it) }) }
-                composable<PlantDetailsRoute> {
-
+                composable<PlantDetailedRoute> {
+                    val args = it.toRoute<PlantDetailedRoute>()
+                    PlantDetailedScreen(plantId = args.plantId)
                 }
                 composable<AddNewPlantRoute> {
                     NewPlantScreen(navigate = { navController.navigate(it) })
@@ -110,7 +113,7 @@ object LoginRoute : NavRoute
 object PlantsRoute : NavRoute
 
 @Serializable
-data class PlantDetailsRoute(val plantId: String) : NavRoute
+data class PlantDetailedRoute(val plantId: String) : NavRoute
 
 @Serializable
 object AddNewPlantRoute : NavRoute
