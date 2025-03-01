@@ -41,8 +41,6 @@ fun TasksScreen(viewModel: TasksViewModel = koinViewModel()) {
     val todayTasks = tasksWithPlant.filter { it.task.dueDate.isToday() }.ifEmpty { null }
     val nextDaysTasks = tasksWithPlant.filter { it.task.dueDate.isInNextDays(7) }.ifEmpty { null }
 
-
-
     LazyColumn(Modifier.fillMaxSize()) {
         pastTasks?.let {
             taskListWithHeader(

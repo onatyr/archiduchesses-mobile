@@ -6,12 +6,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import fr.onat.turboplant.presentation.NavRoute
-import fr.onat.turboplant.presentation.NavRoute.Companion.getRoute
 
 @Composable
-fun NavController.getCurrentRoute(): NavRoute? {
+fun NavController.getCurrentRoute(): String? {
     val navBackStackEntry by currentBackStackEntryAsState()
-    val currentRoute by remember { derivedStateOf { navBackStackEntry?.destination?.getRoute() } }
+    val currentRoute by remember { derivedStateOf { navBackStackEntry?.destination?.route } }
     return currentRoute
 }

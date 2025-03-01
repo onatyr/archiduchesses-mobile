@@ -1,6 +1,7 @@
 package fr.onat.turboplant.presentation.plants.plantList
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -84,6 +85,7 @@ fun PlantCard(plantWithRoom: PlantWithRoom) {
         modifier = Modifier
             .padding(horizontal = 15.dp, vertical = 5.dp)
             .background(Color.Green.copy(0.1f), RoundedCornerShape(16.dp))
+            .clickable {  }
     ) {
         AsyncImage(
             model = plant.imageUrl,

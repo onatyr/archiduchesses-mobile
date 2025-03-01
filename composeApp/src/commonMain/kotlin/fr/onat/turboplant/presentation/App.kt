@@ -10,7 +10,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -20,9 +19,9 @@ import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import fr.onat.turboplant.libs.extensions.getCurrentRoute
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.libs.utils.setMaterialWithProviders
+import fr.onat.turboplant.presentation.NavRoute.Companion.name
 import fr.onat.turboplant.presentation.auth.AuthScreen
 import fr.onat.turboplant.presentation.composables.AlwaysDeniedDialog
-import fr.onat.turboplant.presentation.navigationBar.NavBarItem
 import fr.onat.turboplant.presentation.navigationBar.NavigationBar
 import fr.onat.turboplant.presentation.permissions.PermissionsViewModel
 import fr.onat.turboplant.presentation.plants.identification.PlantIdentificationScreen
@@ -77,6 +76,9 @@ fun App() {
                     })
                 }
                 composable<PlantsRoute> { PlantListScreen(navigate = { navController.navigate(it) }) }
+                composable<PlantDetailsRoute> {
+
+                }
                 composable<AddNewPlantRoute> {
                     NewPlantScreen(navigate = { navController.navigate(it) })
                 }
@@ -88,7 +90,7 @@ fun App() {
 
             }
 
-            if (!NavBarItem.exemptedRoutes.contains(LocalNavRoute.current))
+            if (LocalNavRoute.current != LoginRoute.name)
                 NavigationBar(navController, Modifier.fillMaxWidth())
         }
     }
@@ -96,18 +98,8 @@ fun App() {
 
 interface NavRoute {
     companion object {
-        fun NavDestination.getRoute(): NavRoute? {
-            return when (route) {
-                LoginRoute::class.qualifiedName -> LoginRoute
-                PlantsRoute::class.qualifiedName -> PlantsRoute
-                TasksRoute::class.qualifiedName -> TasksRoute
-                RoomsRoute::class.qualifiedName -> RoomsRoute
-                AddNewPlantRoute::class.qualifiedName -> AddNewPlantRoute
-                CameraRoute::class.qualifiedName -> CameraRoute
-                ProfileRoute::class.qualifiedName -> ProfileRoute
-                else -> null
-            }
-        }
+        val NavRoute.name: String?
+            get() = this::class.qualifiedName
     }
 }
 
@@ -116,6 +108,9 @@ object LoginRoute : NavRoute
 
 @Serializable
 object PlantsRoute : NavRoute
+
+@Serializable
+data class PlantDetailsRoute(val plantId: String) : NavRoute
 
 @Serializable
 object AddNewPlantRoute : NavRoute
