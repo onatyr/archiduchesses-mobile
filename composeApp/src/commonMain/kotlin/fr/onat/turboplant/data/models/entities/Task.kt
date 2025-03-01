@@ -31,7 +31,7 @@ data class TaskWithPlant(
     @Relation(
         parentColumn = "plantId",
         entityColumn = "id"
-    ) val plant: Plant?,
+    ) val plant: Plant,
 )
 
 fun TaskDto.toTask() = Task(

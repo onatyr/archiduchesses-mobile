@@ -1,11 +1,11 @@
 package fr.onat.turboplant.libs.extensions
 
 import androidx.compose.runtime.Composable
-import fr.onat.turboplant.libs.logger.logger
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import turboplant.composeapp.generated.resources.Res
 import turboplant.composeapp.generated.resources.day
@@ -29,6 +29,17 @@ object DelegatedClock : Clock {
     }
 }
 
+val Instant.deltaFromNowHours: Long
+    get() = (this - DelegatedClock.now()).inWholeHours
+
+val Instant.deltaFromNowDays: Long
+    get() = deltaFromNowHours / 24
+
+fun Instant.isPast() = deltaFromNowHours < 0
+fun Instant.isToday() = deltaFromNowHours in -24..24
+fun Instant.isInNextDays(days: Int) =
+    this in DelegatedClock.now()..Instant.fromEpochSeconds(DelegatedClock.now().epochSeconds + days * 24 * 3600)
+
 @Composable
 fun Instant.getDisplayableDayCount(): String {
 
@@ -36,17 +47,10 @@ fun Instant.getDisplayableDayCount(): String {
         abs(it).toStringWithUnit(stringResource(Res.string.day), stringResource(Res.string.days))
     }
 
-    val dayCountString: @Composable (Long) -> String =
-        {
-            if (it > 0) stringResource(Res.string.future_instant, toStringWithUnit(it))
-            else stringResource(Res.string.past_instant, toStringWithUnit(it))
-        }
-
-    val timeDeltaHours = (this - DelegatedClock.now()).inWholeHours
-
     return when {
-        -24 < timeDeltaHours && timeDeltaHours < 24 -> stringResource(Res.string.today)
-        else -> dayCountString(timeDeltaHours / 24)
+        isPast() -> stringResource(Res.string.past_instant, toStringWithUnit(deltaFromNowDays))
+        isToday() -> stringResource(Res.string.today)
+        else -> stringResource(Res.string.future_instant, toStringWithUnit(deltaFromNowDays))
     }
 }
 

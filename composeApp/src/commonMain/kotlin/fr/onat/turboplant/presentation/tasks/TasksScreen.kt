@@ -13,6 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import fr.onat.turboplant.libs.extensions.isInNextDays
+import fr.onat.turboplant.libs.extensions.isPast
+import fr.onat.turboplant.libs.extensions.isToday
 import fr.onat.turboplant.libs.utils.onDispose
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -20,6 +23,13 @@ import org.koin.compose.viewmodel.koinViewModel
 fun TasksScreen(viewModel: TasksViewModel = koinViewModel()) {
 
     val tasksWithPlant by viewModel.tasks.collectAsStateWithLifecycle(emptyList())
+
+    val pastTasks = tasksWithPlant.filter { it.task.dueDate.isPast() }
+    val todayTasks = tasksWithPlant.filter { it.task.dueDate.isToday() }
+    val nextDaysTasks = tasksWithPlant.filter { it.task.dueDate.isInNextDays(7) }
+
+
+
     LazyColumn(Modifier.fillMaxSize()) {
         items(tasksWithPlant, key = { it.task.id }) {
             var isDone by remember { mutableStateOf(false) }

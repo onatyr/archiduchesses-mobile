@@ -15,7 +15,7 @@ class ArchiApi(
     private val client: IHttpClient,
     private val userDao: UserDao,
 ) {
-    //    private val baseUrl = "http://90.40.139.106:3000"
+//        private val baseUrl = "https://api.turboplant.onat.fr"
     private val baseUrl = "http://127.0.0.1:3000"
 
     suspend fun get(

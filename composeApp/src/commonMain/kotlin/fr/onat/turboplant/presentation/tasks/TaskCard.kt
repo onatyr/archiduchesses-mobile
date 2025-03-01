@@ -5,15 +5,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Card
-import androidx.compose.material.Icon
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,12 +26,15 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import fr.onat.turboplant.data.models.dto.TaskType
 import fr.onat.turboplant.data.models.entities.TaskWithPlant
 import fr.onat.turboplant.libs.extensions.convertPxToDp
 import fr.onat.turboplant.libs.extensions.getDisplayableDayCount
 import fr.onat.turboplant.libs.extensions.toPx
 import fr.onat.turboplant.libs.utils.LocalScreenSize
+import fr.onat.turboplant.presentation.composables.WateringTaskTag
 import fr.onat.turboplant.resources.Colors
+import org.jetbrains.compose.resources.stringResource
 import kotlin.math.roundToInt
 
 @Composable
@@ -56,7 +60,7 @@ fun TaskCard(taskWithPlant: TaskWithPlant, onDone: () -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
-                .background(Colors.PlantCardGreen)
+                .background(Colors.CardBackground)
                 .padding(horizontal = 10.dp)
                 .offset { IntOffset(animatedOffset.roundToInt(), 0) }
                 .pointerInput(Unit) {
@@ -72,10 +76,11 @@ fun TaskCard(taskWithPlant: TaskWithPlant, onDone: () -> Unit) {
                 },
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Default.Warning, null)
-                plant?.let { Text(it.name) }
+                if (task.type == TaskType.WATERING) WateringTaskTag()
+                Spacer(Modifier.width(15.dp))
+                Text(plant.name)
             }
-            Text(task.dueDate.getDisplayableDayCount())
+            Text(task.dueDate.getDisplayableDayCount(), color = Colors.SmoothGrey)
         }
     }
 }
