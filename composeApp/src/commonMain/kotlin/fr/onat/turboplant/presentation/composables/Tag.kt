@@ -2,8 +2,10 @@ package fr.onat.turboplant.presentation.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -44,10 +46,10 @@ fun Tag(color: Color, iconRes: DrawableResource, name: String) {
             modifier = Modifier.size(15.dp),
             tint = Color.White
         )
+        Spacer(Modifier.width(2.dp))
         Text(
             text = name,
-            color = Color.White,
-            modifier = Modifier.padding(start = 2.dp)
+            color = Color.White
         )
     }
 }

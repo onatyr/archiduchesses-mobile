@@ -10,10 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Card
-import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,7 +32,6 @@ import fr.onat.turboplant.libs.extensions.toPx
 import fr.onat.turboplant.libs.utils.LocalScreenSize
 import fr.onat.turboplant.presentation.composables.WateringTaskTag
 import fr.onat.turboplant.resources.Colors
-import org.jetbrains.compose.resources.stringResource
 import kotlin.math.roundToInt
 
 @Composable
