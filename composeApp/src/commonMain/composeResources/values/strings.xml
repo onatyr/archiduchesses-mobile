@@ -28,6 +28,7 @@
     <string name="email_placeholder">plantlover@turboplant.com</string>
     <string name="password_placeholder">********</string>
 
+    <string name ="search_plant_by_species">Search plant by species</string>
     <string name="plant_name">Plant name</string>
     <string name="species">Species</string>
     <string name="watering_recurrence">Watering recurrence</string>

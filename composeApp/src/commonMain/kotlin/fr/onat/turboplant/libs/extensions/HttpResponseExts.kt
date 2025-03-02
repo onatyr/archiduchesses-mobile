@@ -19,8 +19,16 @@ fun HttpResponse?.debug(): HttpResponse? {
 
 fun HttpResponse?.onSuccess(block: (HttpResponse) -> Unit): HttpResponse? {
     if (isSuccessful()) {
-        asyncLaunch { }
         block(this)
+    }
+    return this
+}
+
+fun HttpResponse?.onSuccessAsync(block: suspend (HttpResponse) -> Unit): HttpResponse? {
+    if (isSuccessful()) {
+        asyncLaunch {
+            block(this@onSuccessAsync)
+        }
     }
     return this
 }

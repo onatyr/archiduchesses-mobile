@@ -10,6 +10,8 @@ import fr.onat.turboplant.libs.extensions.onSuccess
 import fr.onat.turboplant.libs.logger.logger
 import fr.onat.turboplant.data.models.PlantIdentificationDto
 import fr.onat.turboplant.data.models.PlantbookDetailsDto
+import fr.onat.turboplant.data.models.PlantbookEntityDto
+import fr.onat.turboplant.libs.extensions.asyncLaunch
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -28,7 +30,10 @@ class PlantsViewModel(
     private val _newPlant = MutableStateFlow(NewPlantDto())
     val newPlant = _newPlant.asStateFlow()
 
-    private val _searchResult = MutableStateFlow<List<PlantbookDetailsDto>?>(null)
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery = _searchQuery.asStateFlow()
+
+    private val _searchResult = MutableStateFlow<List<PlantbookEntityDto>>(emptyList())
     val searchResult = _searchResult.asStateFlow()
 
     private val _identificationResult = MutableStateFlow<List<PlantIdentificationDto>?>(null)
@@ -38,11 +43,16 @@ class PlantsViewModel(
 
     fun getPlantById(id: String) = plantsRepository.getPlantById(id)
 
-    fun searchExternalPlantByName(value: String) = viewModelScope.launch(Dispatchers.IO) {
-        plantsRepository.searchExternalPlantByName(value)?.let { _searchResult.update { it } }
+    fun updateSearchQuery(searchQuery: String) = _searchQuery.update { searchQuery }
+
+    fun searchExternalPlantByName(name: String) = asyncLaunch {
+        plantsRepository.searchExternalPlantByName(
+            name = name,
+            onResult = { _searchResult.emit(it) }
+        )
     }
 
-    fun identify(image: ByteArray?, onError: () -> Unit) = viewModelScope.launch(Dispatchers.IO) {
+    fun identify(image: ByteArray?, onError: () -> Unit) = asyncLaunch {
         _identificationResult.update {
             plantsRepository.identify(
                 image = image,
@@ -51,7 +61,7 @@ class PlantsViewModel(
         }
     }
 
-    fun addNewPlant() = viewModelScope.launch(Dispatchers.IO) {
+    fun addNewPlant() = asyncLaunch {
         val response = plantsRepository.addNewPlant(newPlant.value).onSuccess {
             _newPlant.update { NewPlantDto() }
         }

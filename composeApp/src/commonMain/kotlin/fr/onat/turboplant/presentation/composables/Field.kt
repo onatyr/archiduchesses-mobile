@@ -12,15 +12,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import fr.onat.turboplant.data.models.PlantbookDetailsDto
+import fr.onat.turboplant.libs.logger.logger
+import kotlin.math.log
 
 @Composable
-fun SelectField(
+fun <T> SelectField(
     modifier: Modifier = Modifier,
-    selectableOptions: List<String>,
+    selectableOptions: List<T>,
     onSelectIndexed: (Int) -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
+    dropdownContent: @Composable (T) -> Unit,
 ) {
     var isExpended by remember { mutableStateOf(false) }
+    logger("selectable", selectableOptions)
+    logger("isExpended", isExpended)
 
     Box(modifier) {
         Box(Modifier.clickable { isExpended = !isExpended }) {
@@ -32,10 +38,11 @@ fun SelectField(
         ) {
             selectableOptions.forEachIndexed { index, option ->
                 DropdownMenuItem(
-                    content = { Text(text = option, color = Color.Black) },
+                    content = { dropdownContent(option) },
                     onClick = { onSelectIndexed(index); isExpended = !isExpended }
                 )
             }
         }
     }
 }
+

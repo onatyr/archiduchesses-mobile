@@ -11,16 +11,14 @@ import fr.onat.turboplant.libs.extensions.onFailure
 import fr.onat.turboplant.libs.extensions.onSuccess
 import fr.onat.turboplant.data.models.PlantIdentificationDto
 import fr.onat.turboplant.data.models.PlantbookEntityDto
+import fr.onat.turboplant.libs.extensions.onSuccessAsync
+import fr.onat.turboplant.libs.logger.logger
 import fr.onat.turboplant.libs.utils.asyncLaunch
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.launch
 
 class PlantsRepository(
     private val archiApi: ArchiApi,
@@ -57,8 +55,14 @@ class PlantsRepository(
         )?.body<List<PlantIdentificationDto>?>()
     }
 
-    suspend fun searchExternalPlantByName(name: String) =
-        archiApi.get("/plants/searchExternalPlantByName/$name")?.body<List<PlantbookEntityDto>>()
+    suspend fun searchExternalPlantByName(
+        name: String,
+        onResult: suspend (List<PlantbookEntityDto>) -> Unit
+    ) =
+        archiApi.get("/plants/searchExternalPlantByName/$name").onSuccessAsync {
+            onResult(it.body<List<PlantbookEntityDto>>())
+        }
+            .onFailure { logger("fail") }
 
     suspend fun addNewPlant(newPlant: NewPlantDto) =
         archiApi.post("/plants/add", body = newPlant)

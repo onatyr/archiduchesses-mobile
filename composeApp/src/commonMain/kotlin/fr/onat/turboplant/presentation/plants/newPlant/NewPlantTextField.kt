@@ -1,130 +1,85 @@
 package fr.onat.turboplant.presentation.plants.newPlant
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import fr.onat.turboplant.data.models.dto.NewPlantDto
-import fr.onat.turboplant.resources.JudsonFontFamily
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
+import fr.onat.turboplant.data.models.dto.Sunlight
+import fr.onat.turboplant.presentation.composables.BaseTextField
+import fr.onat.turboplant.presentation.composables.SelectField
 import turboplant.composeapp.generated.resources.Res
-import turboplant.composeapp.generated.resources.eye_scan_icon
+import turboplant.composeapp.generated.resources.adoption_date
 import turboplant.composeapp.generated.resources.plant_name
 import turboplant.composeapp.generated.resources.species
+import turboplant.composeapp.generated.resources.sunlight
+import turboplant.composeapp.generated.resources.watering_recurrence
 
 @Composable
-fun NewPlantCardHeader(
-    newPlant: NewPlantDto,
-    updateName: (String) -> Unit,
-    updateSpecies: (String) -> Unit,
-    onIconClick: () -> Unit
+fun NameField(
+    value: String,
+    updateValue: (String) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .align(Alignment.Top)
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .weight(1f),
-        horizontalAlignment = Alignment.Start
-    ) {
-        NewPlantTextField(
-            value = newPlant.name ?: "",
-            fontWeight = FontWeight.Bold,
-            fontSize = 25.sp,
-            onValueChange = updateName,
-            placeHolderText = stringResource(Res.string.plant_name)
-        )
-        NewPlantTextField(
-            value = newPlant.species ?: "",
-            fontStyle = FontStyle.Italic,
-            fontSize = 18.sp,
-            onValueChange = updateSpecies,
-            modifier = Modifier.padding(start = 10.dp),
-            placeHolderText = stringResource(Res.string.species),
-        )
-    }
+    BaseTextField(
+        placeHolderRes = Res.string.plant_name,
+        value = value,
+        updateValue = updateValue
+    )
 }
 
 @Composable
-fun NewPlantTextField(
+fun SpeciesField(
     value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    fontSize: TextUnit = 16.sp,
-    fontWeight: FontWeight? = null,
-    fontStyle: FontStyle? = null,
-    enabled: Boolean = true,
-    keyboardType: KeyboardType = KeyboardType.Text,
-    placeHolderText: String
+    updateValue: (String) -> Unit
 ) {
-    val textStyle = LocalTextStyle.current.copy(
-        fontFamily = JudsonFontFamily(),
-        fontSize = fontSize,
-        fontWeight = fontWeight,
-        fontStyle = fontStyle,
-    )
-
-    var isFocused by remember { mutableStateOf(false) }
-
-    TextField(
+    BaseTextField(
+        placeHolderRes = Res.string.species,
         value = value,
-        textStyle = textStyle,
-        onValueChange = onValueChange,
-        modifier = modifier.onFocusChanged {
-            isFocused = it.isFocused
+        updateValue = updateValue
+    )
+}
+
+@Composable
+fun WateringRecurrenceField(
+    value: String,
+    updateValue: (String) -> Unit
+) {
+    BaseTextField(
+        placeHolderRes = Res.string.watering_recurrence,
+        value = value,
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal),
+        updateValue = updateValue
+    )
+}
+
+@Composable
+fun SunlightField(
+    value: String,
+    updateValue: (Int) -> Unit
+) {
+    SelectField(
+        selectableOptions = Sunlight.entries.map { it.textValue },
+        onSelectIndexed = updateValue,
+        content = {
+            BaseTextField(
+                value = value,
+                placeHolderRes = Res.string.sunlight,
+                enabled = false
+            )
         },
-        colors = TextFieldDefaults.textFieldColors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            backgroundColor = Color.Transparent,
-            cursorColor = Color.White
-        ),
-        enabled = enabled,
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType,
-            capitalization = KeyboardCapitalization.Sentences
-        ),
-        placeholder = {
-            if (!isFocused) {
-                Text(
-                    text = placeHolderText,
-                    style = textStyle,
-                    color = Color.White.copy(alpha = 0.7f)
-                )
-            }
-        }
+        dropdownContent = { Text(text = it, color = Color.Black) }
+    )
+}
+
+@Composable
+fun DateField(
+    value: String,
+    updateValue: (String) -> Unit
+) {
+    BaseTextField(
+        placeHolderRes = Res.string.adoption_date,
+        value = value,
+        updateValue = updateValue
     )
 }
 

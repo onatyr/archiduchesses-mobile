@@ -1,41 +1,35 @@
 package fr.onat.turboplant.presentation.plants.newPlant
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import fr.onat.turboplant.data.models.PlantbookDetailsDto
+import fr.onat.turboplant.data.models.PlantbookEntityDto
 import fr.onat.turboplant.data.models.dto.NewPlantField
 import fr.onat.turboplant.data.models.dto.Sunlight
 import fr.onat.turboplant.libs.extensions.toStringOrNull
-import fr.onat.turboplant.presentation.CameraRoute
+import fr.onat.turboplant.libs.logger.logger
 import fr.onat.turboplant.presentation.NavRoute
+import fr.onat.turboplant.presentation.composables.BaseTextField
 import fr.onat.turboplant.presentation.composables.SelectField
 import fr.onat.turboplant.presentation.plants.PlantsViewModel
-import fr.onat.turboplant.resources.Colors
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import turboplant.composeapp.generated.resources.Res
-import turboplant.composeapp.generated.resources.adoption_date
-import turboplant.composeapp.generated.resources.sunlight
-import turboplant.composeapp.generated.resources.watering_recurrence
+import turboplant.composeapp.generated.resources.search_plant_by_species
 
 @Composable
 fun NewPlantScreen(
@@ -43,64 +37,90 @@ fun NewPlantScreen(
     navigate: (NavRoute) -> Unit
 ) {
     val newPlant by viewModel.newPlant.collectAsStateWithLifecycle()
-    val searchResult by viewModel.searchResult.collectAsStateWithLifecycle() // todo implement
+
+    val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
+    val searchResult by viewModel.searchResult.collectAsStateWithLifecycle()
+    logger(searchResult)
 
     val focusManager = LocalFocusManager.current
 
-    LaunchedEffect(newPlant.species) {
-        newPlant.species?.let {
-            if (it.length >= 3) viewModel.searchExternalPlantByName(it)
-        }
+    LaunchedEffect(searchQuery) {
+        if (searchQuery.length >= 3) viewModel.searchExternalPlantByName(searchQuery)
+
     }
 
-    Box(Modifier.padding(15.dp).background(Colors.PlantCardGreen, RoundedCornerShape(15.dp))) {
-        Column(
-            Modifier.padding(10.dp).fillMaxWidth()
-                .background(Color.Black.copy(alpha = 0.7f), RoundedCornerShape(5.dp))
-        ) {
-            NewPlantCardHeader(
-                newPlant = newPlant,
-                updateName = { viewModel.updateNewPlant(NewPlantField.Name, it) },
-                updateSpecies = { viewModel.updateNewPlant(NewPlantField.Species, it) },
-                onIconClick = { navigate(CameraRoute) }
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column {
+            SpeciesSearchBar(
+                searchQuery = searchQuery,
+                updateQuery = viewModel::updateSearchQuery,
+                searchResult = searchResult
+            )
+            NameField(
+                value = newPlant.name ?: "",
+                updateValue = { viewModel.updateNewPlant(NewPlantField.Name, it) },
+            )
+            SpeciesField(
+                value = newPlant.species ?: "",
+                updateValue = { viewModel.updateNewPlant(NewPlantField.Species, it) },
             )
             Spacer(Modifier.height(10.dp))
-            NewPlantTextField(
+            WateringRecurrenceField(
                 value = newPlant.wateringRecurrenceDays.toStringOrNull() ?: "",
-                onValueChange = {
-                    it.toIntOrNull() ?: return@NewPlantTextField
+                updateValue = {
+                    if (it.isNotEmpty()) it.toIntOrNull() ?: return@WateringRecurrenceField
                     viewModel.updateNewPlant(NewPlantField.WateringRecurrenceDays, it)
-                },
-                keyboardType = KeyboardType.Decimal,
-                placeHolderText = stringResource(Res.string.watering_recurrence)
+                }
             )
-            SelectField(
-                selectableOptions = Sunlight.entries.map { it.textValue },
-                onSelectIndexed = { index ->
+            SunlightField(
+                value = newPlant.sunlight?.textValue ?: "",
+                updateValue = { index ->
                     viewModel.updateNewPlant(
                         NewPlantField.Sunlight,
                         Sunlight.entries[index].textValue
                     )
                 }
-            ) {
-                NewPlantTextField(
-                    value = newPlant.sunlight?.textValue ?: "",
-                    onValueChange = {},
-                    placeHolderText = stringResource(Res.string.sunlight),
-                    enabled = false
-                )
-            }
-            NewPlantTextField(
-                value = newPlant.adoptionDate.toString(), // todo use date picker
-                onValueChange = { viewModel.updateNewPlant(NewPlantField.AdoptionDate, it) },
-                placeHolderText = stringResource(Res.string.adoption_date)
             )
-        }
-        Button(
-            onClick = { viewModel.addNewPlant(); focusManager.clearFocus() },
-            modifier = Modifier.align(Alignment.BottomEnd)
-        ) {
-            Icon(Icons.AutoMirrored.Filled.Send, "")
+
+            DateField(
+                value = newPlant.adoptionDate.toString(), // todo use date picker
+                updateValue = { viewModel.updateNewPlant(NewPlantField.AdoptionDate, it) },
+            )
+            Button(
+                onClick = { viewModel.addNewPlant(); focusManager.clearFocus() }
+            ) {
+                Icon(Icons.AutoMirrored.Filled.Send, "")
+            }
         }
     }
+}
+
+@Composable
+fun SpeciesSearchBar(
+    searchQuery: String,
+    updateQuery: (String) -> Unit,
+    searchResult: List<PlantbookEntityDto>
+) {
+    SelectField(
+        selectableOptions = searchResult,
+        onSelectIndexed = {},
+        content = {
+            BaseTextField(
+                value = searchQuery,
+                updateValue = updateQuery,
+                placeHolderRes = Res.string.search_plant_by_species
+            )
+        },
+        dropdownContent = { plant ->
+            PlantbookSearchResult(plant)
+        }
+    )
+}
+
+@Composable
+fun PlantbookSearchResult(plant: PlantbookEntityDto) {
+    Text(plant.displayPid)
 }
