@@ -2,6 +2,7 @@ package fr.onat.turboplant.presentation.plants.plantDetailed
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,7 +31,7 @@ fun PlantDetailedScreen(
     plantDetailed?.let { (plant, roomWithPlace, tasks) ->
         Column {
             PlantDetailedCard(plant)
-            LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+            LazyVerticalGrid(columns = GridCells.Fixed(2), contentPadding = PaddingValues(5.dp)) {
                 item {
                     SunlightDetailed(sunlight = plant.sunlight)
                 }

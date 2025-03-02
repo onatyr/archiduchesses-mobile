@@ -49,47 +49,28 @@ fun NewPlantCardHeader(
     updateSpecies: (String) -> Unit,
     onIconClick: () -> Unit
 ) {
-    Row {
-        Column(
-            modifier = Modifier
-                .align(Alignment.Top)
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .weight(1f),
-            horizontalAlignment = Alignment.Start
-        ) {
-            NewPlantTextField(
-                value = newPlant.name ?: "",
-                fontWeight = FontWeight.Bold,
-                fontSize = 25.sp,
-                onValueChange = updateName,
-                placeHolderText = stringResource(Res.string.plant_name)
-            )
-            NewPlantTextField(
-                value = newPlant.species ?: "",
-                fontStyle = FontStyle.Italic,
-                fontSize = 18.sp,
-                onValueChange = updateSpecies,
-                modifier = Modifier.padding(start = 10.dp),
-                placeHolderText = stringResource(Res.string.species),
-            )
-        }
-        Icon(
-            painter = painterResource(Res.drawable.eye_scan_icon),
-            contentDescription = null,
-            tint = Color.White,
-            modifier = Modifier
-                .clip(RoundedCornerShape(15.dp))
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = ripple(
-                        bounded = true,
-                        color = Color.White
-                    )
-                ) { onIconClick() }
-                .align(Alignment.CenterVertically)
-                .padding(20.dp)
-                .size(100.dp)
+    Column(
+        modifier = Modifier
+            .align(Alignment.Top)
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .weight(1f),
+        horizontalAlignment = Alignment.Start
+    ) {
+        NewPlantTextField(
+            value = newPlant.name ?: "",
+            fontWeight = FontWeight.Bold,
+            fontSize = 25.sp,
+            onValueChange = updateName,
+            placeHolderText = stringResource(Res.string.plant_name)
+        )
+        NewPlantTextField(
+            value = newPlant.species ?: "",
+            fontStyle = FontStyle.Italic,
+            fontSize = 18.sp,
+            onValueChange = updateSpecies,
+            modifier = Modifier.padding(start = 10.dp),
+            placeHolderText = stringResource(Res.string.species),
         )
     }
 }
@@ -146,3 +127,21 @@ fun NewPlantTextField(
         }
     )
 }
+
+//Icon(
+//painter = painterResource(Res.drawable.eye_scan_icon),
+//contentDescription = null,
+//tint = Color.White,
+//modifier = Modifier
+//.clip(RoundedCornerShape(15.dp))
+//.clickable(
+//interactionSource = remember { MutableInteractionSource() },
+//indication = ripple(
+//bounded = true,
+//color = Color.White
+//)
+//) { onIconClick() }
+//.align(Alignment.CenterVertically)
+//.padding(20.dp)
+//.size(100.dp)
+//)

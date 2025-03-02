@@ -28,6 +28,7 @@ import fr.onat.turboplant.data.models.entities.RoomWithPlace
 import fr.onat.turboplant.data.models.entities.Task
 import fr.onat.turboplant.libs.extensions.getDisplayableDayCount
 import fr.onat.turboplant.presentation.composables.SmoothGreyBox
+import fr.onat.turboplant.resources.Colors
 import kotlinx.datetime.Instant
 import org.jetbrains.compose.resources.painterResource
 import turboplant.composeapp.generated.resources.Res
@@ -75,7 +76,7 @@ fun SunlightDetailed(sunlight: Sunlight?) {
     SmoothGreyBox(Modifier.fillMaxWidth().aspectRatio(1f)) {
         Icon(
             painter = painterResource(Res.drawable.sun_icon),
-            tint = Color.Yellow,
+            tint = Colors.SunshineLight,
             contentDescription = null,
             modifier = Modifier.size(70.dp)
         )
@@ -88,7 +89,7 @@ fun WateringDetailed(wateringRecurrenceDays: Int?, latestWateringOccurrence: Ins
     SmoothGreyBox(Modifier.fillMaxWidth().aspectRatio(1f)) {
         Icon(
             painter = painterResource(Res.drawable.droplet_icon),
-            tint = Color.Blue,
+            tint = Colors.DropletBlue,
             contentDescription = null,
             modifier = Modifier.size(70.dp)
         )
@@ -96,7 +97,7 @@ fun WateringDetailed(wateringRecurrenceDays: Int?, latestWateringOccurrence: Ins
             text = wateringRecurrenceDays?.let { "Every $it days" }
                 ?: "No information about watering"
         )
-        latestWateringOccurrence?.let { Text(text = it.getDisplayableDayCount()) }
+        Text(text = latestWateringOccurrence?.let { it.getDisplayableDayCount() } ?: "")
     }
 }
 
