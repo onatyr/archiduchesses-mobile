@@ -3,7 +3,6 @@ package fr.onat.turboplant.data.models.dto
 import fr.onat.turboplant.libs.extensions.DelegatedClock
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import fr.onat.turboplant.data.models.dto.Sunlight as SunlightEnum
@@ -14,7 +13,7 @@ data class NewPlantDto(
     val species: String? = null,
     val sunlight: SunlightEnum? = null,
     val wateringRecurrenceDays: Int? = null,
-    val adoptionDate: Instant = DelegatedClock.now(),
+    val adoptionDate: String = DelegatedClock.now().toString(),
     val roomId: String? = null,
     val imageUrl: String? = null
 )
@@ -38,7 +37,7 @@ sealed class NewPlantField<T>(
     )
 
     data object AdoptionDate : NewPlantField<String?>(
-        update = { value -> update { it.copy(adoptionDate = Instant.parse(value)) } }
+        update = { value -> update { it.copy(adoptionDate = value) } }
     )
 
     data object RoomId : NewPlantField<String?>(

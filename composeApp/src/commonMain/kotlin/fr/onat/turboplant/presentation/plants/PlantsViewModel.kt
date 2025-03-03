@@ -12,6 +12,7 @@ import fr.onat.turboplant.data.models.PlantIdentificationDto
 import fr.onat.turboplant.data.models.PlantbookDetailsDto
 import fr.onat.turboplant.data.models.PlantbookEntityDto
 import fr.onat.turboplant.libs.extensions.asyncLaunch
+import fr.onat.turboplant.libs.extensions.onSuccessAsync
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -66,7 +67,8 @@ class PlantsViewModel(
     }
 
     fun addNewPlant() = asyncLaunch {
-        val response = plantsRepository.addNewPlant(newPlant.value).onSuccess {
+        plantsRepository.addNewPlant(newPlant.value).onSuccessAsync {
+            plantsRepository.fetchPlants()
             _newPlant.update { NewPlantDto() }
         }
     }

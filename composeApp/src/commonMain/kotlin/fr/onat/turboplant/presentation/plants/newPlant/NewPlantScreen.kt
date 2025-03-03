@@ -4,15 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
@@ -41,13 +40,13 @@ import fr.onat.turboplant.data.models.dto.Sunlight
 import fr.onat.turboplant.libs.extensions.toStringOrNull
 import fr.onat.turboplant.libs.utils.onDispose
 import fr.onat.turboplant.presentation.NavRoute
+import fr.onat.turboplant.presentation.PlantsRoute
 import fr.onat.turboplant.presentation.composables.BaseTextField
 import fr.onat.turboplant.presentation.composables.SelectField
 import fr.onat.turboplant.presentation.composables.SmoothGreyBox
 import fr.onat.turboplant.presentation.plants.PlantsViewModel
 import fr.onat.turboplant.resources.Colors
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
 import turboplant.composeapp.generated.resources.Res
 import turboplant.composeapp.generated.resources.search_plant_by_species
@@ -110,11 +109,15 @@ fun NewPlantScreen(
             )
 
             DateField(
-                value = newPlant.adoptionDate.toString(), // todo use date picker
+                value = newPlant.adoptionDate,
                 updateValue = { viewModel.updateNewPlant(NewPlantField.AdoptionDate, it) },
             )
             Button(
-                onClick = { viewModel.addNewPlant(); focusManager.clearFocus() }
+                onClick = {
+                    viewModel.addNewPlant()
+                    focusManager.clearFocus()
+                    navigate(PlantsRoute)
+                }
             ) {
                 Icon(Icons.AutoMirrored.Filled.Send, "")
             }
@@ -149,7 +152,7 @@ fun SpeciesSearchBar(
             )
         },
         dropdownContent = { plant ->
-            Box(Modifier.background(Colors.BlackGround).padding(5.dp)) {
+            Box(Modifier.background(Colors.BlackGround).padding(5.dp).width(300.dp)) {
                 PlantbookSearchResult(plant = plant, fetchPlantDetails = fetchPlantDetails)
             }
         }
@@ -171,21 +174,21 @@ fun PlantbookSearchResult(
     }
 
     SmoothGreyBox(Modifier.fillMaxWidth().height(150.dp)) {
-            Text(
-                text = plant.displayPid,
-                modifier = Modifier.fillMaxWidth().wrapContentHeight()
-            )
-            Box {
-                plantDetails?.let { details ->
-                    AsyncImage(
-                        model = details.imageUrl,
-                        contentDescription = "Image representing a ${plant.displayPid}",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.background(
-                            Color.Black, RoundedCornerShape(10.dp)
-                        )
+        Text(
+            text = plant.displayPid,
+            modifier = Modifier.fillMaxWidth().wrapContentHeight()
+        )
+        Box {
+            plantDetails?.let { details ->
+                AsyncImage(
+                    model = details.imageUrl,
+                    contentDescription = "Image representing a ${plant.displayPid}",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.background(
+                        Color.Black, RoundedCornerShape(10.dp)
                     )
-                }
+                )
             }
+        }
     }
 }

@@ -26,6 +26,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun BaseTextField(
+    modifier: Modifier = Modifier,
     value: String,
     updateValue: (String) -> Unit = {},
     labelRes: StringResource? = null,
@@ -36,7 +37,7 @@ fun BaseTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     enabled: Boolean = true,
 ) {
-    Column(Modifier.padding(10.dp)) {
+    Column(modifier.padding(10.dp)) {
         labelRes?.let {
             Text(
                 text = stringResource(labelRes),
