@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import fr.onat.turboplant.presentation.AuthRoute
 import fr.onat.turboplant.presentation.NavRoute.Companion.name
@@ -30,6 +31,7 @@ data class ScreenSize(val widthDp: Int, val heightDp: Int)
 val LocalScreenSize = compositionLocalOf { ScreenSize(0, 0) }
 val LocalWindowWidthSizeClass = compositionLocalOf { WindowWidthSizeClass.Medium }
 val LocalSnackbarHostState = compositionLocalOf { SnackbarHostState() }
+val LocalBottomPadding = compositionLocalOf { 0.dp }
 val LocalNavRoute = compositionLocalOf<String?> { null }
 
 @Composable
@@ -42,7 +44,7 @@ expect fun getScreenSize(): ScreenSize
 fun setMaterialWithProviders(
     navController: NavController,
     vararg values: ProvidedValue<*>,
-    content: @Composable (Modifier) -> Unit
+    content: @Composable () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     MaterialTheme {
@@ -64,7 +66,9 @@ fun setMaterialWithProviders(
                         NavigationBar(navController, Modifier.fillMaxWidth())
                 }
             ) { paddingValues ->
-                content(Modifier.padding(bottom = paddingValues.calculateBottomPadding()))
+                CompositionLocalProvider(LocalBottomPadding provides paddingValues.calculateBottomPadding()) {
+                    content()
+                }
             }
         }
     }

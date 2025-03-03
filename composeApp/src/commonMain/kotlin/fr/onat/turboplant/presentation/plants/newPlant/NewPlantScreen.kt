@@ -30,9 +30,6 @@ fun NewPlantScreen(
     viewModel: PlantsViewModel = koinViewModel(),
     navigate: (NavRoute) -> Unit
 ) {
-    LaunchedEffect(Unit) {
-        viewModel.resetNewPlant()
-    }
 
     val newPlant by viewModel.newPlant.collectAsStateWithLifecycle()
     val isNewPlantValid by viewModel.isNewPlantValid.collectAsStateWithLifecycle(false)
@@ -49,7 +46,7 @@ fun NewPlantScreen(
 
     }
 
-//    onDispose { viewModel.resetNewPlant() }
+    onDispose { viewModel.resetNewPlant() }
 
     Column(
         modifier = Modifier.fillMaxSize(),

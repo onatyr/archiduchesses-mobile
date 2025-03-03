@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -17,13 +18,12 @@ import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import fr.onat.turboplant.libs.extensions.getCurrentRoute
+import fr.onat.turboplant.libs.utils.LocalBottomPadding
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.libs.utils.setMaterialWithProviders
 import fr.onat.turboplant.presentation.auth.AuthScreen
 import fr.onat.turboplant.presentation.composables.AlwaysDeniedDialog
 import fr.onat.turboplant.presentation.permissions.PermissionsViewModel
-import fr.onat.turboplant.presentation.plants.identification.PlantIdentificationScreen
-import fr.onat.turboplant.presentation.plants.imagePicker.ImagePickerScreen
 import fr.onat.turboplant.presentation.plants.newPlant.NewPlantScreen
 import fr.onat.turboplant.presentation.plants.plantDetailed.PlantDetailedScreen
 import fr.onat.turboplant.presentation.plants.plantList.PlantListScreen
@@ -54,9 +54,12 @@ fun App() {
     setMaterialWithProviders(
         navController = navController,
         LocalNavRoute provides navController.getCurrentRoute()
-    ) { modifier ->
+    ) {
         Column(
-            modifier = modifier.fillMaxSize().background(Color.Black),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black)
+                .padding(bottom = LocalBottomPadding.current),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             NavHost(
@@ -83,12 +86,6 @@ fun App() {
                 }
                 composable<AddNewPlantRoute> {
                     NewPlantScreen(navigate = { navController.navigate(it) })
-                }
-                composable<ImageIdentificationRoute> {
-                    PlantIdentificationScreen(Modifier.fillMaxSize())
-                }
-                composable<ImagePickerRoute> {
-                    ImagePickerScreen()
                 }
                 composable<TasksRoute> { TasksScreen() }
                 composable<RoomsRoute> { RoomsScreen() }
@@ -122,12 +119,6 @@ object TasksRoute : NavRoute
 
 @Serializable
 object RoomsRoute : NavRoute
-
-@Serializable
-object ImageIdentificationRoute : NavRoute
-
-@Serializable
-object ImagePickerRoute : NavRoute
 
 @Serializable
 object ProfileRoute : NavRoute
