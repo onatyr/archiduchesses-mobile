@@ -1,25 +1,17 @@
 package fr.onat.turboplant.presentation.plants
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import fr.onat.turboplant.data.models.PlantIdentificationDto
+import fr.onat.turboplant.data.models.PlantbookEntityDto
 import fr.onat.turboplant.data.models.dto.NewPlantDto
 import fr.onat.turboplant.data.models.dto.NewPlantField
 import fr.onat.turboplant.data.repositories.PlantsRepository
 import fr.onat.turboplant.data.repositories.TasksRepository
-import fr.onat.turboplant.libs.extensions.onSuccess
-import fr.onat.turboplant.libs.logger.logger
-import fr.onat.turboplant.data.models.PlantIdentificationDto
-import fr.onat.turboplant.data.models.PlantbookDetailsDto
-import fr.onat.turboplant.data.models.PlantbookEntityDto
 import fr.onat.turboplant.libs.extensions.asyncLaunch
 import fr.onat.turboplant.libs.extensions.onSuccessAsync
-import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class PlantsViewModel(
     private val plantsRepository: PlantsRepository,

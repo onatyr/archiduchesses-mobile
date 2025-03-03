@@ -112,15 +112,15 @@ fun NewPlantScreen(
                 value = newPlant.adoptionDate,
                 updateValue = { viewModel.updateNewPlant(NewPlantField.AdoptionDate, it) },
             )
-            Button(
-                onClick = {
-                    viewModel.addNewPlant()
-                    focusManager.clearFocus()
-                    navigate(PlantsRoute)
-                }
-            ) {
-                Icon(Icons.AutoMirrored.Filled.Send, "")
+        }
+        Button(
+            onClick = {
+                viewModel.addNewPlant()
+                focusManager.clearFocus()
+                navigate(PlantsRoute)
             }
+        ) {
+            Icon(Icons.AutoMirrored.Filled.Send, "")
         }
     }
 }
