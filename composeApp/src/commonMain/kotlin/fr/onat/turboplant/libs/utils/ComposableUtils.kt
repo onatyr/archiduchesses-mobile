@@ -1,5 +1,7 @@
 package fr.onat.turboplant.libs.utils
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.LocalTextStyle
@@ -15,11 +17,13 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.navigation.NavDestination
-import fr.onat.turboplant.presentation.NavRoute
+import androidx.navigation.NavController
+import fr.onat.turboplant.presentation.AuthRoute
+import fr.onat.turboplant.presentation.NavRoute.Companion.name
+import fr.onat.turboplant.presentation.navigationBar.NavigationBar
 
 data class ScreenSize(val widthDp: Int, val heightDp: Int)
 
@@ -36,26 +40,31 @@ expect fun getScreenSize(): ScreenSize
 
 @Composable
 fun setMaterialWithProviders(
+    navController: NavController,
     vararg values: ProvidedValue<*>,
-    content: @Composable () -> Unit
+    content: @Composable (Modifier) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-    Scaffold(
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        }
-    ) {
-        MaterialTheme {
-            CompositionLocalProvider(
-                LocalWindowWidthSizeClass provides calculateWindowSizeClass().widthSizeClass,
-                LocalSnackbarHostState provides snackbarHostState,
-                LocalScreenSize provides getScreenSize(),
-                LocalTextStyle provides TextStyle.Companion.Default.copy(color = Color.White),
-                LocalContentColor provides Color.White,
-                LocalContentAlpha provides 0.4f,
-                *values
-            ) {
-                content()
+    MaterialTheme {
+        CompositionLocalProvider(
+            LocalWindowWidthSizeClass provides calculateWindowSizeClass().widthSizeClass,
+            LocalSnackbarHostState provides snackbarHostState,
+            LocalScreenSize provides getScreenSize(),
+            LocalTextStyle provides TextStyle.Companion.Default.copy(color = Color.White),
+            LocalContentColor provides Color.White,
+            LocalContentAlpha provides 0.4f,
+            *values
+        ) {
+            Scaffold(
+                snackbarHost = {
+                    SnackbarHost(hostState = LocalSnackbarHostState.current)
+                },
+                bottomBar = {
+                    if (LocalNavRoute.current != AuthRoute.name)
+                        NavigationBar(navController, Modifier.fillMaxWidth())
+                }
+            ) { paddingValues ->
+                content(Modifier.padding(bottom = paddingValues.calculateBottomPadding()))
             }
         }
     }

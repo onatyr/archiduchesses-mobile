@@ -27,6 +27,7 @@ class PlantsRepository(
 ) {
     init {
         asyncLaunch {
+            plantDao.deleteAll()
             fetchPlants().forEach { plantDto ->
                 taskDao.upsertAll(plantDto.tasks.map { it.toTask() })
             }
@@ -37,7 +38,6 @@ class PlantsRepository(
         (archiApi.get("/plants/all")?.body<List<PlantDto>>() ?: emptyList()).apply {
             plantDao.upsertAll(map { dto -> dto.toPlant() })
         }
-
 
     suspend fun identify(image: ByteArray?, onError: () -> Unit) = image?.let {
         archiApi.post(

@@ -11,6 +11,7 @@ import fr.onat.turboplant.libs.extensions.asyncLaunch
 import fr.onat.turboplant.libs.extensions.onSuccessAsync
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 class PlantsViewModel(
@@ -22,6 +23,7 @@ class PlantsViewModel(
 
     private val _newPlant = MutableStateFlow(NewPlantDto())
     val newPlant = _newPlant.asStateFlow()
+    val isNewPlantValid = newPlant.map { !it.name.isNullOrEmpty() }
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
@@ -58,10 +60,10 @@ class PlantsViewModel(
         }
     }
 
-    fun addNewPlant() = asyncLaunch {
+    fun addNewPlant(onSuccess: suspend () -> Unit) = asyncLaunch {
         plantsRepository.addNewPlant(newPlant.value).onSuccessAsync {
+            onSuccess()
             plantsRepository.fetchPlants()
-            _newPlant.update { NewPlantDto() }
         }
     }
 }

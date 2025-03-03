@@ -35,4 +35,9 @@ interface PlantDao {
         WHERE id = :id
     """)
     fun getPlantById(id: String): Flow<PlantDetailed?>
+
+    @Query("""
+        DELETE FROM Plant
+    """)
+    fun deleteAll()
 }

@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.presentation.AddNewPlantRoute
 import fr.onat.turboplant.presentation.CameraRoute
-import fr.onat.turboplant.presentation.LoginRoute
 import fr.onat.turboplant.presentation.NavRoute
 import fr.onat.turboplant.presentation.NavRoute.Companion.name
 import fr.onat.turboplant.presentation.PlantsRoute

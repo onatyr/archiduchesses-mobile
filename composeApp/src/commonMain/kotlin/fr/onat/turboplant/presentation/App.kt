@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -20,10 +19,8 @@ import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import fr.onat.turboplant.libs.extensions.getCurrentRoute
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.libs.utils.setMaterialWithProviders
-import fr.onat.turboplant.presentation.NavRoute.Companion.name
 import fr.onat.turboplant.presentation.auth.AuthScreen
 import fr.onat.turboplant.presentation.composables.AlwaysDeniedDialog
-import fr.onat.turboplant.presentation.navigationBar.NavigationBar
 import fr.onat.turboplant.presentation.permissions.PermissionsViewModel
 import fr.onat.turboplant.presentation.plants.identification.PlantIdentificationScreen
 import fr.onat.turboplant.presentation.plants.newPlant.NewPlantScreen
@@ -54,18 +51,19 @@ fun App() {
         )
 
     setMaterialWithProviders(
+        navController = navController,
         LocalNavRoute provides navController.getCurrentRoute()
-    ) {
+    ) { modifier ->
         Column(
-            modifier = Modifier.fillMaxSize().background(Color.Black),
+            modifier = modifier.fillMaxSize().background(Color.Black),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             NavHost(
                 navController = navController,
-                startDestination = LoginRoute,
+                startDestination = AuthRoute,
                 modifier = Modifier.weight(1f)
             ) {
-                composable<LoginRoute> {
+                composable<AuthRoute> {
                     AuthScreen(navigate = {
                         navController.navigate(PlantsRoute) {
                             navController.graph.startDestinationRoute?.let { startDestination ->
@@ -92,9 +90,6 @@ fun App() {
                 composable<RoomsRoute> { RoomsScreen() }
 
             }
-
-            if (LocalNavRoute.current != LoginRoute.name)
-                NavigationBar(navController, Modifier.fillMaxWidth())
         }
     }
 }
@@ -107,7 +102,7 @@ interface NavRoute {
 }
 
 @Serializable
-object LoginRoute : NavRoute
+object AuthRoute : NavRoute
 
 @Serializable
 object PlantsRoute : NavRoute
