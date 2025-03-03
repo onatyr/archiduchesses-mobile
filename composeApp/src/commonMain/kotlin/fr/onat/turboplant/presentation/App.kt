@@ -23,6 +23,7 @@ import fr.onat.turboplant.presentation.auth.AuthScreen
 import fr.onat.turboplant.presentation.composables.AlwaysDeniedDialog
 import fr.onat.turboplant.presentation.permissions.PermissionsViewModel
 import fr.onat.turboplant.presentation.plants.identification.PlantIdentificationScreen
+import fr.onat.turboplant.presentation.plants.imagePicker.ImagePickerScreen
 import fr.onat.turboplant.presentation.plants.newPlant.NewPlantScreen
 import fr.onat.turboplant.presentation.plants.plantDetailed.PlantDetailedScreen
 import fr.onat.turboplant.presentation.plants.plantList.PlantListScreen
@@ -83,8 +84,11 @@ fun App() {
                 composable<AddNewPlantRoute> {
                     NewPlantScreen(navigate = { navController.navigate(it) })
                 }
-                composable<CameraRoute> {
+                composable<ImageIdentificationRoute> {
                     PlantIdentificationScreen(Modifier.fillMaxSize())
+                }
+                composable<ImagePickerRoute> {
+                    ImagePickerScreen()
                 }
                 composable<TasksRoute> { TasksScreen() }
                 composable<RoomsRoute> { RoomsScreen() }
@@ -120,7 +124,10 @@ object TasksRoute : NavRoute
 object RoomsRoute : NavRoute
 
 @Serializable
-object CameraRoute : NavRoute
+object ImageIdentificationRoute : NavRoute
+
+@Serializable
+object ImagePickerRoute : NavRoute
 
 @Serializable
 object ProfileRoute : NavRoute

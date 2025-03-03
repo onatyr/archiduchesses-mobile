@@ -157,21 +157,3 @@ fun DatePickerDialog(
         }
     }
 }
-
-//Icon(
-//painter = painterResource(Res.drawable.eye_scan_icon),
-//contentDescription = null,
-//tint = Color.White,
-//modifier = Modifier
-//.clip(RoundedCornerShape(15.dp))
-//.clickable(
-//interactionSource = remember { MutableInteractionSource() },
-//indication = ripple(
-//bounded = true,
-//color = Color.White
-//)
-//) { onIconClick() }
-//.align(Alignment.CenterVertically)
-//.padding(20.dp)
-//.size(100.dp)
-//)

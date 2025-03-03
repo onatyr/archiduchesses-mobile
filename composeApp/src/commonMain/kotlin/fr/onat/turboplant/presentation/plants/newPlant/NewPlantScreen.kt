@@ -30,6 +30,10 @@ fun NewPlantScreen(
     viewModel: PlantsViewModel = koinViewModel(),
     navigate: (NavRoute) -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.resetNewPlant()
+    }
+
     val newPlant by viewModel.newPlant.collectAsStateWithLifecycle()
     val isNewPlantValid by viewModel.isNewPlantValid.collectAsStateWithLifecycle(false)
 
@@ -37,7 +41,6 @@ fun NewPlantScreen(
     val searchResult by viewModel.searchResult.collectAsStateWithLifecycle()
 
     val scope = rememberCoroutineScope()
-
     val focusManager = LocalFocusManager.current
     val snackbarHostState = LocalSnackbarHostState.current
 
@@ -46,7 +49,7 @@ fun NewPlantScreen(
 
     }
 
-    onDispose { viewModel.resetNewPlant() }
+//    onDispose { viewModel.resetNewPlant() }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -86,11 +89,11 @@ fun NewPlantScreen(
                     )
                 }
             )
-
             DateField(
                 value = newPlant.adoptionDate,
                 updateValue = { viewModel.updateNewPlant(NewPlantField.AdoptionDate, it) },
             )
+            ImageSelectorsRow(navigate = navigate)
         }
         Column(Modifier.padding(10.dp)) {
             CancelButton(

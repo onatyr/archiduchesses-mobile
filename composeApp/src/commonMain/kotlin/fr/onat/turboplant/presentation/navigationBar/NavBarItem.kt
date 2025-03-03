@@ -3,7 +3,8 @@ package fr.onat.turboplant.presentation.navigationBar
 import androidx.compose.runtime.Composable
 import fr.onat.turboplant.libs.utils.LocalNavRoute
 import fr.onat.turboplant.presentation.AddNewPlantRoute
-import fr.onat.turboplant.presentation.CameraRoute
+import fr.onat.turboplant.presentation.ImageIdentificationRoute
+import fr.onat.turboplant.presentation.ImagePickerRoute
 import fr.onat.turboplant.presentation.NavRoute
 import fr.onat.turboplant.presentation.NavRoute.Companion.name
 import fr.onat.turboplant.presentation.PlantsRoute
@@ -37,7 +38,7 @@ sealed class NavBarItem(
         labelRes = Res.string.nav_route_plants,
         iconRes = Res.drawable.plant_icon,
         route = PlantsRoute,
-        relatedRoutes = listOf(AddNewPlantRoute, CameraRoute)
+        relatedRoutes = listOf(AddNewPlantRoute, ImageIdentificationRoute, ImagePickerRoute)
     )
 
     data object Tasks : NavBarItem(

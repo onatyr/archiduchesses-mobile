@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -15,7 +16,7 @@ import fr.onat.turboplant.resources.Colors
 @Composable
 fun SmoothGreyBox(
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit = {}
+    content: @Composable ColumnScope.() -> Unit = {}
 ) {
     Box(
         modifier = modifier
