@@ -16,12 +16,10 @@ private fun NewPlantFooterButton(
     text: String,
     color: Color,
     onClick: () -> Unit,
-    enabled: Boolean = true
 ) {
     Button(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth().height(80.dp),
-        enabled = enabled,
         colors = ButtonDefaults.buttonColors(backgroundColor = color, disabledBackgroundColor = color)
     ) {
         Text(text = text)
@@ -42,11 +40,11 @@ fun CancelButton(
 @Composable
 fun ConfirmButton(
     onClick: () -> Unit,
+    onDisabledClick: () -> Unit,
     enabled: Boolean
 ) {
     NewPlantFooterButton(
-        onClick = onClick,
-        enabled = enabled,
+        onClick = if (enabled) onClick else onDisabledClick,
         color = if (enabled) Colors.TurboGreen else Colors.SmootherGrey.copy(alpha = 0.4f),
         text = "CONFIRM"
     )

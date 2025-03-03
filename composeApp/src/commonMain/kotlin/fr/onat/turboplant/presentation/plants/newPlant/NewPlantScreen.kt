@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,7 @@ import fr.onat.turboplant.libs.utils.onDispose
 import fr.onat.turboplant.presentation.NavRoute
 import fr.onat.turboplant.presentation.PlantsRoute
 import fr.onat.turboplant.presentation.plants.PlantsViewModel
+import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -33,6 +35,8 @@ fun NewPlantScreen(
 
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     val searchResult by viewModel.searchResult.collectAsStateWithLifecycle()
+
+    val scope = rememberCoroutineScope()
 
     val focusManager = LocalFocusManager.current
     val snackbarHostState = LocalSnackbarHostState.current
@@ -100,10 +104,19 @@ fun NewPlantScreen(
                 enabled = isNewPlantValid,
                 onClick = {
                     viewModel.addNewPlant(
-                        onSuccess = { snackbarHostState.showSnackbar("${newPlant.name} added to your list") }
+                        onSuccess = {
+                            scope.launch {
+                                snackbarHostState.showSnackbar("${newPlant.name} added to your list")
+                            }
+                        }
                     )
                     focusManager.clearFocus()
                     navigate(PlantsRoute)
+                },
+                onDisabledClick = {
+                    scope.launch {
+                        snackbarHostState.showSnackbar("At least give it a name ?")
+                    }
                 }
             )
         }

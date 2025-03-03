@@ -60,7 +60,7 @@ class PlantsViewModel(
         }
     }
 
-    fun addNewPlant(onSuccess: suspend () -> Unit) = asyncLaunch {
+    fun addNewPlant(onSuccess: () -> Unit) = asyncLaunch {
         plantsRepository.addNewPlant(newPlant.value).onSuccessAsync {
             onSuccess()
             plantsRepository.fetchPlants()
