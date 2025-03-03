@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Divider
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import fr.onat.turboplant.resources.Colors
 import org.jetbrains.compose.resources.StringResource
@@ -28,6 +30,7 @@ fun BaseTextField(
     updateValue: (String) -> Unit = {},
     labelRes: StringResource? = null,
     placeHolderRes: StringResource,
+    borderColor: Color = LocalContentColor.current.copy(LocalContentAlpha.current),
     leadingIcon: @Composable (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -50,18 +53,20 @@ fun BaseTextField(
             visualTransformation = visualTransformation,
             leadingIcon = leadingIcon,
             keyboardOptions = keyboardOptions,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Colors.BlackGround,
                 textColor = LocalContentColor.current,
-                focusedIndicatorColor = Colors.SalmonPink
+                focusedIndicatorColor = Colors.TurboGreen
             ),
             placeholder = {
                 Text(stringResource(placeHolderRes), color = Color.White.copy(alpha = 0.5f))
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .border(
                     2.dp,
-                    LocalContentColor.current.copy(LocalContentAlpha.current),
+                    borderColor,
                     RoundedCornerShape(5.dp)
                 )
         )

@@ -39,6 +39,8 @@ class PlantsViewModel(
     private val _identificationResult = MutableStateFlow<List<PlantIdentificationDto>?>(null)
     val identificationResult = _identificationResult.asStateFlow()
 
+    fun resetNewPlant() = _newPlant.update { NewPlantDto() }
+
     fun <T> updateNewPlant(field: NewPlantField<T>, value: String) = field.update(_newPlant, value)
 
     fun getPlantById(id: String) = plantsRepository.getPlantById(id)
@@ -51,6 +53,8 @@ class PlantsViewModel(
             onResult = { _searchResult.emit(it) }
         )
     }
+
+    suspend fun fetchPlantDetails(plantPid: String) = plantsRepository.fetchPlantDetails(plantPid)
 
     fun identify(image: ByteArray?, onError: () -> Unit) = asyncLaunch {
         _identificationResult.update {

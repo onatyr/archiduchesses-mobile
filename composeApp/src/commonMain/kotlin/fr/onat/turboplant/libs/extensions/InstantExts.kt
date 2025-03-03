@@ -35,7 +35,7 @@ val Instant.deltaFromNowHours: Long
 val Instant.deltaFromNowDays: Long
     get() = deltaFromNowHours / 24
 
-fun Instant.isPast() = deltaFromNowHours < 0
+fun Instant.isPast() = deltaFromNowHours < -24
 fun Instant.isToday() = deltaFromNowHours in -24..24
 fun Instant.isInNextDays(days: Int) =
     this in DelegatedClock.now()..Instant.fromEpochSeconds(DelegatedClock.now().epochSeconds + days * 24 * 3600)

@@ -3,16 +3,16 @@ package fr.onat.turboplant.data.repositories
 import fr.onat.turboplant.data.api.ArchiApi
 import fr.onat.turboplant.data.dao.PlantDao
 import fr.onat.turboplant.data.dao.TaskDao
+import fr.onat.turboplant.data.models.PlantIdentificationDto
+import fr.onat.turboplant.data.models.PlantbookDetailsDto
+import fr.onat.turboplant.data.models.PlantbookEntityDto
 import fr.onat.turboplant.data.models.dto.NewPlantDto
 import fr.onat.turboplant.data.models.dto.PlantDto
 import fr.onat.turboplant.data.models.entities.toPlant
 import fr.onat.turboplant.data.models.entities.toTask
 import fr.onat.turboplant.libs.extensions.onFailure
 import fr.onat.turboplant.libs.extensions.onSuccess
-import fr.onat.turboplant.data.models.PlantIdentificationDto
-import fr.onat.turboplant.data.models.PlantbookEntityDto
 import fr.onat.turboplant.libs.extensions.onSuccessAsync
-import fr.onat.turboplant.libs.logger.logger
 import fr.onat.turboplant.libs.utils.asyncLaunch
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.MultiPartFormDataContent
@@ -62,7 +62,10 @@ class PlantsRepository(
         archiApi.get("/plants/searchExternalPlantByName/$name").onSuccessAsync {
             onResult(it.body<List<PlantbookEntityDto>>())
         }
-            .onFailure { logger("fail") }
+
+    suspend fun fetchPlantDetails(
+        plantPid: String,
+    ) = archiApi.get("/plants/details/$plantPid")?.body<PlantbookDetailsDto>()
 
     suspend fun addNewPlant(newPlant: NewPlantDto) =
         archiApi.post("/plants/add", body = newPlant)

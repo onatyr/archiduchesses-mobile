@@ -66,8 +66,7 @@ fun SunlightField(
                 placeHolderRes = Res.string.sunlight,
                 enabled = false
             )
-        },
-        dropdownContent = { Text(text = it, color = Color.Black) }
+        }
     )
 }
 
