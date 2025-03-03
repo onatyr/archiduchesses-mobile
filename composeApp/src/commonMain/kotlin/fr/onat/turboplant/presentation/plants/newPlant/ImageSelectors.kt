@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,13 +41,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.Popup
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.preat.peekaboo.ui.camera.PeekabooCamera
 import com.preat.peekaboo.ui.camera.rememberPeekabooCameraState
 import fr.onat.turboplant.libs.utils.LocalBottomPadding
 import fr.onat.turboplant.libs.utils.toImageBitmap
-import fr.onat.turboplant.presentation.NavRoute
 import fr.onat.turboplant.presentation.composables.SmoothGreyBox
 import fr.onat.turboplant.presentation.plants.PlantsViewModel
 import org.jetbrains.compose.resources.DrawableResource
@@ -59,7 +57,7 @@ import turboplant.composeapp.generated.resources.add_image_icon
 import turboplant.composeapp.generated.resources.eye_scan_icon
 
 @Composable
-fun ImageSelectorsRow(navigate: (NavRoute) -> Unit) {
+fun ImageSelectorsRow() {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
@@ -85,7 +83,7 @@ fun ImageSelector(
     subText: String,
     iconRes: DrawableResource
 ) {
-    var showDialog by remember { mutableStateOf(false) }
+    var showPopup by remember { mutableStateOf(false) }
     SmoothGreyBox(
         modifier = Modifier.clickable(
             interactionSource = remember { MutableInteractionSource() },
@@ -93,7 +91,7 @@ fun ImageSelector(
                 bounded = true,
                 color = Color.White
             ),
-            onClick = { showDialog = true }
+            onClick = { showPopup = true }
         )
     ) {
         Icon(
@@ -105,14 +103,15 @@ fun ImageSelector(
                 .align(Alignment.CenterHorizontally)
                 .padding(20.dp)
         )
+        Spacer(Modifier.size(5.dp))
         Text(subText)
     }
-    if (showDialog) {
-        Dialog(onDismissRequest = { showDialog = false }) {
+    if (showPopup) {
+        Popup(onDismissRequest = { showPopup = false }) {
             Box(
                 Modifier
                     .border(2.dp, Color.Red)
-                    .wrapContentSize()
+                    .fillMaxSize()
                     .padding(
                         start = 10.dp,
                         top = 10.dp,

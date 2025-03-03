@@ -90,7 +90,8 @@ fun NewPlantScreen(
                 value = newPlant.adoptionDate,
                 updateValue = { viewModel.updateNewPlant(NewPlantField.AdoptionDate, it) },
             )
-            ImageSelectorsRow(navigate = navigate)
+
+            ImageSelectorsRow()
         }
         Column(Modifier.padding(10.dp)) {
             CancelButton(
