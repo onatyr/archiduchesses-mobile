@@ -19,12 +19,12 @@ fun SmoothGreyBox(
     content: @Composable ColumnScope.() -> Unit = {}
 ) {
     Box(
-        modifier = modifier
+        modifier = Modifier
             .padding(10.dp)
             .background(
                 color = Colors.SmoothGrey,
                 shape = RoundedCornerShape(20)
-            ),
+            ).then(modifier),
         contentAlignment = Alignment.Center
     ) {
         Column(

@@ -17,6 +17,7 @@ import fr.onat.turboplant.libs.utils.asyncLaunch
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 
@@ -27,17 +28,32 @@ class PlantsRepository(
 ) {
     init {
         asyncLaunch {
-            plantDao.deleteAll()
-            fetchPlants().forEach { plantDto ->
+            fetchPlants(withReset = true).forEach { plantDto ->
                 taskDao.upsertAll(plantDto.tasks.map { it.toTask() })
             }
         }
     }
 
-    suspend fun fetchPlants() =
+    suspend fun fetchPlants(withReset: Boolean = false) =
         (archiApi.get("/plants/all")?.body<List<PlantDto>>() ?: emptyList()).apply {
+            if (withReset) plantDao.deleteAll()
             plantDao.upsertAll(map { dto -> dto.toPlant() })
         }
+
+    suspend fun uploadImage(image: ByteArray?) = image?.let {
+        archiApi.post(
+            routeUrl = "/plants/uploadImage",
+            body = MultiPartFormDataContent(
+                formData {
+                    append("file", image, Headers.build {
+                        append(HttpHeaders.ContentType, "image/png")
+                        append(HttpHeaders.ContentDisposition, "filename=\"plant_image.jpeg\"")
+                    })
+                },
+                boundary = "WebAppBoundary"
+            ),
+        )
+    }
 
     suspend fun identify(image: ByteArray?, onError: () -> Unit) = image?.let {
         archiApi.post(

@@ -5,10 +5,15 @@ import fr.onat.turboplant.data.models.PlantIdentificationDto
 import fr.onat.turboplant.data.models.PlantbookEntityDto
 import fr.onat.turboplant.data.models.dto.NewPlantDto
 import fr.onat.turboplant.data.models.dto.NewPlantField
+import fr.onat.turboplant.data.models.dto.UploadFileDto
 import fr.onat.turboplant.data.repositories.PlantsRepository
 import fr.onat.turboplant.data.repositories.TasksRepository
 import fr.onat.turboplant.libs.extensions.asyncLaunch
+import fr.onat.turboplant.libs.extensions.onSuccess
 import fr.onat.turboplant.libs.extensions.onSuccessAsync
+import fr.onat.turboplant.libs.logger.logger
+import io.ktor.client.call.body
+import io.ktor.client.statement.bodyAsText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
@@ -23,6 +28,7 @@ class PlantsViewModel(
 
     private val _newPlant = MutableStateFlow(NewPlantDto())
     val newPlant = _newPlant.asStateFlow()
+
     val isNewPlantValid = newPlant.map { !it.name.isNullOrEmpty() }
 
     private val _searchQuery = MutableStateFlow("")
@@ -35,6 +41,7 @@ class PlantsViewModel(
     val identificationResult = _identificationResult.asStateFlow()
 
     fun resetNewPlant() = _newPlant.update { NewPlantDto() }
+    fun resetIdentificationResult() = _identificationResult.update { null }
 
     fun <T> updateNewPlant(field: NewPlantField<T>, value: String) = field.update(_newPlant, value)
 
@@ -57,6 +64,15 @@ class PlantsViewModel(
                 image = image,
                 onError = onError
             )
+        }
+    }
+
+    fun uploadImage(image: ByteArray?, onSuccess: () -> Unit) = asyncLaunch {
+        plantsRepository.uploadImage(image).onSuccessAsync { response ->
+            response.body<UploadFileDto>().imageUrl?.let {
+                updateNewPlant(NewPlantField.ImageUrl, it)
+                onSuccess()
+            }
         }
     }
 

@@ -91,7 +91,10 @@ fun NewPlantScreen(
                 updateValue = { viewModel.updateNewPlant(NewPlantField.AdoptionDate, it) },
             )
 
-            ImageSelectorsRow()
+            ImageSelectorsRow(
+                clearSelectedImage = {},// todo
+                clearIdentificationResult = viewModel::resetIdentificationResult
+            )
         }
         Column(Modifier.padding(10.dp)) {
             CancelButton(
