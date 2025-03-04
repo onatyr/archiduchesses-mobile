@@ -34,6 +34,8 @@ fun NewPlantScreen(
     val newPlant by viewModel.newPlant.collectAsStateWithLifecycle()
     val isNewPlantValid by viewModel.isNewPlantValid.collectAsStateWithLifecycle(false)
 
+    val selectedImageByteArray by viewModel.selectedImageByteArray.collectAsStateWithLifecycle()
+
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     val searchResult by viewModel.searchResult.collectAsStateWithLifecycle()
 
@@ -43,7 +45,6 @@ fun NewPlantScreen(
 
     LaunchedEffect(searchQuery) {
         if (searchQuery.length >= 3) viewModel.searchExternalPlantByName(searchQuery)
-
     }
 
     onDispose { viewModel.resetNewPlant() }
@@ -92,7 +93,7 @@ fun NewPlantScreen(
             )
 
             ImageSelectorsRow(
-                clearSelectedImage = {},// todo
+                selectedImageByteArray = selectedImageByteArray,
                 clearIdentificationResult = viewModel::resetIdentificationResult
             )
         }

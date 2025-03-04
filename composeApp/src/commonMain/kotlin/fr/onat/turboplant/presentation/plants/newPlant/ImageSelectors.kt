@@ -3,6 +3,7 @@ package fr.onat.turboplant.presentation.plants.newPlant
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -37,6 +38,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
@@ -53,6 +56,7 @@ import fr.onat.turboplant.data.models.dto.NewPlantField
 import fr.onat.turboplant.libs.extensions.toPx
 import fr.onat.turboplant.libs.utils.LocalBottomPadding
 import fr.onat.turboplant.libs.utils.getScreenSize
+import fr.onat.turboplant.libs.utils.toImageBitmap
 import fr.onat.turboplant.presentation.composables.SmoothGreyBox
 import fr.onat.turboplant.presentation.plants.PlantsViewModel
 import fr.onat.turboplant.resources.Colors
@@ -65,25 +69,38 @@ import turboplant.composeapp.generated.resources.eye_scan_icon
 
 @Composable
 fun ImageSelectorsRow(
-    clearSelectedImage: () -> Unit,
+    selectedImageByteArray: ByteArray?,
     clearIdentificationResult: () -> Unit
 ) {
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         ImageSelector(
+            backgroundImage = { modifier ->
+                selectedImageByteArray?.let {
+                    Image(
+                        modifier = modifier,
+                        painter = BitmapPainter(selectedImageByteArray.toImageBitmap()),
+                        contentDescription = "Selected image",
+                        contentScale = ContentScale.FillBounds
+                    )
+                }
+            },
             iconRes = Res.drawable.add_image_icon,
             subText = "Add a picture",
-            selector = { ImagePickerScreen() },
-            onDismissRequest = clearSelectedImage
+            selector = { _ -> ImagePickerScreen() },
+            onDismissRequest = { }
         )
         Spacer(Modifier.size(50.dp))
         ImageSelector(
             iconRes = Res.drawable.eye_scan_icon,
             subText = "Identify a plant",
-            selector = { modifier -> PlantIdentificationSelector(modifier) },
+            selector = { modifier ->
+                PlantIdentificationSelector(modifier)
+            },
             onDismissRequest = clearIdentificationResult
         )
     }
@@ -93,13 +110,15 @@ fun ImageSelectorsRow(
 fun ImageSelector(
     selector: @Composable (Modifier) -> Unit,
     subText: String,
+    backgroundImage: @Composable (Modifier) -> Unit = {},
     iconRes: DrawableResource,
     onDismissRequest: () -> Unit,
 ) {
     var showPopup by remember { mutableStateOf(false) }
     SmoothGreyBox(
+        backgroundImage = { modifier -> backgroundImage(modifier) },
         modifier = Modifier
-            .padding(20.dp)
+            .size(120.dp)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = ripple(
@@ -145,7 +164,7 @@ fun ImageSelector(
                     Modifier
                         .width(popupWidthSize)
                         .height(popupHeightSize)
-                        .clip(RoundedCornerShape(2))
+                        .clip(RoundedCornerShape(2)),
                 )
             }
         }
@@ -172,8 +191,10 @@ fun ImagePickerScreen() {
 
 @Composable
 fun PlantIdentificationSelector(
-    modifier: Modifier = Modifier, viewModel: PlantsViewModel = koinViewModel(),
+    modifier: Modifier = Modifier,
+    viewModel: PlantsViewModel = koinViewModel(),
 ) {
+
     var capturedImage by remember { mutableStateOf<ByteArray?>(null) }
     var captureLaunched by remember { mutableStateOf(false) }
     val cameraState = rememberPeekabooCameraState(onCapture = { capturedImage = it })

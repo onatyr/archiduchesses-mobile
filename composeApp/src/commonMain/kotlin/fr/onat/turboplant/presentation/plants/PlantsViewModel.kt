@@ -29,6 +29,9 @@ class PlantsViewModel(
     private val _newPlant = MutableStateFlow(NewPlantDto())
     val newPlant = _newPlant.asStateFlow()
 
+    private val _selectedImageByteArray = MutableStateFlow<ByteArray?>(null)
+    val selectedImageByteArray = _selectedImageByteArray.asStateFlow()
+
     val isNewPlantValid = newPlant.map { !it.name.isNullOrEmpty() }
 
     private val _searchQuery = MutableStateFlow("")
@@ -67,10 +70,12 @@ class PlantsViewModel(
         }
     }
 
+    fun clearImage() = _selectedImageByteArray.update { null }
     fun uploadImage(image: ByteArray?, onSuccess: () -> Unit) = asyncLaunch {
         plantsRepository.uploadImage(image).onSuccessAsync { response ->
             response.body<UploadFileDto>().imageUrl?.let {
                 updateNewPlant(NewPlantField.ImageUrl, it)
+                _selectedImageByteArray.update { image }
                 onSuccess()
             }
         }

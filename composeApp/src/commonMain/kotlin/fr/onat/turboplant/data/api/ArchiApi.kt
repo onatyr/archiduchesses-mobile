@@ -5,6 +5,8 @@ import fr.onat.turboplant.libs.logger.logger
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.readBytes
+import io.ktor.client.statement.readRawBytes
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.mockative.Mockable
@@ -15,7 +17,7 @@ class ArchiApi(
     private val client: IHttpClient,
     private val userDao: UserDao,
 ) {
-//        private val baseUrl = "https://api.turboplant.onat.fr"
+    //        private val baseUrl = "https://api.turboplant.onat.fr"
     private val baseUrl = "http://127.0.0.1:3000"
 
     suspend fun get(
