@@ -43,12 +43,12 @@ STORE_PASSWORD=store-password
 ```
 2. Upgrade the version code and the version name in the app level build.gradle file
 ```
-    defaultConfig {
-        applicationId = "fr.onat.turboplant"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 2
-        versionName = "1.1"
+defaultConfig {
+    applicationId = "fr.onat.turboplant"
+    minSdk = libs.versions.android.minSdk.get().toInt()
+    targetSdk = libs.versions.android.targetSdk.get().toInt()
+    versionCode = 2
+    versionName = "1.1"
     }
 ```
 
