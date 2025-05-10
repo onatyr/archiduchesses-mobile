@@ -57,7 +57,7 @@ fun TaskCard(taskWithPlant: TaskWithPlant, onDone: () -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
-                .background(Colors.CardBackground)
+                .background(Colors.SmoothGrey)
                 .padding(horizontal = 10.dp)
                 .offset { IntOffset(animatedOffset.roundToInt(), 0) }
                 .pointerInput(Unit) {
@@ -77,7 +77,7 @@ fun TaskCard(taskWithPlant: TaskWithPlant, onDone: () -> Unit) {
                 Spacer(Modifier.width(15.dp))
                 Text(plant.name)
             }
-            Text(task.dueDate.getDisplayableDayCount(), color = Colors.SmoothGrey)
+            Text(task.dueDate.getDisplayableDayCount(), color = Colors.SmootherGrey)
         }
     }
 }

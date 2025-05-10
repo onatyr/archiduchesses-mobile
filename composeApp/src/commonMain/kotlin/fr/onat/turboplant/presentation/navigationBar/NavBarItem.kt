@@ -6,6 +6,7 @@ import fr.onat.turboplant.presentation.AddNewPlantRoute
 import fr.onat.turboplant.presentation.CameraRoute
 import fr.onat.turboplant.presentation.LoginRoute
 import fr.onat.turboplant.presentation.NavRoute
+import fr.onat.turboplant.presentation.NavRoute.Companion.name
 import fr.onat.turboplant.presentation.PlantsRoute
 import fr.onat.turboplant.presentation.ProfileRoute
 import fr.onat.turboplant.presentation.RoomsRoute
@@ -31,7 +32,6 @@ sealed class NavBarItem(
 ) {
     companion object {
         val values = listOf(Plants, Tasks, Rooms, Profile)
-        val exemptedRoutes = listOf(LoginRoute)
     }
 
     data object Plants : NavBarItem(
@@ -62,4 +62,5 @@ sealed class NavBarItem(
 
 @Composable
 fun NavBarItem.isSelected() =
-    route == LocalNavRoute.current || relatedRoutes.contains(LocalNavRoute.current)
+    route.name == LocalNavRoute.current ||
+            relatedRoutes.map { it.name }.contains(LocalNavRoute.current)

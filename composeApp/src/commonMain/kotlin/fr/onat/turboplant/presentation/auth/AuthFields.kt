@@ -35,7 +35,7 @@ import turboplant.composeapp.generated.resources.password_placeholder
 
 @Composable
 private fun BaseTextField(
-    labelRes: StringResource,
+    labelRes: StringResource?,
     placeHolderRes: StringResource,
     keyboardOptions: KeyboardOptions,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -43,13 +43,15 @@ private fun BaseTextField(
     updateValue: (String) -> Unit
 ) {
     Column(Modifier.padding(10.dp)) {
-        Text(
-            text = stringResource(labelRes),
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.fillMaxWidth()
+        labelRes?.let {
+            Text(
+                text = stringResource(labelRes),
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.fillMaxWidth()
 
-        )
-        Divider(thickness = 5.dp, color = Color.Transparent)
+            )
+            Divider(thickness = 5.dp, color = Color.Transparent)
+        }
         TextField(
             value = value,
             onValueChange = updateValue,

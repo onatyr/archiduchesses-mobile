@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.navigation.NavDestination
 import fr.onat.turboplant.presentation.NavRoute
 
 data class ScreenSize(val widthDp: Int, val heightDp: Int)
@@ -25,7 +26,7 @@ data class ScreenSize(val widthDp: Int, val heightDp: Int)
 val LocalScreenSize = compositionLocalOf { ScreenSize(0, 0) }
 val LocalWindowWidthSizeClass = compositionLocalOf { WindowWidthSizeClass.Medium }
 val LocalSnackbarHostState = compositionLocalOf { SnackbarHostState() }
-val LocalNavRoute = compositionLocalOf<NavRoute?> { null }
+val LocalNavRoute = compositionLocalOf<String?> { null }
 
 @Composable
 expect fun calculateWindowSizeClass(): WindowSizeClass

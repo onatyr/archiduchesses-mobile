@@ -71,5 +71,7 @@ class PlantsRepository(
 
     fun getPlantsWithRoom() = plantDao.getAllWithRoom()
 
+    fun getPlantById(id: String) = plantDao.getPlantById(id)
+
     fun getPlantsByRoomId(id: String) = plantDao.getPlantsByRoomId(id)
 }

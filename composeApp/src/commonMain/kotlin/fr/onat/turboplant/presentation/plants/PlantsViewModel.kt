@@ -36,6 +36,8 @@ class PlantsViewModel(
 
     fun <T> updateNewPlant(field: NewPlantField<T>, value: String) = field.update(_newPlant, value)
 
+    fun getPlantById(id: String) = plantsRepository.getPlantById(id)
+
     fun searchExternalPlantByName(value: String) = viewModelScope.launch(Dispatchers.IO) {
         plantsRepository.searchExternalPlantByName(value)?.let { _searchResult.update { it } }
     }

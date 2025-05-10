@@ -16,7 +16,6 @@ fun AlwaysDeniedDialog(
             TextButton(onClick = {
                 onOpenSettings()
                 onDismiss()
-
             }) {
                 Text("Open app settings")
             }

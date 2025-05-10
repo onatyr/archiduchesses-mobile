@@ -28,6 +28,7 @@ import fr.onat.turboplant.data.models.entities.TaskWithPlant
 import fr.onat.turboplant.libs.extensions.isInNextDays
 import fr.onat.turboplant.libs.extensions.isPast
 import fr.onat.turboplant.libs.extensions.isToday
+import fr.onat.turboplant.libs.logger.logger
 import fr.onat.turboplant.libs.utils.onDispose
 import fr.onat.turboplant.resources.Colors
 import org.koin.compose.viewmodel.koinViewModel
@@ -39,9 +40,13 @@ fun TasksScreen(viewModel: TasksViewModel = koinViewModel()) {
 
     val pastTasks = tasksWithPlant.filter { it.task.dueDate.isPast() }.ifEmpty { null }
     val todayTasks = tasksWithPlant.filter { it.task.dueDate.isToday() }.ifEmpty { null }
-    val nextDaysTasks = tasksWithPlant.filter { it.task.dueDate.isInNextDays(7) }.ifEmpty { null }
+    val nextDaysTasks = tasksWithPlant
+        .filter { it.task.dueDate.isInNextDays(7) && !it.task.dueDate.isToday() }
+        .ifEmpty { null }
 
-
+    logger("past:", pastTasks)
+    logger("today", todayTasks)
+    logger("next", nextDaysTasks)
 
     LazyColumn(Modifier.fillMaxSize()) {
         pastTasks?.let {
@@ -100,7 +105,7 @@ fun LazyListScope.taskListWithHeader(
                 Text(
                     text = "Nothing to do !",
                     fontSize = 24.sp,
-                    color = Colors.SmoothGrey,
+                    color = Colors.SmootherGrey,
                     fontStyle = FontStyle.Italic
                 )
             }

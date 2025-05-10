@@ -37,7 +37,7 @@ fun Tag(color: Color, iconRes: DrawableResource, name: String) {
     Row(
         Modifier
             .wrapContentSize()
-            .background(color = color, shape = (RoundedCornerShape(20)))
+            .background(color = color, shape = RoundedCornerShape(20))
             .padding(vertical = 5.dp, horizontal = 8.dp)
     ) {
         Icon(
